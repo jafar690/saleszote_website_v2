@@ -1,0 +1,34 @@
+[
+  {
+    "question": "What is SalesZote?",
+    "answer": "<p>SalesZote is a cloud-based Point of Sale (POS) and inventory management system designed to help retailers and wholesalers manage sales, track stock, and run their business efficiently from any device.</p>"
+  },
+  {
+    "question": "Do I need technical skills to use SalesZote?",
+    "answer": "<p>No. SalesZote is built to be simple and intuitive. If you can use a computer or smartphone, you can use SalesZote. We also offer support to help you get started.</p>"
+  },
+  {
+    "question": "Can I use SalesZote on my phone?",
+    "answer": "<p>Yes. SalesZote is mobile-friendly and works seamlessly on smartphones, tablets, and computers so you can manage your business from anywhere.</p>"
+  },
+  {
+    "question": "Is my business data safe?",
+    "answer": "<p>Absolutely. We use secure cloud storage and encryption to ensure your data is protected and backed up regularly.</p>"
+  },
+  {
+    "question": "Can I manage multiple stores with one account?",
+    "answer": "<p>Yes.&nbsp; You can manage multiple stores and track performance for each location from a single dashboard.</p>"
+  },
+  {
+    "question": "Do you offer customer support?",
+    "answer": "<p>Yes. We offer friendly local support via chat, phone, and email. You'll always get help from someone who understands your business.</p>"
+  },
+  {
+    "question": "Can I request a new feature?",
+    "answer": "<p>Yes. We love customer feedback. You can request features anytime, and we prioritize suggestions based on user demand.</p>"
+  },
+  {
+    "question": "How do I get started?",
+    "answer": "<p>Click on <strong>\"</strong><a href=\"https://app.saleszote.com/register\"><strong>Get Started for Free</strong></a><strong>\"</strong> to create your account. You can begin using SalesZote immediately — no credit card required.</p>"
+  }
+]

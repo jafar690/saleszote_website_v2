@@ -1,11 +1,46 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import HeroSection from '../components/home/HeroSection.astro';
+import Features from '../components/home/Features.astro';
+import WhyChooseUs from '../components/home/WhyChooseUs.astro';
+import Industries from '../components/home/Industries.astro';
+import Testimonials from '../components/home/Testimonials.astro';
+import Faqs from '../components/home/Faqs.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import faqs from '../data/faqs.json';
+import testimonials from '../data/testimonials.json';
 ---
 
 <Layout>
-	<Welcome />
+    <HeroSection />
+    <Features />
+    <WhyChooseUs />
+    <Industries />
+    <Testimonials testimonials={testimonials} />
+    <Faqs faqs={faqs} showContactLink={true} />
+
+    <section class="max-w-8xl mx-auto px-8 xl:px-30 bg-[url('/images/backgrounds/bg3.svg')] bg-cover bg-no-repeat">
+        <div class="grid grid-cols-2">
+            <div class="col-span-2 lg:col-span-1 flex flex-col items-center lg:items-start py-20">
+                <h3 class="text-center lg:text-start text-white text-2xl sm:text-4xl font-bold leading-loose sm:leading-10">
+                    Quick Setup. No Training Needed
+                </h3>
+
+                <p class="text-center lg:text-start text-white text-base font-medium leading-snug mt-4">
+                    Start selling in minutes with a system that feels instantly familiar. If you can use a phone, you can use SalesZote.
+                </p>
+
+                <div class="mt-9">
+                    <a href="https://app.saleszote.com/register" class="px-8 py-3 rounded-lg inline-flex bg-primary-500 border-1 border-primary-500 text-white text-base font-medium font-main leading-snug">
+                        Get Started For Free
+                    </a>
+                </div>
+            </div>
+            <div class="hidden lg:flex flex-col items-end justify-end">
+                <div>
+                    <img src="/images/mobiles1.png" alt="SalesZote on mobile">
+                </div>
+            </div>
+        </div>
+    </section>
 </Layout>

@@ -1,0 +1,107 @@
+---
+---
+<nav class="bg-white border-b border-neutral-200 relative">
+    <div class="mx-auto max-w-8xl px-8 xl:px-30 py-3 xl:py-7">
+        <div class="relative flex items-center justify-between">
+            <a href="/" class="flex items-center">
+                <img class="h-[54px] ml-[-10px]" src="/images/logo/logo.svg" alt="SalesZote Logo" />
+            </a>
+
+            <div class="flex items-center justify-center hidden lg:block">
+                <div class="flex items-center gap-7">
+                    <a href="/" class="text-primary-500 text-base font-bold font-main leading-snug">Home</a>
+                    <a href="#features" class="text-black text-base font-medium font-main leading-snug">Features</a>
+                    <a href="#faqs" class="text-black text-base font-medium font-main leading-snug">FAQs</a>
+                    <a href="/contact" class="text-black text-base font-medium font-main leading-snug">Contact Us</a>
+                </div>
+            </div>
+
+            <div class="flex items-center hidden lg:block">
+                <a href="https://app.saleszote.com/login" class="px-4 py-2.5 rounded-lg inline-flex text-black text-base font-bold font-main leading-snug">
+                    Sign In
+                </a>
+
+                <a href="https://app.saleszote.com/register" class="px-4 py-3 rounded-lg inline-flex bg-primary-500 border-1 border-primary-500 text-white text-base font-medium font-main leading-snug">
+                    Get Started
+                </a>
+            </div>
+
+            <button id="menu-btn" class="block lg:hidden">
+                <svg id="menu-icon-open" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3 12H21M3 6H21M9 18H21" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <svg id="menu-icon-close" class="hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 9L9 15M9 9L15 15M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden block lg:hidden bg-white absolute z-50 top-[80px] left-0 right-0 bottom-0" style="min-height: calc(100vh - 80px);">
+        <div class="space-y-1 px-2 pt-2 pb-2 flex flex-col justify-between items-center text-black text-base font-normal h-full" style="min-height: calc(100vh - 80px);">
+            <div class="flex flex-col">
+                <p class="text-center justify-start text-neutral-500 text-sm font-medium leading-tight mt-10">MENU</p>
+
+                <a href="/" data-close-menu class="py-4 text-center justify-start text-black text-2xl font-bold leading-loose">
+                    Home
+                </a>
+
+                <a href="#features" data-close-menu class="py-4 text-center justify-start text-black text-2xl font-bold leading-loose">
+                    Features
+                </a>
+
+                <a href="#faqs" data-close-menu class="py-4 text-center justify-start text-black text-2xl font-bold leading-loose">
+                    FAQs
+                </a>
+
+                <a href="/contact" data-close-menu class="py-4 text-center justify-start text-black text-2xl font-bold leading-loose">
+                    Contact Us
+                </a>
+            </div>
+
+            <div class="flex flex-col items-center pb-10 gap-y-3">
+                <a href="https://app.saleszote.com/login" data-close-menu class="px-4 py-2.5 rounded-lg inline-flex text-black text-base font-bold font-main leading-snug">
+                    Sign In
+                </a>
+
+                <a href="https://app.saleszote.com/register" data-close-menu class="px-4 py-3 rounded-lg inline-flex bg-primary-500 border-1 border-primary-500 text-white text-base font-medium font-main leading-snug">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIconOpen = document.getElementById('menu-icon-open');
+    const menuIconClose = document.getElementById('menu-icon-close');
+
+    function openMenu() {
+        mobileMenu?.classList.remove('hidden');
+        menuIconOpen?.classList.add('hidden');
+        menuIconClose?.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+        mobileMenu?.classList.add('hidden');
+        menuIconOpen?.classList.remove('hidden');
+        menuIconClose?.classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    menuBtn?.addEventListener('click', () => {
+        if (mobileMenu?.classList.contains('hidden')) {
+            openMenu();
+        } else {
+            closeMenu();
+        }
+    });
+
+    document.querySelectorAll('[data-close-menu]').forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+</script>

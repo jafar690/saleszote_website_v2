@@ -1,0 +1,23 @@
+[
+  {
+    "name": "James Mwangi",
+    "title": "Owner",
+    "company": "Mwangi General Store",
+    "catchphrase": "SalesZote transformed how I run my shop!",
+    "content": "Before SalesZote, I was manually tracking stock in a notebook and losing money on stockouts. Now I can see everything in real time from my phone. The M-Pesa integration alone has saved me so much time at the counter."
+  },
+  {
+    "name": "Aisha Omondi",
+    "title": "Manager",
+    "company": "Omondi Electronics",
+    "catchphrase": "Finally, a POS system built for Kenyan businesses.",
+    "content": "I tried several POS systems but they were too complicated or didn't support local payments. SalesZote is simple, works perfectly with M-Pesa, and the support team is always available when I need help."
+  },
+  {
+    "name": "Peter Kariuki",
+    "title": "Director",
+    "company": "Kariuki Hardware",
+    "catchphrase": "Managing inventory has never been easier.",
+    "content": "With multiple suppliers and hundreds of products, inventory was a nightmare. SalesZote lets me track everything, get low-stock alerts, and manage supplier orders all in one place. It's been a game changer for us."
+  }
+]

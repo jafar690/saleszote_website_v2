@@ -1,0 +1,114 @@
+---
+interface Testimonial {
+  name: string;
+  title: string;
+  company: string;
+  catchphrase: string;
+  content: string;
+}
+
+interface Props {
+  testimonials: Testimonial[];
+}
+
+const { testimonials } = Astro.props;
+---
+<section class="max-w-8xl mx-auto px-8 xl:px-30 py-10 lg:py-20 bg-white">
+    <div class="flex flex-col items-center">
+        <h3 class="text-center text-black text-2xl sm:text-4xl font-bold leading-10 mb-4.5">Testimonials</h3>
+
+        <div class="w-96 h-0 outline outline-1 outline-offset-[-0.50px] outline-gray-300 mb-3"></div>
+
+        <div id="testimonials-slider" class="flex flex-col items-center w-full">
+            <div class="flex flex-col items-center">
+                <div class="flex gap-x-8 items-end">
+                    <img class="mb-10" src="/images/icons/quote-left.svg" alt="Quote left">
+                    <div id="testimonial-catchphrase" class="justify-center text-center text-black text-lg sm:text-2xl font-bold leading-loose">
+                    </div>
+                    <img class="mb-10" src="/images/icons/quote-right.svg" alt="Quote right">
+                </div>
+
+                <div id="testimonial-content" class="max-w-[794px] w-full text-center justify-center text-black text-base sm:text-xl font-medium mt-6 leading-7">
+                </div>
+
+                <div id="testimonial-name" class="justify-center text-black text-base font-medium leading-snug mt-3.5"></div>
+                <div id="testimonial-meta" class="h-4 justify-center text-neutral-500 text-xs font-medium"></div>
+
+                <div class="flex gap-5 mt-10">
+                    <button id="prev-testimonial" class="w-11 h-11 rounded-full outline outline-1 outline-offset-[-1px] outline-neutral-300 inline-flex justify-center items-center hover:bg-gray-50 transition-colors">
+                        <img src="/images/icons/arrow-left.svg" alt="Previous">
+                    </button>
+
+                    <button id="next-testimonial" class="w-11 h-11 rounded-full outline outline-1 outline-offset-[-1px] outline-neutral-300 inline-flex justify-center items-center hover:bg-gray-50 transition-colors">
+                        <img src="/images/icons/arrow-right.svg" alt="Next">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script define:vars={{ testimonials }}>
+    let currentIndex = 0;
+    let autoPlayInterval = null;
+    const autoPlayDelay = 5000;
+
+    const catchphraseEl = document.getElementById('testimonial-catchphrase');
+    const contentEl = document.getElementById('testimonial-content');
+    const nameEl = document.getElementById('testimonial-name');
+    const metaEl = document.getElementById('testimonial-meta');
+    const slider = document.getElementById('testimonials-slider');
+
+    function updateDisplay() {
+        if (!testimonials.length) return;
+        const t = testimonials[currentIndex];
+        catchphraseEl.textContent = t.catchphrase;
+        contentEl.textContent = t.content;
+        nameEl.textContent = t.name;
+        metaEl.textContent = t.title + ', ' + t.company;
+    }
+
+    function next() {
+        currentIndex = (currentIndex + 1) % testimonials.length;
+        updateDisplay();
+    }
+
+    function prev() {
+        currentIndex = currentIndex === 0 ? testimonials.length - 1 : currentIndex - 1;
+        updateDisplay();
+    }
+
+    function startAutoPlay() {
+        if (testimonials.length > 1) {
+            autoPlayInterval = setInterval(next, autoPlayDelay);
+        }
+    }
+
+    function stopAutoPlay() {
+        if (autoPlayInterval) {
+            clearInterval(autoPlayInterval);
+            autoPlayInterval = null;
+        }
+    }
+
+    function restartAutoPlay() {
+        stopAutoPlay();
+        startAutoPlay();
+    }
+
+    document.getElementById('next-testimonial')?.addEventListener('click', () => {
+        next();
+        restartAutoPlay();
+    });
+
+    document.getElementById('prev-testimonial')?.addEventListener('click', () => {
+        prev();
+        restartAutoPlay();
+    });
+
+    slider?.addEventListener('mouseenter', stopAutoPlay);
+    slider?.addEventListener('mouseleave', startAutoPlay);
+
+    updateDisplay();
+    startAutoPlay();
+</script>

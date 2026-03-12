@@ -1,0 +1,67 @@
+---
+interface Faq {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  faqs: Faq[];
+  showContactLink?: boolean;
+}
+
+const { faqs, showContactLink = true } = Astro.props;
+---
+<section id="faqs" class="max-w-8xl mx-auto px-8 xl:px-30 py-10 lg:py-20 bg-green-white">
+    <div class="flex flex-col items-center">
+        <h3 class="text-center text-black text-2xl sm:text-4xl font-bold leading-10 mb-6">Frequently Asked Questions</h3>
+
+        <div class="max-w-[794px] text-center text-black text-base font-medium leading-snug">
+            Whether you're just getting started or need help with advanced features, you'll find quick answers here to keep your business running smoothly.
+        </div>
+
+        <div class="max-w-[794px] w-full mt-7">
+            {faqs.map((faq, i) => (
+                <div class="flex flex-col overflow-hidden p-4 lg:p-6 border-b border-neutral-300" data-faq-item>
+                    <div class="self-stretch inline-flex justify-between items-center cursor-pointer transition-colors duration-300" data-faq-trigger>
+                        <p class="text-black text-lg lg:text-2xl font-bold">{faq.question}</p>
+
+                        <svg data-faq-chevron class="transition-transform duration-300 flex-shrink-0"
+                            width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 9L12 15L18 9" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="faq-answer" data-faq-answer>
+                        <div>
+                            <p class="self-stretch justify-start text-neutral-500 text-base font-medium mt-6" set:html={faq.answer}></p>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+
+        {showContactLink && (
+            <div class="text-center justify-center text-black text-base font-medium leading-snug mt-4.5">
+                If you still have other questions, contact us by clicking the button below?
+            </div>
+            <div class="mt-5">
+                <a href="/contact" class="px-8 py-3 rounded-lg inline-flex bg-primary-500 border-1 border-primary-500 text-white text-base font-medium font-main leading-snug">
+                    Get in Touch
+                </a>
+            </div>
+        )}
+    </div>
+</section>
+
+<script>
+    document.querySelectorAll('[data-faq-item]').forEach(item => {
+        const trigger = item.querySelector('[data-faq-trigger]');
+        const answer = item.querySelector('[data-faq-answer]');
+        const chevron = item.querySelector('[data-faq-chevron]');
+
+        trigger?.addEventListener('click', () => {
+            const isOpen = answer?.classList.contains('open');
+            answer?.classList.toggle('open', !isOpen);
+            chevron?.classList.toggle('rotate-180', !isOpen);
+        });
+    });
+</script>

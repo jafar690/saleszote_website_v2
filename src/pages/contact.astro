@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Faqs from '../components/home/Faqs.astro';
+
+import faqs from '../data/faqs.json';
+---
+
+<Layout title="Contact Us | SalesZote" description="Get in touch with the SalesZote team. We're here to help with questions, support, and feature requests.">
+    <section class="max-w-8xl mx-auto px-8 xl:px-30 py-20 bg-neutral-50">
+        <div class="grid grid-cols-2 gap-5">
+            <div class="col-span-2 lg:col-span-1">
+                <div class="flex flex-col items-center lg:items-start">
+                    <h1 class="max-w-[590px] justify-start text-center lg:text-start text-black text-4xl sm:text-5xl font-bold leading-10 sm:leading-[57.60px]">
+                        We're Here to
+                        <span class="text-primary-500 font-bold">Answer</span>
+                        Your Questions
+                    </h1>
+
+                    <div class="max-w-[590px] justify-start text-center lg:text-start text-black text-base font-medium leading-snug mt-6 mb-7">
+                        Want to learn more about our product or how to get involved? We're here to help!
+                        Feel free to reach out to us using the contact information provided below.
+                    </div>
+                </div>
+
+                <div class="flex gap-x-5 mb-5">
+                    <div class="w-12 h-12 p-2.5 bg-primary-500 rounded-md inline-flex justify-center items-center gap-2.5">
+                        <img src="/images/icons/phone.svg" alt="Phone">
+                    </div>
+
+                    <div class="flex flex-col justify-between">
+                        <p class="justify-start text-neutral-500 text-sm font-medium leading-tight">Call Us</p>
+                        <p class="justify-start text-black text-base font-medium leading-snug">+254 701 853 648</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-x-5">
+                    <div class="w-12 h-12 p-2.5 bg-primary-500 rounded-md inline-flex justify-center items-center gap-2.5">
+                        <img src="/images/icons/email.svg" alt="Email">
+                    </div>
+
+                    <div class="flex flex-col justify-between">
+                        <p class="justify-start text-neutral-500 text-sm font-medium leading-tight">Email Us</p>
+                        <p class="justify-start text-black text-base font-medium leading-snug">info@saleszote.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-2 lg:col-span-1">
+                <ContactForm />
+            </div>
+        </div>
+    </section>
+
+    <Faqs faqs={faqs} showContactLink={false} />
+</Layout>

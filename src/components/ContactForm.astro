@@ -1,0 +1,148 @@
+---
+---
+<div class="p-8 bg-white rounded-md flex flex-col items-start justify-start">
+    <h2 class="justify-start text-black text-3xl font-bold leading-10">Get in Touch</h2>
+
+    <div class="self-stretch h-0 outline outline-1 outline-offset-[-0.50px] outline-neutral-200 my-8"></div>
+
+    <!-- Success Message -->
+    <div id="form-success" class="hidden w-full p-4 mb-6 bg-green-50 border border-green-200 rounded-lg">
+        <p id="form-success-message" class="text-green-800 text-sm"></p>
+    </div>
+
+    <!-- Error Messages -->
+    <div id="form-error" class="hidden w-full p-4 mb-6 bg-red-50 border border-red-200 rounded-lg">
+        <p id="form-error-message" class="text-red-800 text-sm font-medium"></p>
+        <ul id="form-error-list" class="hidden mt-2 text-red-700 text-sm list-disc list-inside"></ul>
+    </div>
+
+    <form id="contact-form" class="w-full">
+        <div class="grid grid-cols-2 gap-x-5 gap-y-6">
+            <div class="col-span-2 sm:col-span-1 flex flex-col justify-start gap-1">
+                <label for="first_name" class="justify-start text-neutral-900 text-sm font-medium leading-tight">First Name</label>
+                <input type="text" id="first_name" name="first_name" required
+                       class="px-4 py-3"
+                       placeholder="Enter First Name">
+            </div>
+
+            <div class="col-span-2 sm:col-span-1 flex flex-col justify-start gap-1">
+                <label for="last_name" class="justify-start text-neutral-900 text-sm font-medium leading-tight">Last Name</label>
+                <input type="text" id="last_name" name="last_name" required
+                       class="px-4 py-3"
+                       placeholder="Enter Last Name">
+            </div>
+
+            <div class="col-span-2 sm:col-span-1 flex flex-col justify-start gap-1">
+                <label for="email" class="justify-start text-neutral-900 text-sm font-medium leading-tight">Email</label>
+                <input type="email" id="email" name="email" required
+                       class="px-4 py-3"
+                       placeholder="Enter Your Email">
+            </div>
+
+            <div class="col-span-2 sm:col-span-1 flex flex-col justify-start gap-1">
+                <label for="phone" class="justify-start text-neutral-900 text-sm font-medium leading-tight">Phone Number</label>
+                <input type="text" id="phone" name="phone" required
+                       class="px-4 py-3"
+                       placeholder="Enter Your Phone">
+            </div>
+
+            <div class="col-span-2 flex flex-col justify-start gap-1">
+                <label for="message" class="justify-start text-neutral-900 text-sm font-medium leading-tight">Message</label>
+                <textarea id="message" name="message" required class="px-4 py-3" rows="3" placeholder="Write your message..."></textarea>
+            </div>
+
+            <div class="col-span-2">
+                <button id="submit-btn" type="submit"
+                        class="px-4 py-3 rounded-lg inline-flex items-center bg-primary-500 border-1 border-primary-500 text-white text-base font-medium font-main leading-snug hover:bg-primary-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span id="btn-text">Send Message</span>
+                    <span id="btn-loading" class="hidden flex items-center">
+                        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Sending...
+                    </span>
+                    <img id="btn-icon" class="ml-2" src="/images/icons/send.svg" alt="Send">
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
+    const btnText = document.getElementById('btn-text');
+    const btnLoading = document.getElementById('btn-loading');
+    const btnIcon = document.getElementById('btn-icon');
+    const successDiv = document.getElementById('form-success');
+    const successMessage = document.getElementById('form-success-message');
+    const errorDiv = document.getElementById('form-error');
+    const errorMessage = document.getElementById('form-error-message');
+    const errorList = document.getElementById('form-error-list');
+
+    function setLoading(loading: boolean) {
+        submitBtn.disabled = loading;
+        btnText?.classList.toggle('hidden', loading);
+        btnLoading?.classList.toggle('hidden', !loading);
+        btnIcon?.classList.toggle('hidden', loading);
+    }
+
+    function showSuccess(message: string) {
+        successDiv?.classList.remove('hidden');
+        errorDiv?.classList.add('hidden');
+        if (successMessage) successMessage.textContent = message;
+        document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function showError(message: string, errors: string[] = []) {
+        errorDiv?.classList.remove('hidden');
+        successDiv?.classList.add('hidden');
+        if (errorMessage) errorMessage.textContent = message;
+        if (errorList) {
+            if (errors.length > 0) {
+                errorList.classList.remove('hidden');
+                errorList.innerHTML = errors.map(e => `<li>${e}</li>`).join('');
+            } else {
+                errorList.classList.add('hidden');
+            }
+        }
+        document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        successDiv?.classList.add('hidden');
+        errorDiv?.classList.add('hidden');
+
+        const data = {
+            first_name: (document.getElementById('first_name') as HTMLInputElement).value,
+            last_name: (document.getElementById('last_name') as HTMLInputElement).value,
+            email: (document.getElementById('email') as HTMLInputElement).value,
+            phone: (document.getElementById('phone') as HTMLInputElement).value,
+            message: (document.getElementById('message') as HTMLTextAreaElement).value,
+        };
+
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            const json = await res.json();
+
+            if (res.ok) {
+                showSuccess(json.message || 'Message sent successfully!');
+                form.reset();
+            } else {
+                showError(json.message || 'An error occurred. Please try again.', json.errors || []);
+            }
+        } catch (err) {
+            showError('A network error occurred. Please try again.');
+        } finally {
+            setLoading(false);
+        }
+    });
+</script>

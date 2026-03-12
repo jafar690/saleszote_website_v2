@@ -1,23 +1,83 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'SalesZote | Smart POS and Inventory Management System for Growing Businesses',
+  description = 'SalesZote is a modern cloud-based POS and inventory management system designed for retailers, wholesalers, and small businesses. Sell smarter, track stock in real time, and manage your business from anywhere.',
+} = Astro.props;
+---
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description}/>
+    <meta name="keywords" content="POS system, point of sale software, inventory management system, cloud POS, small business POS, retail POS system, wholesale POS, stock management software, sales tracking software, multi-store POS, mobile POS, inventory software, real-time stock tracking, POS and inventory, SaaS POS, business management software"/>
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://saleszote.com"/>
+    <meta property="og:title" content={title}/>
+    <meta property="og:description" content={description}/>
+    <meta property="og:image" content="/images/logo/logo.svg"/>
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:url" content="https://saleszote.com"/>
+    <meta name="twitter:title" content={title}/>
+    <meta name="twitter:description" content={description}/>
+    <meta name="twitter:image" content="/images/logo/logo.svg"/>
+
+    <!-- Standard favicon -->
+    <link rel="icon" href="/favicon.ico"/>
+
+    <!-- PNG favicons for modern browsers -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/icons/head/favicon-32x32.png"/>
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/icons/head/favicon-16x16.png"/>
+
+    <!-- Apple Touch Icon (iOS home screen) -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/icons/head/apple-touch-icon.png"/>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/images/icons/head/site.webmanifest"/>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17463318825"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-17463318825');
+    </script>
+</head>
+<body class="bg-neutral-50 scroll-smooth">
+    <Header />
+    <slot />
+    <Footer />
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/68c578d167c586192c67806e/1j51lvthf';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+</body>
+</html>
