@@ -1,0 +1,82 @@
+---
+import { Image } from 'astro:assets';
+import appScreen1 from '../../assets/app-screen-1.png';
+import appScreen2 from '../../assets/app-screen-2.png';
+---
+<div class="w-full h-px" style="background: linear-gradient(90deg, transparent 0%, #FDB202 25%, #FA9000 50%, #FDB202 75%, transparent 100%);"></div>
+<section class="bg-white">
+  <div class="max-w-8xl mx-auto px-8 xl:px-30">
+    <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-8">
+
+      <!-- Left: text + badges -->
+      <div class="py-16 lg:py-20 flex flex-col items-center lg:items-start text-center lg:text-left">
+
+        <h2 class="text-black text-3xl sm:text-4xl font-bold leading-snug">
+          Your Business,<br>Always in Your Pocket
+        </h2>
+        <p class="text-neutral-500 text-base font-medium leading-snug mt-4 max-w-90">
+          No desk, no laptop — just your phone. Manage sales, track stock and check reports from anywhere, at any time.
+        </p>
+
+        <div class="flex flex-wrap gap-3 mt-8 justify-center lg:justify-start">
+
+          <!-- Google Play — official badge -->
+          <a
+            href="https://play.google.com/store/apps/details?id=com.saleszote.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:opacity-85 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900/40"
+            style="transition: opacity 150ms ease, transform 150ms ease; display: inline-block;"
+            onclick="gtag('event', 'app_download_click', { platform: 'android' })"
+          >
+            <img src="/images/google-play-badge.svg" alt="Get it on Google Play" class="h-12.5 w-auto">
+          </a>
+
+          <!-- App Store — official badge -->
+          <a
+            href="https://apps.apple.com/us/app/sales-zote/id6761330158"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:opacity-85 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900/40"
+            style="transition: opacity 150ms ease, transform 150ms ease; display: inline-block;"
+            onclick="gtag('event', 'app_download_click', { platform: 'ios' })"
+          >
+            <img src="/images/app-store-badge.svg" alt="Download on the App Store" class="h-12.5 w-auto">
+          </a>
+
+        </div>
+      </div>
+
+      <!-- Right: phones -->
+      <div class="hidden lg:flex justify-end items-end relative h-120">
+
+        <!-- Amber glow -->
+        <div
+          class="absolute bottom-0 right-16 w-80 h-80 rounded-full pointer-events-none"
+          style="background: radial-gradient(circle, rgba(253,178,2,0.25) 0%, transparent 70%);"
+          aria-hidden="true"
+        ></div>
+
+        <!-- POS phone — raised slightly -->
+        <Image
+          src={appScreen2}
+          alt="SalesZote POS screen"
+          class="absolute bottom-10 right-56 w-44 h-auto z-10"
+          loading="eager"
+        />
+
+        <!-- Dashboard phone — complete, in front -->
+        <Image
+          src={appScreen1}
+          alt="SalesZote Dashboard screen"
+          class="absolute bottom-0 right-0 w-50 h-auto z-20"
+          style="filter: drop-shadow(-12px 24px 40px rgba(0,0,0,0.18));"
+          loading="eager"
+        />
+
+      </div>
+
+    </div>
+  </div>
+</section>
+<div class="w-full h-px" style="background: linear-gradient(90deg, transparent 0%, #FDB202 25%, #FA9000 50%, #FDB202 75%, transparent 100%);"></div>

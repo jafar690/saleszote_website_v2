@@ -66,18 +66,21 @@ const {
     <slot />
     <Footer />
 
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-            s1.async=true;
-            s1.src='https://embed.tawk.to/68c578d167c586192c67806e/1j51lvthf';
-            s1.charset='UTF-8';
-            s1.setAttribute('crossorigin','*');
-            s0.parentNode.insertBefore(s1,s0);
-        })();
-    </script>
-    <!--End of Tawk.to Script-->
+    <!-- WhatsApp floating button -->
+    <a
+      href="https://wa.me/254701853648?text=Hi%2C%20I%27m%20interested%20in%20your%20services"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Chat on WhatsApp"
+      class="group fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full transition-transform duration-200 ease-out focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/50 active:scale-95 hover:scale-110"
+      style="background:#25D366;box-shadow:0 4px 12px rgba(37,211,102,0.45),0 1px 4px rgba(0,0,0,0.18);"
+    >
+      <!-- Tooltip -->
+      <span class="pointer-events-none absolute right-16 whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background:rgba(0,0,0,0.72);">Chat on WhatsApp</span>
+      <!-- WhatsApp SVG icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="w-7 h-7 fill-white" aria-hidden="true">
+        <path d="M16 2C8.268 2 2 8.268 2 16c0 2.522.658 4.888 1.806 6.938L2 30l7.338-1.775A13.93 13.93 0 0 0 16 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.6a11.55 11.55 0 0 1-5.9-1.613l-.422-.252-4.356 1.054 1.087-4.24-.277-.435A11.558 11.558 0 0 1 4.4 16C4.4 9.592 9.592 4.4 16 4.4S27.6 9.592 27.6 16 22.408 27.6 16 27.6zm6.32-8.667c-.347-.174-2.053-1.013-2.373-1.128-.32-.116-.553-.174-.786.174-.232.347-.9 1.128-1.104 1.36-.203.232-.406.26-.753.087-.347-.174-1.464-.54-2.788-1.72-1.031-.92-1.727-2.055-1.93-2.402-.203-.347-.022-.534.153-.707.157-.156.347-.406.52-.61.174-.203.232-.347.347-.579.116-.232.058-.434-.029-.608-.087-.174-.786-1.895-1.077-2.595-.283-.681-.571-.588-.786-.599l-.668-.011c-.232 0-.608.087-.927.434-.32.347-1.22 1.193-1.22 2.91s1.249 3.375 1.423 3.607c.174.232 2.458 3.752 5.955 5.263.832.359 1.48.573 1.987.733.834.265 1.594.228 2.194.138.669-.1 2.053-.84 2.343-1.651.29-.812.29-1.508.203-1.651-.087-.145-.32-.232-.668-.406z"/>
+      </svg>
+    </a>
 </body>
 </html>
