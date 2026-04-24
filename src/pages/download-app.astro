@@ -28,7 +28,7 @@ import iphoneMockup from '../assets/iphone-mockup.png';
             href="https://play.google.com/store/apps/details?id=com.saleszote.app"
             target="_blank"
             rel="noopener noreferrer"
-            onclick="gtag('event', 'app_download_click', { platform: 'android', source: 'download_page' })"
+            onclick="window.posthog?.capture('app_download_clicked', { platform: 'android', source: 'download_page' })"
             class="block transition-opacity hover:opacity-80 active:opacity-100"
           >
             <img class="h-12 lg:h-16 w-auto" src="/images/google-play-badge.svg" alt="Download SalesZote POS App on Google Play" />
@@ -37,7 +37,7 @@ import iphoneMockup from '../assets/iphone-mockup.png';
             href="https://apps.apple.com/us/app/sales-zote/id6761330158"
             target="_blank"
             rel="noopener noreferrer"
-            onclick="gtag('event', 'app_download_click', { platform: 'ios', source: 'download_page' })"
+            onclick="window.posthog?.capture('app_download_clicked', { platform: 'ios', source: 'download_page' })"
             class="block transition-opacity hover:opacity-80 active:opacity-100"
           >
             <img class="h-12 lg:h-16 w-auto" src="/images/app-store-badge.svg" alt="Download SalesZote POS App on the Apple App Store" />

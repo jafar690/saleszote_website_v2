@@ -27,7 +27,7 @@ import appScreen2 from '../../assets/app-screen-2.png';
             rel="noopener noreferrer"
             class="hover:opacity-85 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900/40"
             style="transition: opacity 150ms ease, transform 150ms ease; display: inline-block;"
-            onclick="gtag('event', 'app_download_click', { platform: 'android' })"
+            onclick="window.posthog?.capture('app_download_clicked', { platform: 'android', source: 'home_mobile_apps' })"
           >
             <img src="/images/google-play-badge.svg" alt="Get it on Google Play" class="h-12.5 w-auto">
           </a>
@@ -39,7 +39,7 @@ import appScreen2 from '../../assets/app-screen-2.png';
             rel="noopener noreferrer"
             class="hover:opacity-85 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900/40"
             style="transition: opacity 150ms ease, transform 150ms ease; display: inline-block;"
-            onclick="gtag('event', 'app_download_click', { platform: 'ios' })"
+            onclick="window.posthog?.capture('app_download_clicked', { platform: 'ios', source: 'home_mobile_apps' })"
           >
             <img src="/images/app-store-badge.svg" alt="Download on the App Store" class="h-12.5 w-auto">
           </a>

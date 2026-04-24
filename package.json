@@ -18,6 +18,7 @@
     "@astrojs/node": "^10.0.1",
     "@tailwindcss/vite": "^4.2.1",
     "astro": "^6.0.4",
+    "posthog-js": "^1.371.3",
     "puppeteer": "^24.39.0",
     "tailwindcss": "^4.2.1"
   },
