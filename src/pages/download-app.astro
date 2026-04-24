@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import iphoneMockup from '../assets/iphone-mockup.png';
+---
+<Layout
+  title="Download SalesZote App | POS & Inventory Management for iOS & Android"
+  description="Download SalesZote on iOS or Android. Smart POS & inventory management for growing businesses."
+  bare={true}
+  bodyClass="font-main bg-[#FBF3D4] min-h-dvh"
+>
+  <div class="min-h-dvh flex flex-col lg:grid lg:grid-cols-2">
+    <div class="flex flex-col justify-center gap-10 px-8 pt-10 pb-10 lg:px-24 lg:py-24">
+      <img
+        class="h-10 w-auto self-center lg:self-start"
+        src="/images/logo/logo.svg"
+        alt="SalesZote"
+      />
+      <div class="flex flex-col gap-6 text-center lg:text-left">
+        <h1 class="text-4xl lg:text-7xl font-extrabold tracking-tight leading-tight text-gray-900">
+          Run Your Business Smarter
+        </h1>
+        <p class="text-lg lg:text-3xl font-bold text-gray-900/50 leading-snug">
+          Manage sales, track inventory, and keep your shop moving — all from one app.
+        </p>
+        <div class="flex items-center justify-center lg:justify-start gap-4 flex-wrap pt-2">
+          <a
+            href="https://play.google.com/store/apps/details?id=com.saleszote.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            onclick="gtag('event', 'app_download_click', { platform: 'android', source: 'download_page' })"
+            class="block transition-opacity hover:opacity-80 active:opacity-100"
+          >
+            <img class="h-12 lg:h-16 w-auto" src="/images/google-play-badge.svg" alt="Download SalesZote POS App on Google Play" />
+          </a>
+          <a
+            href="https://apps.apple.com/us/app/sales-zote/id6761330158"
+            target="_blank"
+            rel="noopener noreferrer"
+            onclick="gtag('event', 'app_download_click', { platform: 'ios', source: 'download_page' })"
+            class="block transition-opacity hover:opacity-80 active:opacity-100"
+          >
+            <img class="h-12 lg:h-16 w-auto" src="/images/app-store-badge.svg" alt="Download SalesZote POS App on the Apple App Store" />
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="relative flex items-center justify-center overflow-hidden py-10 lg:py-0 min-h-80">
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="w-125 h-125 lg:w-200 lg:h-200 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(253,178,2,0.30)_0%,transparent_65%)]"></div>
+      </div>
+      <div class="relative z-10 w-full flex justify-center">
+        <Image
+          src={iphoneMockup}
+          alt="SalesZote app screens"
+          class="w-[85%] lg:w-[90%] max-w-120 h-auto object-contain"
+        />
+      </div>
+    </div>
+  </div>
+</Layout>

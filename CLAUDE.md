@@ -36,6 +36,17 @@ Examples:
 - use tailwind css
 - Mobile-first responsive
 
+## Images
+- All non-SVG images must live in `src/assets/` and be referenced via Astro's `<Image />` component so they are processed and optimized at build time.
+- Import at the top of the frontmatter: `import { Image } from 'astro:assets'; import myImg from '../assets/my-image.png';`
+- SVGs served from `public/` (logos, badges, icons) can stay as plain `<img>` tags.
+
+## Tailwind v4 Spacing Scale
+- Tailwind v4 spacing uses multiples of 4px. Use numeric scale classes instead of arbitrary pixel values.
+- `w-[500px]` → `w-125` (500 ÷ 4 = 125), `h-[320px]` → `h-80`, `max-w-[480px]` → `max-w-120`, etc.
+- Only use `[px]` arbitrary values when the size is not divisible by 4 or has no scale equivalent.
+- Percentage and non-pixel arbitrary values (e.g. `w-[85%]`, `bg-[#hex]`) are still fine as-is.
+
 ## Brand Assets
 - Always check the `brand_assets/` folder before designing. It may contain logos, color guides, style guides, or images.
 - If assets exist there, use them. Do not use placeholders where real assets are available.
