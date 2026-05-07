@@ -87,5 +87,4 @@ const outputPath = path.join(screenshotsDir, filename);
     await browser.close();
 
     console.log(`Saved screenshot to ${outputPath}`);
-
 })();
