@@ -1,4 +1,8 @@
 ---
+const pathname = Astro.url.pathname;
+function isActive(href: string) {
+  return pathname === href || pathname.startsWith(href + '/');
+}
 ---
 <nav class="bg-white border-b border-neutral-200 relative">
     <div class="mx-auto max-w-8xl px-8 xl:px-30 py-3 xl:py-7">
@@ -9,11 +13,11 @@
 
             <div class="flex items-center justify-center hidden lg:block">
                 <div class="flex items-center gap-7">
-                    <a href="/" class="text-primary-500 text-base font-bold font-main leading-snug">Home</a>
+                    <a href="/" class={`text-base font-main leading-snug ${isActive('/') && pathname === '/' ? 'text-primary-500 font-bold' : 'text-black font-medium'}`}>Home</a>
                     <a href="/#features" class="text-black text-base font-medium font-main leading-snug">Features</a>
-                    <a href="/pricing" class="text-black text-base font-medium font-main leading-snug">Pricing</a>
+                    <a href="/pricing" class={`text-base font-main leading-snug ${isActive('/pricing') ? 'text-primary-500 font-bold' : 'text-black font-medium'}`}>Pricing</a>
                     <a href="/#faqs" class="text-black text-base font-medium font-main leading-snug">FAQs</a>
-                    <a href="/contact" class="text-black text-base font-medium font-main leading-snug">Contact Us</a>
+                    <a href="/contact" class={`text-base font-main leading-snug ${isActive('/contact') ? 'text-primary-500 font-bold' : 'text-black font-medium'}`}>Contact Us</a>
                 </div>
             </div>
 
@@ -44,7 +48,7 @@
             <div class="flex flex-col">
                 <p class="text-center justify-start text-neutral-500 text-sm font-medium leading-tight mt-10">MENU</p>
 
-                <a href="/" data-close-menu class="py-4 text-center justify-start text-black text-2xl font-bold leading-loose">
+                <a href="/" data-close-menu class={`py-4 text-center justify-start text-2xl font-bold leading-loose ${pathname === '/' ? 'text-primary-500' : 'text-black'}`}>
                     Home
                 </a>
 
@@ -52,7 +56,7 @@
                     Features
                 </a>
 
-                <a href="/pricing" data-close-menu class="py-4 text-center justify-start text-black text-2xl font-bold leading-loose">
+                <a href="/pricing" data-close-menu class={`py-4 text-center justify-start text-2xl font-bold leading-loose ${isActive('/pricing') ? 'text-primary-500' : 'text-black'}`}>
                     Pricing
                 </a>
 
@@ -60,7 +64,7 @@
                     FAQs
                 </a>
 
-                <a href="/contact" data-close-menu class="py-4 text-center justify-start text-black text-2xl font-bold leading-loose">
+                <a href="/contact" data-close-menu class={`py-4 text-center justify-start text-2xl font-bold leading-loose ${isActive('/contact') ? 'text-primary-500' : 'text-black'}`}>
                     Contact Us
                 </a>
             </div>

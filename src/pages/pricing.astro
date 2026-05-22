@@ -2,11 +2,23 @@
 import Layout from '../layouts/Layout.astro';
 import pricing from '../data/pricing.json';
 
-const { plans, billing, guarantee, faqs } = pricing;
+const { plans, guarantee, faqs, comparison_table } = pricing;
 
 function formatPrice(price: number) {
   return price.toLocaleString('en-KE');
 }
+
+const planIds = ['starter', 'growth', 'business', 'enterprise'] as const;
+
+type CellValue = boolean | string;
+
+const processedTable = comparison_table.map(section => ({
+  category: section.category,
+  rows: section.rows.map(row => ({
+    label: row.label,
+    cells: planIds.map(id => (row as Record<string, CellValue>)[id]),
+  })),
+}));
 ---
 
 <Layout
@@ -26,18 +38,10 @@ function formatPrice(price: number) {
 
       <!-- Billing toggle -->
       <div class="mt-8 inline-flex items-center bg-white border border-neutral-200 rounded-xl p-1 gap-1" style="box-shadow:0 1px 4px rgba(0,0,0,0.07);">
-        <button
-          id="btn-monthly"
-          class="billing-btn px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 bg-primary-500 text-white"
-          data-billing="monthly"
-        >
+        <button id="btn-monthly" class="billing-btn px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 bg-primary-500 text-white">
           Monthly
         </button>
-        <button
-          id="btn-annual"
-          class="billing-btn px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-neutral-600 hover:text-black"
-          data-billing="annual"
-        >
+        <button id="btn-annual" class="billing-btn px-5 py-2 rounded-lg text-sm font-semibold transition-all duration-200 text-neutral-600 hover:text-black">
           Annual
           <span class="ml-1.5 bg-green-100 text-green-700 text-xs font-bold px-2 py-0.5 rounded-full">Save 20%</span>
         </button>
@@ -46,21 +50,18 @@ function formatPrice(price: number) {
   </section>
 
   <!-- Pricing cards -->
-  <section class="bg-neutral-50 pt-6 pb-20 px-8 xl:px-30">
+  <section class="bg-neutral-50 pt-6 pb-16 px-8 xl:px-30">
     <div class="max-w-8xl mx-auto">
       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 items-stretch">
-
         {plans.map((plan) => (
           <div
             class={[
               'relative flex flex-col rounded-2xl border-2 transition-transform duration-200 hover:-translate-y-1 bg-white text-black',
               plan.is_popular ? 'border-primary-500' : 'border-neutral-200',
             ].join(' ')}
-            style={
-              plan.is_popular
-                ? 'box-shadow:0 4px 24px rgba(250,144,0,0.14),0 1px 4px rgba(0,0,0,0.06);'
-                : 'box-shadow:0 2px 8px rgba(0,0,0,0.06);'
-            }
+            style={plan.is_popular
+              ? 'box-shadow:0 4px 24px rgba(250,144,0,0.14),0 1px 4px rgba(0,0,0,0.06);'
+              : 'box-shadow:0 2px 8px rgba(0,0,0,0.06);'}
           >
             {plan.is_popular && (
               <div class="absolute -top-3.5 left-1/2 -translate-x-1/2">
@@ -70,20 +71,14 @@ function formatPrice(price: number) {
               </div>
             )}
 
-            <div class={['p-7 flex-1 flex flex-col', plan.is_popular ? 'pt-10' : ''].join(' ')}>
-
-              <!-- Plan name & tagline -->
+            <div class="p-7 flex-1 flex flex-col">
               <div>
-                <h2 class="text-lg font-bold text-black">
-                  {plan.name}
-                </h2>
-                <p class="text-sm font-medium mt-1 leading-relaxed text-neutral-500">
-                  {plan.tagline}
-                </p>
+                <h2 class="text-lg font-bold text-black">{plan.name}</h2>
+                <p class="text-sm font-medium mt-1 leading-relaxed text-neutral-500">{plan.tagline}</p>
               </div>
 
               <!-- Price -->
-              <div class="mt-6">
+              <div class="mt-6 h-24">
                 {plan.is_custom ? (
                   <div>
                     <span class="text-4xl font-bold text-black tracking-tight">Custom</span>
@@ -91,26 +86,37 @@ function formatPrice(price: number) {
                   </div>
                 ) : (
                   <div>
-                    <div class="flex items-end gap-1">
-                      <span class="text-sm font-semibold text-neutral-500">KSh</span>
-                      <span
-                        class="text-4xl font-bold tracking-tight price-display text-black"
-                        data-monthly={plan.monthly_price}
-                        data-annual={plan.annual_monthly_price}
-                      >
-                        {formatPrice(plan.monthly_price!)}
-                      </span>
+                    <!-- Annual: show original struck-through + discounted price -->
+                    <div class="price-annual hidden">
+                      <div class="flex items-end gap-2">
+                        <span class="text-sm font-medium text-neutral-400 line-through self-center">
+                          KSh {formatPrice(plan.monthly_price!)}
+                        </span>
+                        <div class="flex items-end gap-1">
+                          <span class="text-sm font-semibold text-neutral-500">KSh</span>
+                          <span class="text-4xl font-bold tracking-tight text-black">{formatPrice(plan.annual_monthly_price!)}</span>
+                        </div>
+                      </div>
+                      <p class="text-xs font-medium mt-1 text-neutral-400">/ month, billed annually</p>
+                      <p class="text-xs font-medium mt-0.5 text-primary-600">
+                        KSh {formatPrice((plan.monthly_price! - plan.annual_monthly_price!) * 12)} saved per year
+                      </p>
                     </div>
-                    <p class="text-xs font-medium mt-1 text-neutral-400">/ month, billed <span class="billing-label">monthly</span></p>
-                    <p class="text-xs font-medium mt-0.5 h-4 annual-savings text-primary-600" style="display:none;">
-                      KSh {formatPrice((plan.monthly_price! - plan.annual_monthly_price!) * 12)} saved per year
-                    </p>
+                    <!-- Monthly: show normal price -->
+                    <div class="price-monthly">
+                      <div class="flex items-end gap-1">
+                        <span class="text-sm font-semibold text-neutral-500">KSh</span>
+                        <span class="text-4xl font-bold tracking-tight text-black">{formatPrice(plan.monthly_price!)}</span>
+                      </div>
+                      <p class="text-xs font-medium mt-1 text-neutral-400">/ month, billed monthly</p>
+                      <p class="text-xs font-medium mt-0.5 text-neutral-400">&nbsp;</p>
+                    </div>
                   </div>
                 )}
               </div>
 
               <!-- Limits -->
-              <div class="mt-6 flex flex-col gap-2 rounded-xl p-4 bg-neutral-50 border border-neutral-100">
+              <div class="mt-0 flex flex-col gap-2 rounded-xl p-4 bg-neutral-50 border border-neutral-100">
                 {Object.values(plan.limits).map((limit) => (
                   <div class="flex items-center gap-2">
                     <svg class="w-4 h-4 shrink-0 text-primary-500" fill="currentColor" viewBox="0 0 20 20">
@@ -125,7 +131,7 @@ function formatPrice(price: number) {
               <a
                 href={plan.cta_url}
                 class={[
-                  'mt-6 block text-center py-3 rounded-xl text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
+                  'mt-5 block text-center py-3 rounded-xl text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2',
                   plan.is_popular
                     ? 'bg-primary-500 text-white hover:bg-primary-600 active:bg-primary-700 focus-visible:ring-primary-500'
                     : 'bg-white border border-neutral-200 text-black hover:border-primary-400 hover:text-primary-600 active:bg-neutral-50 focus-visible:ring-primary-500',
@@ -135,10 +141,9 @@ function formatPrice(price: number) {
                 {plan.cta_label}
               </a>
 
-              <!-- Divider -->
-              <div class="mt-7 mb-5 border-t border-neutral-100"></div>
+              <div class="mt-6 mb-4 border-t border-neutral-100"></div>
 
-              <!-- Feature list or custom highlights -->
+              <!-- Features -->
               {plan.is_custom ? (
                 <ul class="flex flex-col gap-3">
                   {plan.custom_highlights!.map((highlight) => (
@@ -190,21 +195,77 @@ function formatPrice(price: number) {
     </div>
   </section>
 
-  <!-- FAQ -->
+  <!-- Comparison table -->
   <section class="bg-white px-8 xl:px-30 py-16">
+    <div class="max-w-8xl mx-auto">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl sm:text-4xl font-bold text-black leading-tight">Compare Plans</h2>
+        <p class="mt-3 text-base font-medium text-neutral-500">Everything you need to make the right choice.</p>
+      </div>
+
+      <div class="overflow-x-auto rounded-2xl border border-neutral-100" style="box-shadow:0 2px 8px rgba(0,0,0,0.05);">
+        <table class="w-full text-sm min-w-180">
+          <!-- Header -->
+          <thead>
+            <tr class="border-b border-neutral-100">
+              <th class="text-left py-5 px-6 font-semibold text-neutral-400 w-[35%]">Features</th>
+              {plans.map((plan) => (
+                <th class="py-5 px-4 text-center font-bold text-black">
+                  {plan.name}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {processedTable.map((section) => (
+              <>
+                <tr class="bg-neutral-50 border-b border-neutral-100">
+                  <td colspan="5" class="py-3 px-6 text-xs font-bold uppercase tracking-widest text-neutral-400">
+                    {section.category}
+                  </td>
+                </tr>
+                {section.rows.map((row, rowIdx) => (
+                  <tr class={['border-b border-neutral-100', rowIdx % 2 !== 0 ? 'bg-neutral-50/50' : ''].join(' ')}>
+                    <td class="py-4 px-6 font-medium text-black">{row.label}</td>
+                    {row.cells.map((val) => (
+                      <td class="py-4 px-4 text-center">
+                        {typeof val === 'boolean' ? (
+                          val ? (
+                            <svg class="w-5 h-5 text-primary-500 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                          ) : (
+                            <svg class="w-5 h-5 text-neutral-300 mx-auto" fill="none" viewBox="0 0 20 20" stroke="currentColor" stroke-width="2">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                          )
+                        ) : (
+                          <span class="font-medium text-black">{String(val)}</span>
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="bg-neutral-50 px-8 xl:px-30 py-16">
     <div class="max-w-8xl mx-auto">
       <div class="text-center mb-10">
         <h2 class="text-3xl sm:text-4xl font-bold text-black leading-tight">Frequently Asked Questions</h2>
         <p class="mt-3 text-base font-medium text-neutral-500">Still have questions? <a href="/contact" class="text-primary-500 font-semibold hover:underline">Get in touch →</a></p>
       </div>
 
-      <div class="max-w-3xl mx-auto divide-y divide-neutral-100">
-        {faqs.map((faq, i) => (
-          <div class="pricing-faq-item py-5" data-index={i}>
-            <button
-              class="pricing-faq-btn w-full flex items-center justify-between gap-4 text-left focus-visible:outline-none group"
-              aria-expanded="false"
-            >
+      <div class="max-w-3xl mx-auto divide-y divide-neutral-200">
+        {faqs.map((faq) => (
+          <div class="pricing-faq-item py-5">
+            <button class="pricing-faq-btn w-full flex items-center justify-between gap-4 text-left focus-visible:outline-none group" aria-expanded="false">
               <span class="text-base font-semibold text-black group-hover:text-primary-500 transition-colors duration-150">{faq.question}</span>
               <svg class="pricing-faq-icon w-5 h-5 shrink-0 text-neutral-400 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
@@ -248,12 +309,8 @@ function formatPrice(price: number) {
 </Layout>
 
 <script>
-  // Billing toggle
   const monthlyBtn = document.getElementById('btn-monthly');
-  const annualBtn = document.getElementById('btn-annual');
-  const priceDisplays = document.querySelectorAll<HTMLElement>('.price-display');
-  const billingLabels = document.querySelectorAll<HTMLElement>('.billing-label');
-  const annualSavings = document.querySelectorAll<HTMLElement>('.annual-savings');
+  const annualBtn  = document.getElementById('btn-annual');
 
   function setActiveBilling(mode: 'monthly' | 'annual') {
     const isAnnual = mode === 'annual';
@@ -266,34 +323,28 @@ function formatPrice(price: number) {
     activeBtn?.classList.remove('text-neutral-600');
     activeBtn?.classList.add('bg-primary-500', 'text-white');
 
-    priceDisplays.forEach(el => {
-      const price = isAnnual ? el.dataset.annual : el.dataset.monthly;
-      if (price) el.textContent = Number(price).toLocaleString('en-KE');
+    document.querySelectorAll<HTMLElement>('.price-annual').forEach(el => {
+      el.classList.toggle('hidden', !isAnnual);
     });
-
-    billingLabels.forEach(el => {
-      el.textContent = isAnnual ? 'annually' : 'monthly';
-    });
-
-    annualSavings.forEach(el => {
-      el.style.display = isAnnual ? 'block' : 'none';
+    document.querySelectorAll<HTMLElement>('.price-monthly').forEach(el => {
+      el.classList.toggle('hidden', isAnnual);
     });
   }
 
   monthlyBtn?.addEventListener('click', () => setActiveBilling('monthly'));
-  annualBtn?.addEventListener('click', () => setActiveBilling('annual'));
+  annualBtn?.addEventListener('click',  () => setActiveBilling('annual'));
 
   // FAQ accordion
   document.querySelectorAll('.pricing-faq-item').forEach(item => {
-    const btn = item.querySelector('.pricing-faq-btn');
+    const btn    = item.querySelector('.pricing-faq-btn');
     const answer = item.querySelector<HTMLElement>('.pricing-faq-answer');
-    const icon = item.querySelector<HTMLElement>('.pricing-faq-icon');
+    const icon   = item.querySelector<HTMLElement>('.pricing-faq-icon');
 
     btn?.addEventListener('click', () => {
       const isOpen = btn.getAttribute('aria-expanded') === 'true';
       btn.setAttribute('aria-expanded', String(!isOpen));
       if (answer) answer.style.display = isOpen ? 'none' : 'block';
-      if (icon) icon.style.transform = isOpen ? '' : 'rotate(180deg)';
+      if (icon)   icon.style.transform  = isOpen ? '' : 'rotate(180deg)';
     });
   });
 </script>

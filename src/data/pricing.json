@@ -9,66 +9,66 @@
       "id": "starter",
       "name": "Starter",
       "tagline": "Perfect for solo retailers and small shops getting started.",
-      "monthly_price": 1499,
-      "annual_monthly_price": 1199,
+      "monthly_price": 1000,
+      "annual_monthly_price": 800,
       "is_custom": false,
       "currency": "KSh",
       "cta_label": "Get Started Free",
       "cta_url": "https://app.saleszote.com/register",
       "is_popular": false,
       "limits": {
-        "users": "1 User",
+        "users": "2 Users",
         "branches": "1 Branch",
+        "inventory_locations": "1 Inventory Location",
+        "terminals": "1 Terminal",
         "products": "Up to 500 Products"
       },
       "features": [
         { "label": "Point of Sale (POS)", "included": true },
         { "label": "Inventory Management", "included": true },
-        { "label": "M-Pesa & Cash Payments", "included": true },
+        { "label": "Custom Payment Methods", "included": true },
         { "label": "Basic Sales Reports", "included": true },
         { "label": "Customer Records", "included": true },
         { "label": "Mobile App Access", "included": true },
-        { "label": "Expense Tracking", "included": false },
-        { "label": "Supplier Management", "included": false },
-        { "label": "Advanced Analytics", "included": false },
+        { "label": "Expense Tracking", "included": true },
+        { "label": "Custom Integrations", "included": false },
         { "label": "Multiple Branches", "included": false },
-        { "label": "Multi-User & Roles", "included": false },
+        { "label": "Multi-User & Roles", "included": true },
         { "label": "Priority Support", "included": false },
-        { "label": "Dedicated Account Manager", "included": false },
-        { "label": "Custom Integrations", "included": false }
+        { "label": "Dedicated Account Manager", "included": false }
       ]
     },
     {
       "id": "growth",
       "name": "Growth",
       "tagline": "Ideal for growing businesses that need more power and team access.",
-      "monthly_price": 2999,
-      "annual_monthly_price": 2399,
+      "monthly_price": 2499,
+      "annual_monthly_price": 1999,
       "is_custom": false,
       "currency": "KSh",
       "cta_label": "Start Free Trial",
       "cta_url": "https://app.saleszote.com/register",
       "is_popular": true,
       "limits": {
-        "users": "Up to 5 Users",
-        "branches": "Up to 3 Branches",
+        "users": "5 Users",
+        "branches": "1 Branch",
+        "inventory_locations": "3 Inventory Locations",
+        "terminals": "3 Terminals",
         "products": "Unlimited Products"
       },
       "features": [
         { "label": "Point of Sale (POS)", "included": true },
         { "label": "Inventory Management", "included": true },
-        { "label": "M-Pesa, Cash & Card Payments", "included": true },
+        { "label": "Custom Payment Methods", "included": true },
         { "label": "Full Reports & Insights", "included": true },
         { "label": "Customer Records & Loyalty", "included": true },
         { "label": "Mobile App Access", "included": true },
         { "label": "Expense Tracking", "included": true },
-        { "label": "Supplier Management", "included": true },
-        { "label": "Advanced Analytics", "included": false },
+        { "label": "Custom Integrations", "included": true },
         { "label": "Multiple Branches", "included": true },
         { "label": "Multi-User & Roles", "included": true },
         { "label": "Priority Support", "included": false },
-        { "label": "Dedicated Account Manager", "included": false },
-        { "label": "Custom Integrations", "included": false }
+        { "label": "Dedicated Account Manager", "included": false }
       ]
     },
     {
@@ -83,25 +83,25 @@
       "cta_url": "https://app.saleszote.com/register",
       "is_popular": false,
       "limits": {
-        "users": "Up to 20 Users",
-        "branches": "Up to 10 Branches",
+        "users": "20 Users",
+        "branches": "3 Branches",
+        "inventory_locations": "10 Inventory Locations",
+        "terminals": "10 Terminals",
         "products": "Unlimited Products"
       },
       "features": [
         { "label": "Point of Sale (POS)", "included": true },
         { "label": "Inventory Management", "included": true },
-        { "label": "M-Pesa, Cash & Card Payments", "included": true },
+        { "label": "Custom Payment Methods", "included": true },
         { "label": "Full Reports & Insights", "included": true },
         { "label": "Customer Records & Loyalty", "included": true },
         { "label": "Mobile App Access", "included": true },
         { "label": "Expense Tracking", "included": true },
-        { "label": "Supplier Management", "included": true },
-        { "label": "Advanced Analytics", "included": true },
+        { "label": "Custom Integrations", "included": true },
         { "label": "Multiple Branches", "included": true },
         { "label": "Multi-User & Roles", "included": true },
         { "label": "Priority Support", "included": true },
-        { "label": "Dedicated Account Manager", "included": false },
-        { "label": "Custom Integrations", "included": false }
+        { "label": "Dedicated Account Manager", "included": false }
       ]
     },
     {
@@ -116,8 +116,10 @@
       "cta_url": "/contact",
       "is_popular": false,
       "limits": {
-        "users": "Unlimited Users",
-        "branches": "Unlimited Branches",
+        "users": "Custom Users",
+        "branches": "Custom Branches",
+        "inventory_locations": "Custom Inventory Locations",
+        "terminals": "Custom Terminals",
         "products": "Unlimited Products"
       },
       "custom_highlights": [
@@ -125,8 +127,69 @@
         "Custom feature set & workflows",
         "Dedicated onboarding & training",
         "Dedicated Account Manager",
-        "Custom integrations & API access",
+        "Custom Integrations access",
         "SLA-backed priority support"
+      ]
+    }
+  ],
+  "comparison_table": [
+    {
+      "category": "Usage",
+      "rows": [
+        { "label": "Users",               "starter": "2", "growth": "5", "business": "20",  "enterprise": "Custom" },
+        { "label": "Branches",            "starter": "1", "growth": "1", "business": "3",   "enterprise": "Custom" },
+        { "label": "Inventory Locations", "starter": "1", "growth": "3", "business": "10",  "enterprise": "Custom" },
+        { "label": "Terminals",           "starter": "1", "growth": "3", "business": "10",  "enterprise": "Custom" },
+        { "label": "Products",        "starter": "Up to 500", "growth": "Unlimited", "business": "Unlimited", "enterprise": "Unlimited" }
+      ]
+    },
+    {
+      "category": "Sales",
+      "rows": [
+        { "label": "POS on desktop, tablet & mobile", "starter": true, "growth": true, "business": true, "enterprise": true },
+        { "label": "Custom Payment Methods",          "starter": true, "growth": true, "business": true, "enterprise": true },
+        { "label": "Returns & Exchanges",             "starter": true, "growth": true, "business": true, "enterprise": true },
+        { "label": "Discounts",                       "starter": true, "growth": true, "business": true, "enterprise": true },
+        { "label": "Price Overrides",                 "starter": true, "growth": true, "business": true, "enterprise": true },
+        { "label": "Customer loyalty & records",      "starter": true, "growth": true, "business": true, "enterprise": true }
+      ]
+    },
+    {
+      "category": "Inventory",
+      "rows": [
+        { "label": "Real-time Stock Tracking",  "starter": true, "growth": true, "business": true, "enterprise": true },
+        { "label": "Stock Transfers",           "starter": true, "growth": true, "business": true, "enterprise": true },
+        { "label": "Stock Counts",              "starter": true, "growth": true, "business": true, "enterprise": true },
+        { "label": "Stock Wastage Tracking",    "starter": true, "growth": true, "business": true, "enterprise": true },
+        { "label": "Stock Re-order Levels",     "starter": true, "growth": true, "business": true, "enterprise": true }
+      ]
+    },
+    {
+      "category": "Purchases",
+      "rows": [
+        { "label": "Purchases Tracking",  "starter": true,  "growth": true, "business": true, "enterprise": true },
+        { "label": "Suppliers Management","starter": true,  "growth": true, "business": true, "enterprise": true },
+        { "label": "Purchase Orders",     "starter": false, "growth": true, "business": true, "enterprise": true },
+        { "label": "Purchase Returns",    "starter": false, "growth": true, "business": true, "enterprise": true }
+      ]
+    },
+    {
+      "category": "Reports",
+      "rows": [
+        { "label": "Sales Reports",                    "starter": true,  "growth": true, "business": true, "enterprise": true },
+        { "label": "Inventory Reports",                "starter": false, "growth": true, "business": true, "enterprise": true },
+        { "label": "Expense Reports",                  "starter": false, "growth": true, "business": true, "enterprise": true },
+        { "label": "Financial & Profitability Reports","starter": false, "growth": true, "business": true, "enterprise": true }
+      ]
+    },
+    {
+      "category": "Support & Services",
+      "rows": [
+        { "label": "Custom Integrations",  "starter": false, "growth": true, "business": true, "enterprise": true },
+        { "label": "Standard support",           "starter": true,  "growth": true,  "business": true,  "enterprise": true },
+        { "label": "Priority support",           "starter": false, "growth": false, "business": true,  "enterprise": true },
+        { "label": "Dedicated account manager",  "starter": false, "growth": false, "business": false, "enterprise": true },
+        { "label": "Custom onboarding & training","starter": false, "growth": false, "business": false, "enterprise": true }
       ]
     }
   ],
@@ -149,7 +212,7 @@
     },
     {
       "question": "What payment methods do you accept for subscriptions?",
-      "answer": "We accept M-Pesa, bank transfers, and card payments for your SalesZote subscription."
+      "answer": "We accept M-Pesa and card payments for your SalesZote subscription."
     },
     {
       "question": "What happens after my free trial ends?",
