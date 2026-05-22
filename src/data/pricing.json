@@ -1,0 +1,167 @@
+{
+  "billing": {
+    "annual_discount_percent": 20,
+    "annual_label": "Annual (Save 20%)",
+    "monthly_label": "Monthly"
+  },
+  "plans": [
+    {
+      "id": "starter",
+      "name": "Starter",
+      "tagline": "Perfect for solo retailers and small shops getting started.",
+      "monthly_price": 1499,
+      "annual_monthly_price": 1199,
+      "is_custom": false,
+      "currency": "KSh",
+      "cta_label": "Get Started Free",
+      "cta_url": "https://app.saleszote.com/register",
+      "is_popular": false,
+      "limits": {
+        "users": "1 User",
+        "branches": "1 Branch",
+        "products": "Up to 500 Products"
+      },
+      "features": [
+        { "label": "Point of Sale (POS)", "included": true },
+        { "label": "Inventory Management", "included": true },
+        { "label": "M-Pesa & Cash Payments", "included": true },
+        { "label": "Basic Sales Reports", "included": true },
+        { "label": "Customer Records", "included": true },
+        { "label": "Mobile App Access", "included": true },
+        { "label": "Expense Tracking", "included": false },
+        { "label": "Supplier Management", "included": false },
+        { "label": "Advanced Analytics", "included": false },
+        { "label": "Multiple Branches", "included": false },
+        { "label": "Multi-User & Roles", "included": false },
+        { "label": "Priority Support", "included": false },
+        { "label": "Dedicated Account Manager", "included": false },
+        { "label": "Custom Integrations", "included": false }
+      ]
+    },
+    {
+      "id": "growth",
+      "name": "Growth",
+      "tagline": "Ideal for growing businesses that need more power and team access.",
+      "monthly_price": 2999,
+      "annual_monthly_price": 2399,
+      "is_custom": false,
+      "currency": "KSh",
+      "cta_label": "Start Free Trial",
+      "cta_url": "https://app.saleszote.com/register",
+      "is_popular": true,
+      "limits": {
+        "users": "Up to 5 Users",
+        "branches": "Up to 3 Branches",
+        "products": "Unlimited Products"
+      },
+      "features": [
+        { "label": "Point of Sale (POS)", "included": true },
+        { "label": "Inventory Management", "included": true },
+        { "label": "M-Pesa, Cash & Card Payments", "included": true },
+        { "label": "Full Reports & Insights", "included": true },
+        { "label": "Customer Records & Loyalty", "included": true },
+        { "label": "Mobile App Access", "included": true },
+        { "label": "Expense Tracking", "included": true },
+        { "label": "Supplier Management", "included": true },
+        { "label": "Advanced Analytics", "included": false },
+        { "label": "Multiple Branches", "included": true },
+        { "label": "Multi-User & Roles", "included": true },
+        { "label": "Priority Support", "included": false },
+        { "label": "Dedicated Account Manager", "included": false },
+        { "label": "Custom Integrations", "included": false }
+      ]
+    },
+    {
+      "id": "business",
+      "name": "Business",
+      "tagline": "For established businesses scaling across multiple locations.",
+      "monthly_price": 5999,
+      "annual_monthly_price": 4799,
+      "is_custom": false,
+      "currency": "KSh",
+      "cta_label": "Start Free Trial",
+      "cta_url": "https://app.saleszote.com/register",
+      "is_popular": false,
+      "limits": {
+        "users": "Up to 20 Users",
+        "branches": "Up to 10 Branches",
+        "products": "Unlimited Products"
+      },
+      "features": [
+        { "label": "Point of Sale (POS)", "included": true },
+        { "label": "Inventory Management", "included": true },
+        { "label": "M-Pesa, Cash & Card Payments", "included": true },
+        { "label": "Full Reports & Insights", "included": true },
+        { "label": "Customer Records & Loyalty", "included": true },
+        { "label": "Mobile App Access", "included": true },
+        { "label": "Expense Tracking", "included": true },
+        { "label": "Supplier Management", "included": true },
+        { "label": "Advanced Analytics", "included": true },
+        { "label": "Multiple Branches", "included": true },
+        { "label": "Multi-User & Roles", "included": true },
+        { "label": "Priority Support", "included": true },
+        { "label": "Dedicated Account Manager", "included": false },
+        { "label": "Custom Integrations", "included": false }
+      ]
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise",
+      "tagline": "Fully tailored for large operations — pricing, features, and support all custom.",
+      "monthly_price": null,
+      "annual_monthly_price": null,
+      "is_custom": true,
+      "currency": "KSh",
+      "cta_label": "Talk to Sales",
+      "cta_url": "/contact",
+      "is_popular": false,
+      "limits": {
+        "users": "Unlimited Users",
+        "branches": "Unlimited Branches",
+        "products": "Unlimited Products"
+      },
+      "custom_highlights": [
+        "Custom pricing tailored to your business",
+        "Custom feature set & workflows",
+        "Dedicated onboarding & training",
+        "Dedicated Account Manager",
+        "Custom integrations & API access",
+        "SLA-backed priority support"
+      ]
+    }
+  ],
+  "guarantee": {
+    "title": "14-Day Free Trial. No Credit Card Required.",
+    "description": "Try any plan free for 14 days. If it's not right for your business, simply walk away — no questions asked."
+  },
+  "faqs": [
+    {
+      "question": "Can I switch plans later?",
+      "answer": "Yes. You can upgrade or downgrade your plan at any time from your account settings. Changes take effect immediately."
+    },
+    {
+      "question": "Are prices inclusive of VAT?",
+      "answer": "All prices shown are exclusive of VAT. Applicable taxes will be added at checkout based on your location."
+    },
+    {
+      "question": "How does the annual discount work?",
+      "answer": "When you choose annual billing, you pay for 10 months and get 2 months free — that's a 20% saving compared to monthly billing."
+    },
+    {
+      "question": "What payment methods do you accept for subscriptions?",
+      "answer": "We accept M-Pesa, bank transfers, and card payments for your SalesZote subscription."
+    },
+    {
+      "question": "What happens after my free trial ends?",
+      "answer": "You will be prompted to select a plan and add a payment method. Your data is safe and nothing is deleted."
+    },
+    {
+      "question": "Can I add more users or branches later?",
+      "answer": "Absolutely. You can upgrade your plan at any time to unlock more users and branches as your business grows."
+    },
+    {
+      "question": "What is included in the Enterprise plan?",
+      "answer": "Everything is customized — pricing, feature set, number of users, branches, integrations, and support level. Contact our sales team and we'll build a plan around your exact needs."
+    }
+  ]
+}
