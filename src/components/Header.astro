@@ -26,7 +26,7 @@ function isActive(href: string) {
                     Sign In
                 </a>
 
-                <a href="https://app.saleszote.com/register" class="px-4 py-3 rounded-lg inline-flex bg-primary-500 border-1 border-primary-500 text-white text-base font-medium font-main leading-snug">
+                <a href="https://app.saleszote.com/register" onclick="trackEvent('registration_started', { source: 'header' })" class="px-4 py-3 rounded-lg inline-flex bg-primary-500 border-1 border-primary-500 text-white text-base font-medium font-main leading-snug">
                     Get Started
                 </a>
             </div>
@@ -74,7 +74,7 @@ function isActive(href: string) {
                     Sign In
                 </a>
 
-                <a href="https://app.saleszote.com/register" data-close-menu class="px-4 py-3 rounded-lg inline-flex bg-primary-500 border-1 border-primary-500 text-white text-base font-medium font-main leading-snug">
+                <a href="https://app.saleszote.com/register" data-close-menu onclick="trackEvent('registration_started', { source: 'header_mobile' })" class="px-4 py-3 rounded-lg inline-flex bg-primary-500 border-1 border-primary-500 text-white text-base font-medium font-main leading-snug">
                     Get Started
                 </a>
             </div>

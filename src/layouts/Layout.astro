@@ -60,12 +60,18 @@ const {
     <PostHog />
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-248K6BEQDZ"></script>
-    <script is:inline>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-E3FKEXSZBZ"></script>
+    <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-248K6BEQDZ');
+
+        gtag('config', 'G-E3FKEXSZBZ');
+
+        window.trackEvent = function(name, props) {
+            window.posthog?.capture(name, props);
+            gtag('event', name, props);
+        };
     </script>
 </head>
 <body class={bodyClass}>
@@ -82,7 +88,7 @@ const {
       aria-label="Chat on WhatsApp"
       class="group fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full transition-transform duration-200 ease-out focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[#25D366]/50 active:scale-95 hover:scale-110"
       style="background:#25D366;box-shadow:0 4px 12px rgba(37,211,102,0.45),0 1px 4px rgba(0,0,0,0.18);"
-      onclick="window.posthog?.capture('whatsapp_chat_clicked', { source: 'floating_button' })"
+      onclick="trackEvent('whatsapp_chat_clicked', { source: 'floating_button' })"
     >
       <!-- Tooltip -->
       <span class="pointer-events-none absolute right-16 whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium text-white opacity-0 transition-opacity duration-150 group-hover:opacity-100" style="background:rgba(0,0,0,0.72);">Chat on WhatsApp</span>
