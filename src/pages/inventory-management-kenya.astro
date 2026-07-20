@@ -1,0 +1,127 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LandingHero from '../components/landing/LandingHero.astro';
+import FeatureGrid from '../components/landing/FeatureGrid.astro';
+import CtaBanner from '../components/landing/CtaBanner.astro';
+import Faqs from '../components/home/Faqs.astro';
+import { industries } from '../data/industries';
+
+const features = [
+  { icon: 'container', title: 'Real-time stock levels', desc: 'Every sale and delivery updates your stock instantly, so your counts always match what is on the shelf.' },
+  { icon: 'bar-chart-10', title: 'Low-stock alerts', desc: 'Set a reorder level for each item and get warned before your best-sellers run out.' },
+  { icon: 'server-04', title: 'Multiple stores & suppliers', desc: 'Track stock across several outlets and record which supplier to reorder each item from.' },
+  { icon: 'bank-note-01', title: 'Know your stock value', desc: 'See how much money is sitting in stock and which items tie up cash without selling.' },
+  { icon: 'shopping-bag-02', title: 'Stock counts made simple', desc: 'Do regular stock takes and spot differences quickly, so shrinkage and errors do not go unnoticed.' },
+  { icon: 'users-02', title: 'Track who moves stock', desc: 'See sales and stock changes by staff member, so nothing goes missing without a trace.' },
+];
+
+const faqs = [
+  { question: 'What is an inventory management system?', answer: '<p>An inventory management system tracks what stock you have, what is running low, and what it is worth. SalesZote updates your stock automatically as you sell and receive goods, and it warns you before you run out.</p>' },
+  { question: 'Can I manage stock across more than one shop?', answer: '<p>Yes. SalesZote lets you track inventory across multiple outlets and see performance for each one from a single dashboard.</p>' },
+  { question: 'Will it tell me when to reorder?', answer: '<p>Yes. Set a reorder level for each item and SalesZote alerts you when stock falls low so you can reorder in time.</p>' },
+  { question: 'Does inventory update automatically when I sell?', answer: '<p>Yes. Because SalesZote is a POS and inventory system in one, every sale reduces your stock in real time — no separate counting needed.</p>' },
+  { question: 'How much does inventory software cost in Kenya?', answer: '<p>SalesZote plans start from KSh 1,000 per month with a free 14-day trial and no credit card required. See the <a href="/pricing">pricing page</a> for details.</p>' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://saleszote.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Inventory Management', item: 'https://saleszote.com/inventory-management-kenya' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'SalesZote Inventory Management System',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web, iOS, Android',
+    description: 'Cloud inventory management system for shops and wholesalers in Kenya, with real-time stock tracking, low-stock alerts, and multi-store support.',
+    url: 'https://saleszote.com/inventory-management-kenya',
+    offers: { '@type': 'Offer', price: '1000', priceCurrency: 'KES', description: 'Plans from KSh 1,000/month. Free 14-day trial.' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer.replace(/<[^>]+>/g, '').trim() },
+    })),
+  },
+];
+---
+<Layout
+  title="Inventory Management System in Kenya | Stock Control Software | SalesZote"
+  description="SalesZote is a cloud inventory management system for shops and wholesalers in Kenya. Track stock in real time, get low-stock alerts, and manage multiple stores. Free for 14 days."
+  jsonLd={jsonLd}
+>
+  <LandingHero
+    eyebrow="Inventory Management"
+    title="Inventory Management System for Kenyan Businesses"
+    sub="Track your stock in real time, get alerts before you run out, and know exactly what your inventory is worth — across one shop or many."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'Inventory Management' }]}
+    source="inventory_page_hero"
+  />
+
+  <FeatureGrid
+    heading="Take control of your stock"
+    intro="SalesZote keeps your inventory accurate automatically, so you spend less time counting and more time selling."
+    features={features}
+  />
+
+  <!-- Why accurate stock matters -->
+  <section class="max-w-8xl mx-auto px-8 xl:px-30 py-10 lg:py-20 bg-green-white">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+      <div>
+        <h2 class="text-black text-2xl sm:text-4xl font-bold leading-10 mb-6">Stop losing money to stockouts and dead stock</h2>
+        <p class="text-neutral-600 text-base font-medium leading-relaxed mb-6">
+          When you run out of a best-seller, that sale walks to the shop next door. When cash is tied up in items that do not
+          move, your business feels tight for no reason. SalesZote shows you both — what is running low and what is sitting
+          idle — so you buy the right stock at the right time.
+        </p>
+        <ul class="flex flex-col gap-4">
+          {['Reorder before you run out, not after', 'See which items tie up cash without selling', 'Catch stock differences before they become losses'].map((point) => (
+            <li class="flex items-start gap-3">
+              <svg class="w-6 h-6 flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="10" fill="#FEF1C3"/>
+                <path d="M8 12l2.5 2.5L16 9" stroke="#B04600" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="text-neutral-700 text-base font-medium leading-snug">{point}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="rounded-2xl overflow-hidden bg-white p-4 outline outline-1 outline-offset-[-1px] outline-neutral-200">
+        <img src="/images/screenshot1.png" alt="SalesZote inventory dashboard" class="w-full rounded-lg" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Industry links -->
+  <section class="max-w-8xl mx-auto px-8 xl:px-30 py-10 lg:py-20">
+    <div class="flex flex-col items-center text-center mb-8">
+      <h2 class="text-black text-2xl sm:text-4xl font-bold leading-10 mb-4">Inventory built for your business</h2>
+      <p class="max-w-190 text-neutral-600 text-base font-medium leading-relaxed">See how SalesZote handles stock for shops like yours.</p>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      {industries.map((industry) => (
+        <a href={`/industries/${industry.slug}`}
+           class="group flex items-center justify-between gap-2 p-4 rounded-xl bg-white outline outline-1 outline-offset-[-1px] outline-neutral-200 transition-colors hover:outline-primary-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary-300">
+          <span class="text-black text-sm sm:text-base font-bold leading-snug">{industry.cardTitle}</span>
+          <img src="/images/icons/arrow-right.svg" alt="" aria-hidden="true" class="w-5 h-5 flex-shrink-0 transition-transform group-hover:translate-x-1" />
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <Faqs faqs={faqs} showContactLink={true} />
+
+  <CtaBanner
+    title="Get your stock under control"
+    text="Set up SalesZote in minutes and always know what you have, what is low, and what it is worth. Free for 14 days."
+    source="inventory_page_cta"
+  />
+</Layout>

@@ -10,9 +10,44 @@ import MobileApps from '../components/home/MobileApps.astro';
 
 import faqs from '../data/faqs.json';
 import testimonials from '../data/testimonials.json';
+
+function stripHtml(html: string) {
+  return html.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim();
+}
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'SalesZote',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web, iOS, Android',
+    description:
+      'Cloud POS and inventory management system for shops and wholesalers in Kenya, with M-Pesa payments and real-time stock tracking.',
+    url: 'https://saleszote.com',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'KES',
+      description: 'Free 14-day trial, no credit card required.',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: stripHtml(faq.answer),
+      },
+    })),
+  },
+];
 ---
 
-<Layout>
+<Layout jsonLd={jsonLd}>
     <HeroSection />
     <MobileApps />
     <Features />

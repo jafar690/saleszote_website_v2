@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LandingHero from '../components/landing/LandingHero.astro';
+import FeatureGrid from '../components/landing/FeatureGrid.astro';
+import CtaBanner from '../components/landing/CtaBanner.astro';
+import Faqs from '../components/home/Faqs.astro';
+import { industries } from '../data/industries';
+
+const features = [
+  { icon: 'shopping-bag-02', title: 'Fast checkout', desc: 'Scan or search products, add to the sale, and take payment in a few taps — even when there is a queue at the counter.' },
+  { icon: 'credit-card-plus', title: 'M-Pesa, cash & card', desc: 'Accept the payments your customers actually use and record them all in one place, so reconciling your day takes minutes.' },
+  { icon: 'container', title: 'Stock updates as you sell', desc: 'Every sale updates your inventory instantly, so what you see on screen matches what is on the shelf.' },
+  { icon: 'users-02', title: 'Staff accounts', desc: 'Give each team member their own login and see who sold what, across one counter or several tills.' },
+  { icon: 'bar-chart-10', title: 'Daily sales reports', desc: 'See takings, best-sellers, and slow movers by day, week, or month so you always know how the shop is doing.' },
+  { icon: 'server-04', title: 'Works on any device', desc: 'Run SalesZote on a phone, tablet, or computer. Your data is in the cloud, so you can check on the shop from anywhere.' },
+];
+
+const steps = [
+  { n: '1', title: 'Create your free account', desc: 'Sign up in minutes — no credit card and no setup fee to get started.' },
+  { n: '2', title: 'Add your products', desc: 'Enter your items and prices, or import them. Set reorder levels so you never run out.' },
+  { n: '3', title: 'Start selling', desc: 'Ring up sales, take M-Pesa or cash, and watch your stock and reports update in real time.' },
+];
+
+const faqs = [
+  { question: 'What is a POS system?', answer: '<p>A POS (point of sale) system is the software and screen you use to ring up sales, take payment, and record every transaction. SalesZote also tracks your stock and gives you reports, so it is a POS and inventory system in one.</p>' },
+  { question: 'Does SalesZote work with M-Pesa?', answer: '<p>Yes. SalesZote is built for Kenyan businesses and lets you record M-Pesa, cash, and card payments together so your daily totals always add up.</p>' },
+  { question: 'Do I need special hardware to use it?', answer: '<p>No. SalesZote runs on any phone, tablet, or computer you already own. You can add a barcode scanner or receipt printer if you want, but you can start with just a phone.</p>' },
+  { question: 'Can more than one person use it at the same time?', answer: '<p>Yes. You can add staff accounts so several people can serve customers at once, and you can see who made each sale.</p>' },
+  { question: 'How much does a POS system cost in Kenya?', answer: '<p>SalesZote plans start from KSh 1,000 per month, and you can try it free for 14 days with no credit card. See the <a href="/pricing">pricing page</a> for full details.</p>' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://saleszote.com/' },
+      { '@type': 'ListItem', position: 2, name: 'POS System', item: 'https://saleszote.com/pos-system-kenya' },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'SalesZote POS System',
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web, iOS, Android',
+    description: 'Cloud POS system for shops and wholesalers in Kenya, with M-Pesa payments, fast checkout, and real-time stock tracking.',
+    url: 'https://saleszote.com/pos-system-kenya',
+    offers: { '@type': 'Offer', price: '1000', priceCurrency: 'KES', description: 'Plans from KSh 1,000/month. Free 14-day trial.' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer.replace(/<[^>]+>/g, '').trim() },
+    })),
+  },
+];
+---
+<Layout
+  title="POS System in Kenya | M-Pesa Point of Sale Software | SalesZote"
+  description="SalesZote is a cloud POS system for shops and wholesalers in Kenya. Sell with M-Pesa, cash, or card, track stock in real time, and manage staff from any device. Free for 14 days."
+  jsonLd={jsonLd}
+>
+  <LandingHero
+    eyebrow="Point of Sale"
+    title="A POS System Built for Kenyan Businesses"
+    sub="Sell faster with M-Pesa, cash, and card, keep your stock accurate, and see how your shop is doing — all from your phone or the counter."
+    breadcrumbs={[{ label: 'Home', href: '/' }, { label: 'POS System' }]}
+    source="pos_page_hero"
+  />
+
+  <FeatureGrid
+    heading="Everything you need at the counter"
+    intro="SalesZote gives you a fast, reliable point of sale that keeps up with a busy shop and keeps your stock in step with every sale."
+    features={features}
+  />
+
+  <!-- How it works -->
+  <section class="max-w-8xl mx-auto px-8 xl:px-30 py-10 lg:py-20 bg-green-white">
+    <div class="flex flex-col items-center text-center mb-10">
+      <h2 class="text-black text-2xl sm:text-4xl font-bold leading-10 mb-4">Up and running in three steps</h2>
+      <p class="max-w-190 text-neutral-600 text-base font-medium leading-relaxed">No training, no installation, no long setup. If you can use a phone, you can use SalesZote.</p>
+    </div>
+    <ol class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+      {steps.map((step) => (
+        <li class="flex flex-col gap-3 p-6 rounded-2xl bg-white outline outline-1 outline-offset-[-1px] outline-neutral-200">
+          <span class="w-10 h-10 flex items-center justify-center rounded-full bg-primary-500 text-white text-lg font-bold">{step.n}</span>
+          <h3 class="text-black text-lg sm:text-xl font-bold leading-snug">{step.title}</h3>
+          <p class="text-neutral-600 text-base font-medium leading-relaxed">{step.desc}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- Industry links -->
+  <section class="max-w-8xl mx-auto px-8 xl:px-30 py-10 lg:py-20">
+    <div class="flex flex-col items-center text-center mb-8">
+      <h2 class="text-black text-2xl sm:text-4xl font-bold leading-10 mb-4">A POS for your kind of business</h2>
+      <p class="max-w-190 text-neutral-600 text-base font-medium leading-relaxed">See how SalesZote works for shops like yours.</p>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      {industries.map((industry) => (
+        <a href={`/industries/${industry.slug}`}
+           class="group flex items-center justify-between gap-2 p-4 rounded-xl bg-white outline outline-1 outline-offset-[-1px] outline-neutral-200 transition-colors hover:outline-primary-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary-300">
+          <span class="text-black text-sm sm:text-base font-bold leading-snug">{industry.cardTitle}</span>
+          <img src="/images/icons/arrow-right.svg" alt="" aria-hidden="true" class="w-5 h-5 flex-shrink-0 transition-transform group-hover:translate-x-1" />
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <Faqs faqs={faqs} showContactLink={true} />
+
+  <CtaBanner
+    title="Start selling with SalesZote today"
+    text="Set up your POS in minutes and take your first sale the same day. Free for 14 days, no credit card required."
+    source="pos_page_cta"
+  />
+</Layout>

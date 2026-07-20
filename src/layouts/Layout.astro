@@ -9,14 +9,54 @@ interface Props {
   description?: string;
   bare?: boolean;
   bodyClass?: string;
+  image?: string;
+  jsonLd?: Record<string, unknown>[];
 }
 
 const {
-  title = 'SalesZote | Smart POS and Inventory Management System for Growing Businesses',
-  description = 'SalesZote is a modern cloud-based POS and inventory management system designed for retailers, wholesalers, and small businesses. Sell smarter, track stock in real time, and manage your business from anywhere.',
+  title = 'POS & Inventory Management System in Kenya | SalesZote',
+  description = 'SalesZote is a cloud POS and inventory management system for shops and wholesalers in Kenya. Sell with M-Pesa, track stock in real time, and manage your business from any device.',
   bare = false,
   bodyClass = 'bg-white scroll-smooth',
+  image = '/images/hero-image.png',
+  jsonLd = [],
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(image, Astro.site);
+
+// Organization + WebSite schema on every page; pages can add more via the jsonLd prop.
+const baseJsonLd: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'SalesZote',
+    url: 'https://saleszote.com',
+    logo: 'https://saleszote.com/images/logo/logo.svg',
+    description,
+    areaServed: { '@type': 'Country', name: 'Kenya' },
+    contactPoint: {
+      '@type': 'ContactPoint',
+      telephone: '+254701853648',
+      contactType: 'customer support',
+      areaServed: 'KE',
+      availableLanguage: ['en', 'sw'],
+    },
+    sameAs: [
+      'https://www.instagram.com/saleszote',
+      'https://www.linkedin.com/company/saleszote',
+      'https://web.facebook.com/saleszote',
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'SalesZote',
+    url: 'https://saleszote.com',
+  },
+];
+
+const structuredData = [...baseJsonLd, ...jsonLd];
 ---
 <!doctype html>
 <html lang="en">
@@ -28,21 +68,32 @@ const {
     <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="description" content={description}/>
-    <meta name="keywords" content="POS system, point of sale software, inventory management system, cloud POS, small business POS, retail POS system, wholesale POS, stock management software, sales tracking software, multi-store POS, mobile POS, inventory software, real-time stock tracking, POS and inventory, SaaS POS, business management software"/>
+    <link rel="canonical" href={canonicalURL}/>
+
+    <!-- Geo targeting -->
+    <meta name="geo.region" content="KE"/>
+    <meta name="geo.placename" content="Nairobi"/>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website"/>
-    <meta property="og:url" content="https://saleszote.com"/>
+    <meta property="og:site_name" content="SalesZote"/>
+    <meta property="og:locale" content="en_KE"/>
+    <meta property="og:url" content={canonicalURL}/>
     <meta property="og:title" content={title}/>
     <meta property="og:description" content={description}/>
-    <meta property="og:image" content="/images/logo/logo.svg"/>
+    <meta property="og:image" content={ogImageURL}/>
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:url" content="https://saleszote.com"/>
+    <meta name="twitter:url" content={canonicalURL}/>
     <meta name="twitter:title" content={title}/>
     <meta name="twitter:description" content={description}/>
-    <meta name="twitter:image" content="/images/logo/logo.svg"/>
+    <meta name="twitter:image" content={ogImageURL}/>
+
+    <!-- Structured data -->
+    {structuredData.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)}/>
+    ))}
 
     <!-- Standard favicon -->
     <link rel="icon" href="/favicon.ico"/>

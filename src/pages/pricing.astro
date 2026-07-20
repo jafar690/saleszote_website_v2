@@ -19,11 +19,42 @@ const processedTable = comparison_table.map(section => ({
     cells: planIds.map(id => (row as Record<string, CellValue>)[id]),
   })),
 }));
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: 'SalesZote POS & Inventory Management System',
+    description:
+      'Cloud POS and inventory management software for retailers and wholesalers in Kenya, with M-Pesa payments and real-time stock tracking.',
+    brand: { '@type': 'Brand', name: 'SalesZote' },
+    offers: plans
+      .filter((plan) => !plan.is_custom)
+      .map((plan) => ({
+        '@type': 'Offer',
+        name: `${plan.name} plan`,
+        price: String(plan.monthly_price),
+        priceCurrency: 'KES',
+        url: plan.cta_url,
+        availability: 'https://schema.org/InStock',
+      })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+    })),
+  },
+];
 ---
 
 <Layout
-  title="Pricing | SalesZote"
-  description="Simple, transparent pricing for every stage of your business. Start free, no credit card required."
+  title="POS & Inventory System Pricing in Kenya | SalesZote"
+  description="Simple, transparent SalesZote pricing in KSh for shops and wholesalers in Kenya. Start free for 14 days — no credit card required. Plans from KSh 1,000/month."
+  jsonLd={jsonLd}
 >
 
   <!-- Hero -->
