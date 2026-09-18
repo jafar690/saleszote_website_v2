@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 
 export const prerender = false;
 
@@ -31,8 +32,12 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  const webhookUrl = import.meta.env.SLACK_WEBHOOK_URL;
+  // Cloudflare secrets are runtime-only; import.meta.env is inlined at build time.
+  // Astro v6 removed locals.runtime.env in favour of the cloudflare:workers import.
+  const webhookUrl = env.SLACK_WEBHOOK_URL ?? import.meta.env.SLACK_WEBHOOK_URL;
+
   if (!webhookUrl) {
+    console.error('SLACK_WEBHOOK_URL is not configured.');
     return new Response(
       JSON.stringify({ message: 'Server configuration error.' }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
