@@ -34,7 +34,7 @@ export const industries: Industry[] = [
     image: '/images/industries/Image1.jpg',
     metaTitle: 'POS System for Retail Shops in Kenya | SalesZote',
     metaDescription:
-      'A simple POS and inventory system for retail shops in Kenya. Sell with M-Pesa, track stock in real time, and see your best-sellers. Start free for 14 days.',
+      'A simple POS and inventory system for retail shops in Kenya. Sell with M-Pesa, track stock in real time, and see your best-sellers. Start free for 7 days.',
     h1: 'POS & Inventory System for Retail Shops in Kenya',
     heroSub:
       'Ring up sales in seconds, keep stock accurate, and know exactly what is selling — all from your phone or the counter.',
@@ -96,7 +96,7 @@ export const industries: Industry[] = [
     image: '/images/industries/Image3.jpg',
     metaTitle: 'POS & Inventory System for Pharmacies in Kenya | SalesZote',
     metaDescription:
-      'POS and inventory software for pharmacies and chemists in Kenya. Track batches, watch expiry dates, manage stock, and sell with M-Pesa. Start free for 14 days.',
+      'POS and inventory software for pharmacies and chemists in Kenya. Track batches, watch expiry dates, manage stock, and sell with M-Pesa. Start free for 7 days.',
     h1: 'POS & Inventory System for Pharmacies & Chemists in Kenya',
     heroSub:
       'Keep sensitive stock accurate, stay ahead of expiry dates, and serve customers quickly at the counter.',
@@ -127,7 +127,7 @@ export const industries: Industry[] = [
     image: '/images/industries/Image4.jpg',
     metaTitle: 'POS System for Restaurants & Cafés in Kenya | SalesZote',
     metaDescription:
-      'A POS system for restaurants and cafés in Kenya. Take orders fast, track ingredients, manage daily expenses, and accept M-Pesa. Try SalesZote free for 14 days.',
+      'A POS system for restaurants and cafés in Kenya. Take orders fast, track ingredients, manage daily expenses, and accept M-Pesa. Try SalesZote free for 7 days.',
     h1: 'POS System for Restaurants & Cafés in Kenya',
     heroSub:
       'Take orders quickly, keep track of ingredients and daily expenses, and see which dishes bring in the most.',
@@ -220,7 +220,7 @@ export const industries: Industry[] = [
     image: '/images/industries/agrovet.jpg',
     metaTitle: 'POS & Inventory System for Agrovet Shops in Kenya | SalesZote',
     metaDescription:
-      'POS and inventory software for agrovet and farm supply stores in Kenya. Track feeds, seeds, and inputs, watch expiry, and sell with M-Pesa. Start free for 14 days.',
+      'POS and inventory software for agrovet and farm supply stores in Kenya. Track feeds, seeds, and inputs, watch expiry, and sell with M-Pesa. Start free for 7 days.',
     h1: 'POS & Inventory System for Agrovet & Farm Supply Stores in Kenya',
     heroSub:
       'Track feeds, seeds, and farm inputs, stay ahead of expiry, and serve farmers quickly during the busy season.',
