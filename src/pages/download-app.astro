@@ -9,6 +9,21 @@ import iphoneMockup from '../assets/iphone-mockup.png';
   bare={true}
   bodyClass="font-main bg-[#FBF3D4] min-h-dvh"
 >
+  <!-- With ?redirect=true, send iOS/Android visitors straight to their store. Desktop stays on the page. -->
+  <script is:inline>
+    (function () {
+      if (new URLSearchParams(window.location.search).get('redirect') !== 'true') return;
+      var ua = navigator.userAgent || '';
+      // iPadOS 13+ reports a Mac user agent, so also check for touch support
+      var isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      var isAndroid = /Android/i.test(ua);
+      if (isIOS) {
+        window.location.replace('https://apps.apple.com/us/app/sales-zote/id6761330158');
+      } else if (isAndroid) {
+        window.location.replace('https://play.google.com/store/apps/details?id=com.saleszote.app');
+      }
+    })();
+  </script>
   <div class="min-h-dvh flex flex-col lg:grid lg:grid-cols-2">
     <div class="flex flex-col justify-center gap-10 px-8 pt-10 pb-10 lg:px-24 lg:py-24">
       <img
