@@ -41,12 +41,13 @@ const baseJsonLd: Record<string, unknown>[] = [
     url: 'https://saleszote.com',
     logo: 'https://saleszote.com/images/saleszote-logo.png',
     description,
-    areaServed: { '@type': 'Country', name: 'Kenya' },
+    // Countries with paying customers.
+    areaServed: ['Kenya', 'Uganda', 'South Sudan', 'Maldives'].map((name) => ({ '@type': 'Country', name })),
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: '+254701853648',
       contactType: 'customer support',
-      areaServed: 'KE',
+      areaServed: ['KE', 'UG', 'SS', 'MV'],
       availableLanguage: ['en', 'sw'],
     },
     sameAs: [

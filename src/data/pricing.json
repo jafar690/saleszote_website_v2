@@ -215,6 +215,10 @@
       "answer": "You can pay for your subscription by M-Pesa, or by card through Paystack."
     },
     {
+      "question": "Can I subscribe from outside Kenya?",
+      "answer": "Yes. Businesses in any country can subscribe. All plans are priced and billed in Kenyan Shillings (KES), and you can pay by M-Pesa, or by card through Paystack."
+    },
+    {
       "question": "What happens after my free trial ends?",
       "answer": "You will be prompted to select a plan and add a payment method. Your data is safe and nothing is deleted."
     },
