@@ -107,7 +107,7 @@
     {
       "id": "enterprise",
       "name": "Enterprise",
-      "tagline": "Fully tailored for large operations — pricing, features, and support all custom.",
+      "tagline": "Fully tailored for large operations, features, and support all custom.",
       "monthly_price": null,
       "annual_monthly_price": null,
       "is_custom": true,

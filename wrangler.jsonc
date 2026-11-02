@@ -11,5 +11,17 @@
 	},
 	"observability": {
 		"enabled": true
+	},
+	// Dev copy of the site. Selected at build time: CLOUDFLARE_ENV=dev (see the deploy:dev script).
+	"env": {
+		"dev": {
+			"name": "saleszote_website_v2-dev",
+			"routes": [
+				{
+					"pattern": "web-dev.saleszote.com",
+					"custom_domain": true
+				}
+			]
+		}
 	}
 }

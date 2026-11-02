@@ -1,0 +1,23 @@
+---
+import { Image } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import register from '../../assets/pos-register.png';
+---
+
+<!-- Scalloped edges: the SVG tile repeats every 160px, so it stays seamless at any viewport width. -->
+<section class="bg-secondary-900">
+  <div class="h-10 bg-[url('/images/new/scallop-top.svg')] bg-size-[720px_40px] bg-top bg-repeat-x lg:h-20 lg:bg-size-[1440px_80px]" aria-hidden="true"></div>
+  <div class="wrap flex flex-col items-center gap-6 py-10 lg:flex-row lg:gap-10 lg:py-20">
+    <div class="flex flex-1 flex-col items-start gap-6 text-white lg:gap-10">
+      <div class="flex flex-col gap-4">
+        <h2 class="font-display text-display-3 lg:text-display-2"><em>Simple</em> to learn.<br /><em>Powerful</em> to use.</h2>
+        <p class="text-body-lg opacity-70">You don't need to be tech-savvy. SalesZote makes advanced features feel effortless, even for first-time users.</p>
+      </div>
+      <Button href="https://app.saleszote.com/register" variant="primary" size="lg" class="w-57.5" onclick="trackEvent('registration_started', { source: 'home_simple' })">Get Started for Free →</Button>
+    </div>
+    <div class="-mx-6 flex w-[calc(100%+3rem)] items-center justify-center lg:mx-0 lg:w-auto lg:flex-1">
+      <Image src={register} alt="SalesZote POS running on a register" widths={[632, 1264]} sizes="(min-width: 1024px) 632px, 100vw" class="h-auto w-full lg:-mx-6.5 lg:w-158 lg:max-w-none" />
+    </div>
+  </div>
+  <div class="h-10 bg-[url('/images/new/scallop-bottom.svg')] bg-size-[720px_40px] bg-bottom bg-repeat-x lg:h-20 lg:bg-size-[1440px_80px]" aria-hidden="true"></div>
+</section>

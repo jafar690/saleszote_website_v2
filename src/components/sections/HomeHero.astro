@@ -1,0 +1,123 @@
+---
+import { Image } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import { DEMO_BOOKING_URL } from '../../data/links';
+import posRegister from '../../assets/pos-register.png';
+import restaurant from '../../assets/home/restaurant-interior.jpg';
+import retail from '../../assets/industries/retail.png';
+import hardware from '../../assets/industries/hardware.png';
+import pharmacy from '../../assets/industries/pharmacy.png';
+import supermarket from '../../assets/industries/supermarket.png';
+
+// The headline cycles through these industries; the first one is what renders without JS.
+const words = [
+  { word: 'Restaurant', image: restaurant },
+  { word: 'Retail Shop', image: retail },
+  { word: 'Hardware Store', image: hardware },
+  { word: 'Pharmacy', image: pharmacy },
+  { word: 'Supermarket', image: supermarket },
+];
+---
+
+<section class="wrap flex flex-col items-center gap-6 overflow-x-clip py-10 lg:gap-10 lg:py-20">
+  <div class="flex w-full flex-col gap-4 text-center">
+    <h1 class="font-display text-display-3 font-bold text-gray-900 md:text-[3.5rem]/[1.2] lg:text-display-1">
+      <!-- Industry word + photo cycle as one unit: the next enters from below while the current exits upwards.
+           Phones stack it: "Run Your" / word / photo pill (Figma mobile frame); from sm they share one line. -->
+      <span class="inline-flex flex-col items-center sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-[0.25em] sm:gap-y-2" data-hero-line>
+        <span data-hero-lead>Run Your</span>
+        <span class="relative inline-flex overflow-x-visible overflow-y-clip" data-hero-slot>
+          {words.map((w, i) => (
+            <span
+              data-hero-pair
+              aria-hidden={i !== 0 ? 'true' : undefined}
+              class:list={['inline-flex flex-col items-center gap-1 transition-[opacity,transform] sm:flex-row sm:gap-4 duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none', i !== 0 && 'absolute top-0 left-0']}
+              style={i !== 0 ? 'transform: translateY(100%); opacity: 0' : undefined}
+            >
+              <span class="whitespace-nowrap italic text-primary-600">{w.word}</span>
+              <span class="relative inline-block h-14 w-21 shrink-0 overflow-hidden rounded-full sm:h-[0.75em] sm:w-[1.125em] lg:h-20 lg:w-30">
+                <Image src={w.image} alt="" widths={[240]} sizes="120px" loading="eager" class="absolute inset-0 size-full object-cover" />
+              </span>
+            </span>
+          ))}
+        </span>
+      </span>
+      <br />
+      Smarter with SalesZote POS
+    </h1>
+    <p class="mx-auto max-w-300 text-body-md text-gray-900/50 lg:text-body-lg">
+      SalesZote is a modern POS and inventory management solution designed to streamline your operations, reduce stockouts, and give you actionable insights.
+    </p>
+  </div>
+
+  <div class="flex w-full flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
+    <Button href={DEMO_BOOKING_URL} target="_blank" rel="noopener noreferrer" variant="secondary" size="lg" class="w-full sm:w-57.5" onclick="trackEvent('demo_booking_clicked', { source: 'home_hero' })">Book a Demo</Button>
+    <Button href="https://app.saleszote.com/register" variant="primary" size="lg" class="w-full sm:w-57.5" onclick="trackEvent('registration_started', { source: 'home_hero' })">Get Started for Free →</Button>
+  </div>
+
+  <div class="relative flex h-62.5 w-full items-center overflow-hidden rounded-3xl bg-gray-100 px-6 md:h-auto md:justify-center md:gap-10 md:py-10 lg:h-[673.88px] lg:rounded-[48px]">
+    <p class="relative text-[2.25rem]/[1.4] font-bold text-gray-900 md:text-[2.5rem]/[1.4] md:font-extrabold lg:text-[4.5rem]/[1.4]">See it<br />in Action</p>
+    <Image src={posRegister} alt="SalesZote POS running on a register with receipt printer and barcode scanner" widths={[300, 500, 900, 1000]} sizes="(min-width: 768px) 500px, 300px" class="absolute top-1/2 left-55 h-auto w-75 max-w-none -translate-y-1/2 md:static md:w-full md:max-w-125 md:translate-y-0" />
+    <!-- TODO: swap the placeholder for the product video once it's ready -->
+    <button type="button" class="group absolute inset-0 flex items-center justify-center bg-black/50 focus-visible:outline-none" aria-label="Play product video">
+      <span class="flex size-16 items-center justify-center rounded-full bg-white shadow-[0_0_0_3px_rgba(255,255,255,0.5)] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-active:scale-95 group-focus-visible:outline-2 group-focus-visible:outline-offset-4 group-focus-visible:outline-white">
+        <img src="/images/new/play.svg" alt="" width="24" height="24" />
+      </span>
+    </button>
+  </div>
+</section>
+
+<script>
+  const line = document.querySelector<HTMLElement>('[data-hero-line]');
+  const lead = document.querySelector<HTMLElement>('[data-hero-lead]');
+  const pairs = [...document.querySelectorAll<HTMLElement>('[data-hero-pair]')];
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+  const DURATION = 500;
+
+  if (line && lead && pairs.length > 1 && !reduceMotion) {
+    let index = 0;
+
+    setInterval(() => {
+      const outgoing = pairs[index];
+      index = (index + 1) % pairs.length;
+      const incoming = pairs[index];
+      const before = lead.getBoundingClientRect().left;
+
+      // Current unit leaves the flow and slides up and out.
+      outgoing.classList.add('absolute', 'top-0', 'left-0');
+      outgoing.style.transform = 'translateY(-100%)';
+      outgoing.style.opacity = '0';
+      outgoing.setAttribute('aria-hidden', 'true');
+
+      // Next unit takes its place in the flow, starting just below and sliding up.
+      incoming.style.transition = 'none';
+      incoming.style.transform = 'translateY(100%)';
+      incoming.style.opacity = '0';
+      incoming.classList.remove('absolute', 'top-0', 'left-0');
+      incoming.removeAttribute('aria-hidden');
+      void incoming.offsetWidth;
+      incoming.style.transition = '';
+      incoming.style.transform = 'translateY(0)';
+      incoming.style.opacity = '1';
+
+      // The line re-centres for the new word's width; glide it there instead of jumping.
+      const shift = before - lead.getBoundingClientRect().left;
+      if (shift) {
+        line.style.transition = 'none';
+        line.style.transform = `translateX(${shift}px)`;
+        void line.offsetWidth;
+        line.style.transition = `transform ${DURATION}ms ${EASE}`;
+        line.style.transform = '';
+      }
+
+      // Park the outgoing unit below, ready to enter again later.
+      setTimeout(() => {
+        outgoing.style.transition = 'none';
+        outgoing.style.transform = 'translateY(100%)';
+        void outgoing.offsetWidth;
+        outgoing.style.transition = '';
+      }, DURATION);
+    }, 3000);
+  }
+</script>

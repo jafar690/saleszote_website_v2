@@ -1,0 +1,25 @@
+---
+// Composite SalesZote logo as exported from Figma: mark + "Point of Sale" + wordmark.
+// nav: dark text, 32px mark on phones / 48px from lg · footer: white text, 64px / 80px · hero: dark text, 64px / 80px
+type Props = { variant?: 'nav' | 'footer' | 'hero'; class?: string };
+
+const { variant = 'nav', class: className } = Astro.props;
+const lg = variant !== 'nav';
+const pos = { nav: 'logo-pos.svg', footer: 'logo-pos-lg.svg', hero: 'logo-pos-lg-dark.svg' }[variant];
+const word = { nav: 'logo-word.svg', footer: 'logo-word-lg.svg', hero: 'logo-word-lg-dark.svg' }[variant];
+
+// Sizes per variant, all from the Figma logo component (mobile value, then lg).
+const size = {
+  nav: { gap: 'gap-[2.909px] lg:gap-[4.364px]', mark: 'size-8 lg:size-12', pos: 'h-[5.625px] w-[42.746px] lg:h-[8.438px] lg:w-[64.119px]', word: 'h-[13.6px] w-[89.456px] lg:h-[20.4px] lg:w-[134.184px]' },
+  footer: { gap: 'gap-[5.818px] lg:gap-[7.273px]', mark: 'size-16 lg:size-20', pos: 'h-[11.25px] w-[85.492px] lg:h-[14.062px] lg:w-[106.865px]', word: 'h-[27.201px] w-[178.913px] lg:h-[34.001px] lg:w-[223.641px]' },
+  hero: { gap: 'gap-[5.818px] lg:gap-[7.273px]', mark: 'size-16 lg:size-20', pos: 'h-[11.25px] w-[85.492px] lg:h-[14.062px] lg:w-[106.865px]', word: 'h-[27.201px] w-[178.913px] lg:h-[34.001px] lg:w-[223.641px]' },
+}[variant];
+---
+
+<span class:list={['inline-flex items-center', size.gap, className]}>
+  <img src={lg ? '/images/new/logo-mark-lg.svg' : '/images/new/logo-mark.svg'} alt="" width={lg ? 80 : 48} height={lg ? 80 : 48} class={size.mark} />
+  <span class:list={['flex flex-col justify-center', size.gap]}>
+    <img src={`/images/new/${pos}`} alt="" width={lg ? 106.865 : 64.119} height={lg ? 14.062 : 8.438} class={size.pos} />
+    <img src={`/images/new/${word}`} alt="SalesZote" width={lg ? 223.641 : 134.184} height={lg ? 34.001 : 20.4} class={size.word} />
+  </span>
+</span>

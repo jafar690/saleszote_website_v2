@@ -1,13 +1,36 @@
 ---
-import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
-import iphoneMockup from '../assets/iphone-mockup.png';
+import Layout from '../layouts/Layout.astro';
+import Logo from '../components/site/Logo.astro';
+import StoreBadges from '../components/site/StoreBadges.astro';
+import Button from '../components/ui/Button.astro';
+import { WEB_APP_URL } from '../data/links';
+import mobile from '../assets/home/device-mobile.png';
+import tablet from '../assets/pos-tablet.png';
+import desktop from '../assets/pos-register.png';
+
+const platforms = [
+  { title: 'Mobile', body: 'Manage sales, track stock and serve customers directly from your phone, wherever you are.', image: mobile, alt: 'SalesZote app on a phone', imgClass: 'h-full w-auto' },
+  { title: 'Tablet', body: 'Get a bigger view of your products, sales and inventory while keeping your entire operation at your fingertips.', image: tablet, alt: 'SalesZote app on a tablet', imgClass: 'size-full object-cover' },
+  { title: 'Register/Desktop', body: 'Run your shop from a full-featured register with fast checkout, inventory management and detailed sales reports.', image: desktop, alt: 'SalesZote on a POS register', imgClass: 'h-auto w-full' },
+];
+
+const socials = [
+  { name: 'Facebook', icon: 'facebook', href: 'https://web.facebook.com/saleszote' },
+  { name: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/saleszote' },
+  { name: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/company/saleszote' },
+  { name: 'X', icon: 'x', href: '#' },
+  { name: 'YouTube', icon: 'youtube', href: 'https://www.youtube.com/@SalesZote' },
+];
+
+const linkClass = 'rounded-sm transition-opacity duration-200 hover:opacity-60 active:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600';
 ---
+
 <Layout
   title="Download SalesZote App | POS & Inventory Management for iOS & Android"
   description="Download SalesZote on iOS or Android. Smart POS & inventory management with M-Pesa for shops and wholesalers in Kenya."
   bare={true}
-  bodyClass="font-main bg-[#FBF3D4] min-h-dvh"
+  bodyClass="flex min-h-dvh flex-col bg-white font-sans text-gray-900"
 >
   <!-- With ?redirect=true, send iOS/Android visitors straight to their store. Desktop stays on the page. -->
   <script is:inline>
@@ -24,53 +47,56 @@ import iphoneMockup from '../assets/iphone-mockup.png';
       }
     })();
   </script>
-  <div class="min-h-dvh flex flex-col lg:grid lg:grid-cols-2">
-    <div class="flex flex-col justify-center gap-10 px-8 pt-10 pb-10 lg:px-24 lg:py-24">
-      <img
-        class="h-10 w-auto self-center lg:self-start"
-        src="/images/logo/logo.svg"
-        alt="SalesZote"
-      />
-      <div class="flex flex-col gap-6 text-center lg:text-left">
-        <h1 class="text-4xl lg:text-7xl font-extrabold tracking-tight leading-tight text-gray-900">
-          Run Your Business Smarter
-        </h1>
-        <p class="text-lg lg:text-3xl font-bold text-gray-900/50 leading-snug">
-          Manage sales, track inventory, and keep your shop moving — all from one app.
-        </p>
-        <div class="flex items-center justify-center lg:justify-start gap-4 flex-wrap pt-2">
-          <a
-            href="https://play.google.com/store/apps/details?id=com.saleszote.app"
-            target="_blank"
-            rel="noopener noreferrer"
-            onclick="trackEvent('app_download_clicked', { platform: 'android', source: 'download_page' });"
-            class="block transition-opacity hover:opacity-80 active:opacity-100"
-          >
-            <img class="h-12 lg:h-16 w-auto" src="/images/google-play-badge.svg" alt="Download SalesZote POS App on Google Play" />
-          </a>
-          <a
-            href="https://apps.apple.com/us/app/sales-zote/id6761330158"
-            target="_blank"
-            rel="noopener noreferrer"
-            onclick="trackEvent('app_download_clicked', { platform: 'ios', source: 'download_page' });"
-            class="block transition-opacity hover:opacity-80 active:opacity-100"
-          >
-            <img class="h-12 lg:h-16 w-auto" src="/images/app-store-badge.svg" alt="Download SalesZote POS App on the Apple App Store" />
-          </a>
-        </div>
-      </div>
+
+  <main class="wrap flex flex-1 flex-col items-center justify-center gap-6 py-10 lg:gap-10">
+    <a href="/" class:list={['flex', linkClass]} aria-label="SalesZote home"><Logo variant="hero" /></a>
+
+    <div class="flex flex-col gap-3 text-center">
+      <h1 class="font-display text-display-3 font-bold lg:text-display-2">Run Your Business Smarter</h1>
+      <p class="text-body-md text-gray-900/50">Manage sales, track inventory, and keep your shop moving — all from one app.</p>
     </div>
-    <div class="relative flex items-center justify-center overflow-hidden py-10 lg:py-0 min-h-80">
-      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div class="w-125 h-125 lg:w-200 lg:h-200 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(253,178,2,0.30)_0%,transparent_65%)]"></div>
-      </div>
-      <div class="relative z-10 w-full flex justify-center">
-        <Image
-          src={iphoneMockup}
-          alt="SalesZote app screens"
-          class="w-[85%] lg:w-[90%] max-w-120 h-auto object-contain"
-        />
-      </div>
+
+    <!-- Phones: badges spread across the row, then a full-width web button. Desktop: all three in one centred row. -->
+    <div class="flex w-full flex-col gap-6 lg:w-auto lg:flex-row lg:items-center">
+      <StoreBadges source="download_page" class="justify-between lg:justify-center" />
+      <Button href={WEB_APP_URL} variant="dark" class="w-full lg:w-45" onclick="trackEvent('web_app_clicked', { source: 'download_page' })">Continue on Web →</Button>
     </div>
-  </div>
+
+    <ul class="grid w-full gap-6 md:grid-cols-3 lg:gap-10">
+      {platforms.map((p) => (
+        <li class="flex flex-col items-center gap-2 text-center">
+          <div class="flex h-62.5 w-full items-center justify-center overflow-hidden rounded-3xl bg-gray-100 md:h-75">
+            <Image src={p.image} alt={p.alt} widths={[400, 800, 1200]} sizes="(min-width: 768px) 373px, 100vw" class={p.imgClass} />
+          </div>
+          <h2 class="text-body-lg font-bold">{p.title}</h2>
+          <p class="text-body text-gray-900/50">{p.body}</p>
+        </li>
+      ))}
+    </ul>
+  </main>
+
+  <footer class="border-t border-gray-200 bg-gray-100 py-6">
+    <div class="wrap flex flex-col gap-4 sm:gap-2">
+      <div class="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+        <address class="flex flex-wrap justify-center gap-4 text-body not-italic">
+          <a href="mailto:info@saleszote.com" class:list={['flex items-center gap-2', linkClass]}>
+            <img src="/images/new/mail-dark.svg" alt="" width="22" height="22" />info@saleszote.com
+          </a>
+          <a href="tel:+254701853648" class:list={['flex items-center gap-2', linkClass]}>
+            <img src="/images/new/phone-dark.svg" alt="" width="22" height="22" />+254 701 853 648
+          </a>
+        </address>
+        <ul class="flex items-center gap-4" aria-label="SalesZote on social media">
+          {socials.map((s) => (
+            <li>
+              <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name} class:list={['block', linkClass]} onclick={`trackEvent('social_link_clicked', { platform: '${s.icon}', source: 'download_page' })`}>
+                <img src={`/images/new/social-dark/${s.icon}.svg`} alt="" width="24" height="24" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p class="text-center text-body-sm opacity-50">©2025 - {new Date().getFullYear()} SalesZote LTD.</p>
+    </div>
+  </footer>
 </Layout>

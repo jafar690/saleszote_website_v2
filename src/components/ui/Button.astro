@@ -1,0 +1,50 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = {
+  href?: string;
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'neutral' | 'primary' | 'secondary' | 'dark' | 'outline';
+  pill?: boolean;
+  class?: string;
+} & Omit<HTMLAttributes<'button'>, 'class'> & Omit<HTMLAttributes<'a'>, 'class'>;
+
+const {
+  href,
+  size = 'md',
+  variant = 'neutral',
+  pill = false,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const sizes = {
+  sm: 'px-3 py-2 font-ui text-xs/4 font-semibold',
+  md: 'px-4 py-3 font-ui text-sm/5 font-semibold',
+  lg: 'px-6 py-4 font-sans text-cta-lg',
+};
+
+const variants = {
+  neutral: 'bg-gray-600 border-gray-600 text-white',
+  primary: 'bg-primary-600 border-primary-600 text-white',
+  secondary: 'bg-secondary-800 border-secondary-800 text-white',
+  dark: 'bg-black border-black text-white',
+  // Transparent so it takes the colour of whatever it sits on (white navbar, cream hero navbar, grey pricing card)
+  outline: 'bg-transparent border-black text-black',
+};
+
+const classes = [
+  'inline-flex items-center justify-center border-2 text-center whitespace-nowrap select-none',
+  'transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.34,1.56,0.64,1)]',
+  'hover:opacity-85 active:scale-[0.97] active:opacity-100',
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600',
+  pill ? 'rounded-3xl' : 'rounded-lg',
+  sizes[size],
+  variants[variant],
+  className,
+];
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag href={href} class:list={classes} {...rest}><slot /></Tag>

@@ -1,0 +1,54 @@
+---
+type Testimonial = { name: string; title: string; company: string; catchphrase: string; content: string };
+type Props = { testimonials: Testimonial[] };
+
+const { testimonials } = Astro.props;
+const half = Math.floor(testimonials.length / 2);
+// Two offset rows scrolling in opposite directions. Each row is rendered as two identical copies that slide their
+// full width; testimonials repeat inside a copy until it's wider than a 4K screen (cards are 540px with the gap),
+// otherwise a gap opens at the right edge on wide screens. Duration scales with length (~12px/s).
+const rows = [testimonials.slice(0, half), testimonials.slice(half)].map((items) => {
+  const repeats = Math.ceil(3840 / (items.length * 540));
+  // Same speed on every screen: cards are 366px wide with their gap on phones, 540px from sm.
+  const seconds = (cardWidth: number) => Math.round((items.length * repeats * cardWidth) / 12);
+  return { items, repeats, seconds: seconds(366), secondsSm: seconds(540) };
+});
+---
+
+<section class="py-10 lg:py-20">
+  <h2 class="wrap text-center font-display text-display-3 text-gray-900 lg:text-display-2">Testimonials</h2>
+  <div class="mt-6 flex flex-col gap-6 overflow-hidden lg:mt-10 lg:gap-10">
+    {rows.map((row, r) => (
+      <div class="group flex">
+        {[0, 1].map((copy) => (
+          <ul
+            class:list={[
+              'flex shrink-0 gap-6 pr-6 animate-[marquee_var(--loop)_linear_infinite] [--loop:var(--loop-base)] sm:[--loop:var(--loop-sm)] group-hover:[animation-play-state:paused] motion-reduce:animate-none lg:gap-10 lg:pr-10',
+              r === 1 && '[animation-direction:reverse]',
+            ]}
+            style={`--loop-base: ${row.seconds}s; --loop-sm: ${row.secondsSm}s`}
+            aria-hidden={copy === 1 ? 'true' : undefined}
+          >
+            {Array.from({ length: row.repeats }, (_, rep) => row.items.map((t) => (
+              <li class="w-85.5 border border-gray-200 bg-white p-4 sm:w-125 sm:p-6" aria-hidden={copy === 0 && rep > 0 ? 'true' : undefined}>
+                <figure class="flex flex-col gap-2">
+                  <blockquote class="flex flex-col gap-2 text-body-sm sm:text-body">
+                    <p class="font-bold text-gray-900">{t.catchphrase}</p>
+                    <p class="text-gray-900/50">{t.content}</p>
+                  </blockquote>
+                  <figcaption class="flex items-start gap-1 text-body-sm text-gray-900">
+                    <img src="/images/new/minus.svg" alt="" width="24" height="24" class="shrink-0" />
+                    <span class="flex flex-col gap-0.5">
+                      <cite class="font-bold not-italic">{t.name}</cite>
+                      <span class="opacity-50">{t.title}, {t.company}</span>
+                    </span>
+                  </figcaption>
+                </figure>
+              </li>
+            )))}
+          </ul>
+        ))}
+      </div>
+    ))}
+  </div>
+</section>

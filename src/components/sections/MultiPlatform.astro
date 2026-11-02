@@ -1,0 +1,44 @@
+---
+import { Image } from 'astro:assets';
+import StoreBadges from '../site/StoreBadges.astro';
+import mobile from '../../assets/home/device-mobile.png';
+import tablet from '../../assets/pos-tablet.png';
+import desktop from '../../assets/pos-register.png';
+
+const platforms = [
+  { title: 'Mobile', body: 'Manage sales, track stock and serve customers directly from your phone, wherever you are.', image: mobile, alt: 'SalesZote app on a phone', imgClass: 'h-full w-auto' },
+  { title: 'Tablet', body: 'Get a bigger view of your products, sales and inventory while keeping your entire operation at your fingertips.', image: tablet, alt: 'SalesZote app on a tablet', imgClass: 'h-full w-auto sm:h-auto sm:w-full' },
+  { title: 'Register/Desktop', body: 'Run your shop from a full-featured register with fast checkout, inventory management and detailed sales reports.', image: desktop, alt: 'SalesZote on a POS register', imgClass: 'h-full w-auto sm:h-auto sm:w-full' },
+];
+---
+
+<section class="wrap flex flex-col gap-6 py-10 lg:gap-10 lg:py-20">
+  <div class="flex flex-col gap-6 lg:flex-row lg:gap-10">
+    <div class="flex flex-col gap-3 text-gray-900 lg:w-75 lg:shrink-0">
+      <h2 class="font-display text-display-3 lg:text-display-2"><span class="text-primary-600">Multi-platform</span><br />by Design</h2>
+      <p class="text-body-md text-gray-900/50">Whether you’re on mobile, tablet or desktop, manage sales, track stock and check reports from anywhere, at any time.</p>
+    </div>
+    <div class="grid flex-1 gap-6 sm:grid-cols-3 sm:gap-10">
+      {platforms.map((p) => (
+        <div class="flex flex-col gap-3">
+          <div class="flex h-50 items-center justify-center overflow-hidden rounded-xl bg-gray-100">
+            <Image src={p.image} alt={p.alt} widths={[280, 560, 840, 1170]} sizes="(min-width: 1024px) 260px, (min-width: 640px) 33vw, 100vw" class={p.imgClass} />
+          </div>
+          <div class="flex flex-col gap-1 text-gray-900">
+            <h3 class="text-body-lg font-bold sm:leading-[normal]">{p.title}</h3>
+            <p class="text-body text-gray-900/50">{p.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div class="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
+    <div class="relative flex items-center sm:ml-6">
+      <p class="text-body-lg font-bold whitespace-nowrap text-gray-900">GET THE APP</p>
+      <img src="/images/new/get-app-circle.svg" alt="" width="205" height="69" class="pointer-events-none absolute top-1/2 left-1/2 hidden h-17.25 w-51.25 max-w-none -translate-x-1/2 -translate-y-1/2 sm:block" />
+      <img src="/images/new/get-app-arrow.svg" alt="" width="72" height="25" class="pointer-events-none absolute top-1/2 left-44 hidden h-6.25 w-18 max-w-none -translate-y-1/2 sm:block" />
+    </div>
+    <StoreBadges source="home_platforms" />
+  </div>
+</section>

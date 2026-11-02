@@ -1,0 +1,32 @@
+---
+import Accordion from '../ui/Accordion.astro';
+import Button from '../ui/Button.astro';
+
+type Props = {
+  faqs: { question: string; answer: string }[];
+  subtitle?: string;
+};
+
+const {
+  faqs,
+  subtitle = "Whether you're just getting started or need help with advanced features, you'll find quick answers here to keep your business running smoothly.",
+} = Astro.props;
+---
+
+<!--
+  Phones: heading, questions, then the contact prompt. Desktop: heading top-left, contact prompt
+  bottom-left, questions on the right (grid places the accordion across both rows).
+-->
+<section id="faqs" class="bg-gray-100 py-10 lg:py-20">
+  <div class="wrap flex flex-col gap-6 lg:grid lg:grid-cols-[31.25rem_1fr] lg:grid-rows-[auto_1fr] lg:gap-x-10 lg:gap-y-10">
+    <div class="flex flex-col gap-2 text-gray-900 lg:col-start-1 lg:row-start-1">
+      <h2 class="font-display text-display-3 lg:text-display-2">Frequently Asked Questions</h2>
+      <p class="text-body text-gray-900/50 lg:text-body-md">{subtitle}</p>
+    </div>
+    <Accordion name="faqs" class="lg:col-start-2 lg:row-span-2 lg:row-start-1" items={faqs.map((f) => ({ title: f.question, body: f.answer }))} />
+    <div class="flex flex-col items-start gap-4 lg:col-start-1 lg:row-start-2 lg:self-end">
+      <p class="text-body text-gray-900/50 lg:text-body-md">If you still have other questions, contact us by clicking the button below.</p>
+      <Button href="/contact" variant="dark" size="lg" class="w-57.5">Contact Support</Button>
+    </div>
+  </div>
+</section>

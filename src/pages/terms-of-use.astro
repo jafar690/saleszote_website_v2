@@ -1,0 +1,131 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Same layout and typography as the Privacy Policy page. Each section: optional lead paragraph,
+// optional bullet list, optional closing paragraph.
+type Section = { title: string; lead?: string; items?: string[]; after?: string };
+
+const sections: Section[] = [
+  {
+    title: 'Acceptance of These Terms',
+    lead: 'These Terms of Use are an agreement between you and Sales Zote LTD ("SalesZote", "we", "us" or "our"). They govern your access to and use of SalesZote, including our website, web app, mobile apps and any related services (together, the "Services"). By creating an account, starting a free trial or otherwise using the Services, you agree to these Terms on behalf of yourself and the business you represent. If you do not agree, please do not use the Services.',
+  },
+  {
+    title: 'Our Services',
+    lead: 'SalesZote is a cloud-based point of sale (POS) and inventory management system for retailers, wholesalers and other businesses. Depending on your plan, the Services may include:',
+    items: [
+      'Recording sales and accepting payments such as M-Pesa, cash and card.',
+      'Managing products, stock levels, suppliers and purchases.',
+      'Tracking expenses, customers and staff activity.',
+      'Sales reports and business insights across your branches and devices.',
+    ],
+    after: 'We regularly improve the Services and may add, change or remove features over time. Where a change materially reduces what your paid plan includes, we will let you know in advance.',
+  },
+  {
+    title: 'Your Account',
+    lead: 'To use the Services you must create an account. You agree to:',
+    items: [
+      'Be at least 18 years old and have the authority to bind the business you register.',
+      'Provide accurate, complete and up-to-date information, including your business and contact details.',
+      'Keep your login details secure and not share them outside your team.',
+      'Take responsibility for all activity under your account, including the actions of staff and users you add.',
+      'Notify us promptly at info@saleszote.com if you suspect any unauthorised access to your account.',
+    ],
+  },
+  {
+    title: 'Free Trial, Plans and Payment',
+    lead: 'New accounts can try SalesZote free for 7 days. No payment details are needed to start a trial, and you will not be charged unless you choose a paid plan. After that:',
+    items: [
+      'Paid plans are billed in Kenyan Shillings (KSh), monthly or annually, in advance, at the prices shown on our Pricing page or agreed with you in writing.',
+      'Each plan has its own limits, such as users, branches, terminals and products. If you need more, you can upgrade at any time.',
+      'Fees already paid are non-refundable, except where the law requires otherwise or we agree to a refund in writing.',
+      'We may change our prices. Any change will apply from your next billing period, and we will give you at least 30 days\' notice before it takes effect.',
+      'If a payment is late or fails, we may limit or suspend access to the Services until the balance is settled. Your data will not be deleted during a suspension.',
+    ],
+  },
+  {
+    title: 'Acceptable Use',
+    lead: 'You agree to use the Services only for lawful business purposes. You must not:',
+    items: [
+      'Use the Services to record or facilitate fraudulent, illegal or prohibited transactions.',
+      'Attempt to gain unauthorised access to the Services, other accounts or our systems.',
+      'Upload viruses, malicious code or anything that could harm the Services or other users.',
+      'Copy, modify, reverse engineer or resell the Services, or build a competing product using them.',
+      'Overload, disrupt or interfere with the normal operation of the Services.',
+    ],
+    after: 'We may suspend or close accounts that break these rules.',
+  },
+  {
+    title: 'Your Data',
+    lead: 'You own the business data you enter into SalesZote, such as products, sales, customers and reports. You give us permission to store, process and display that data only as needed to provide, secure and improve the Services. We handle personal information as described in our Privacy Policy and in line with the Data Protection Act, 2019 of Kenya.',
+    after: 'Where you record information about your own customers or staff, you are responsible for having a lawful basis to collect it and for using it in line with applicable data protection laws.',
+  },
+  {
+    title: 'Intellectual Property',
+    lead: 'The SalesZote software, apps, website, brand and content belong to SalesZote and are protected by law. We give you a limited, non-exclusive, non-transferable right to use the Services for your business while your account is active. If you share ideas or feature requests with us, we may use them to improve the Services without any obligation to you.',
+  },
+  {
+    title: 'Third-Party Services',
+    lead: 'The Services may work with third-party products such as M-Pesa, banks, card processors, app stores and hardware. Your use of those products is governed by their own terms, and the providers are responsible for them. We are not liable for the availability, fees or performance of third-party services.',
+  },
+  {
+    title: 'Service Availability',
+    lead: 'We work hard to keep SalesZote available and reliable, but we cannot guarantee that the Services will always be uninterrupted or error-free. We may carry out maintenance or updates from time to time, and we will try to schedule planned downtime outside normal business hours. We are not responsible for delays or outages caused by internet providers, power failures or other events outside our reasonable control.',
+  },
+  {
+    title: 'Limitation of Liability',
+    lead: 'To the fullest extent permitted by law, the Services are provided "as is", and SalesZote will not be liable for any indirect or consequential loss, including loss of profits, revenue, data or business opportunities. Our total liability for any claim relating to the Services is limited to the fees you paid us in the 12 months before the claim arose.',
+  },
+  {
+    title: 'Indemnity',
+    lead: 'You agree to cover SalesZote for any losses, claims or reasonable legal costs that arise from your misuse of the Services, your breach of these Terms, or your violation of any law or third-party rights.',
+  },
+  {
+    title: 'Cancellation and Termination',
+    lead: 'You can stop using the Services or close your account at any time by contacting us. Cancelling stops future billing, and your plan remains active until the end of the period you have paid for. We may suspend or end your access if you seriously or repeatedly break these Terms, fail to pay, or use the Services in a way that could harm us or others.',
+    after: 'Before your account is closed, you can ask us for a copy of your business data. Sections on payment, your data, intellectual property, limitation of liability, indemnity and governing law continue to apply after your account ends.',
+  },
+  {
+    title: 'Changes to These Terms',
+    lead: 'We may update these Terms from time to time. Any changes will be posted on this page with an updated effective date, and we will notify you of significant changes by email or in the app. By continuing to use the Services after the changes take effect, you accept the updated Terms.',
+  },
+  {
+    title: 'Governing Law and Disputes',
+    lead: 'These Terms are governed by the laws of the Republic of Kenya. If a dispute arises, we will first try to resolve it with you in good faith. If it cannot be resolved within 30 days, either party may refer it to the courts of Kenya.',
+  },
+  {
+    title: 'Contact Us',
+    lead: 'If you have any questions about these Terms of Use, please contact us at:',
+  },
+];
+
+const linkClass = 'rounded-sm underline-offset-2 transition-opacity duration-200 hover:underline active:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600';
+---
+
+<Layout title="Terms of Use | SalesZote" description="Read the SalesZote Terms of Use covering accounts, free trials, plans and payment, acceptable use, your data and more.">
+  <article class="mx-auto flex w-full max-w-[calc(956px+3rem)] flex-col gap-4 px-6 py-10 font-ui text-body text-black">
+    <h1 class="font-sans text-heading-1">Terms of Use</h1>
+    <p><strong class="font-bold">Effective Date:</strong> 2nd November 2026</p>
+    <p>Welcome to SalesZote. Please read these Terms of Use carefully. They explain your rights and responsibilities when you use our platform, and ours to you.</p>
+
+    {sections.map((s, i) => (
+      <section class="flex flex-col gap-1">
+        <h2 class="flex font-sans text-body-md font-bold"><span class="w-7.5 shrink-0">{i + 1}.</span>{s.title}</h2>
+        <div class="flex flex-col gap-2">
+          {s.lead && <p>{s.lead}</p>}
+          {s.items && (
+            <ul class="list-disc">
+              {s.items.map((item) => <li class="ms-6">{item}</li>)}
+            </ul>
+          )}
+          {s.after && <p>{s.after}</p>}
+        </div>
+      </section>
+    ))}
+
+    <address class="flex flex-col gap-4 not-italic">
+      <a href="mailto:info@saleszote.com" class:list={['self-start', linkClass]}>info@saleszote.com</a>
+      <a href="tel:+254701853648" class:list={['self-start', linkClass]}>+254 701 853 648</a>
+    </address>
+  </article>
+</Layout>

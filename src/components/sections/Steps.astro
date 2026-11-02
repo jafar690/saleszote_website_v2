@@ -1,0 +1,24 @@
+---
+type Step = { title: string; body: string; icon: string };
+type Props = { title: string; subtitle: string; steps: Step[] };
+
+const { title, subtitle, steps } = Astro.props;
+---
+
+<section class="wrap flex flex-col gap-10 py-10 lg:py-20">
+  <div class="flex flex-col gap-2 text-center text-gray-900">
+    <h2 class="font-display text-display-3 lg:text-display-2">{title}</h2>
+    <p class="text-body-md opacity-60">{subtitle}</p>
+  </div>
+  <ol class="grid gap-10 md:grid-cols-3">
+    {steps.map((s) => (
+      <li class="flex flex-col items-center gap-3 text-center text-gray-900">
+        <span class="flex size-20 items-center justify-center rounded-full bg-gray-100">
+          <img src={s.icon} alt="" width="48" height="48" />
+        </span>
+        <h3 class="text-body-lg font-bold">{s.title}</h3>
+        <p class="text-body opacity-60">{s.body}</p>
+      </li>
+    ))}
+  </ol>
+</section>

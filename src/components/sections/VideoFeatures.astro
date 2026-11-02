@@ -1,0 +1,163 @@
+---
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Accordion from '../ui/Accordion.astro';
+import restaurant from '../../assets/home/restaurant-interior.jpg';
+
+// video: base name of the clips in /public/videos (an .mp4 and a .webm of each).
+// landscape: shown in a wide card instead of the phone frame.
+type Feature = { title: string; body: string; video: string; poster: ImageMetadata; landscape?: boolean };
+type Props = { title: string; intro: string; features: Feature[] };
+
+const { title, intro, features } = Astro.props;
+
+const clips = await Promise.all(
+  features.map(async (f) => ({
+    ...f,
+    posterUrl: (await getImage({ src: f.poster, format: 'webp', width: f.landscape ? 1030 : 674 })).src,
+  })),
+);
+const portrait = clips.map((c, i) => ({ ...c, index: i })).filter((c) => !c.landscape);
+const landscape = clips.map((c, i) => ({ ...c, index: i })).filter((c) => c.landscape);
+---
+
+<!--
+  Same layout as the homepage features: full-bleed backgrounds (grey left half, photo right half) with the
+  text and demo kept inside the page's content width. On phones the demo (photo + clip) sits inside the open
+  accordion item, under its answer, like the homepage. There is only one demo element (six videos are too
+  heavy to duplicate per item), so the script moves it into whichever item opens. There
+  the panel hugs the active frame: the phone (40px photo above and below, as on the homepage) or the wide card. The photo's sizes are its
+  object-cover drawn width (3:2 photo, ~890px tall on desktop, ~654px on mobile), not the column width.
+-->
+<section class="relative bg-gray-100" data-video-features>
+  <div class="wrap grid lg:min-h-222.5 lg:grid-cols-2">
+    <div class="flex flex-col justify-center gap-6 py-10 lg:py-20 lg:pr-20">
+      <div class="flex flex-col gap-2 text-gray-900">
+        <h2 class="font-display text-display-3 lg:text-display-2">{title}</h2>
+        <p class="text-body-md text-gray-900/50">{intro}</p>
+      </div>
+      <Accordion name="video-features" items={features.map((f) => ({ title: f.title, body: f.body }))} />
+    </div>
+
+    <!-- Demo panel: the clip for the open accordion item plays in the phone frame (or a wide card for landscape clips).
+         Its home is the right-hand column (display: contents, so the panel itself is the grid cell from lg up). -->
+    <div class="hidden lg:contents" data-video-demo-home>
+    <div class="relative mb-3 flex justify-center overflow-hidden py-10 lg:static lg:mb-0 lg:items-center lg:overflow-visible lg:py-20" aria-hidden="true" data-video-demo>
+      <Image src={restaurant} alt="" widths={[720, 1440, 2160, 3000]} sizes="(min-width: 1024px) 1335px, 981px" class="absolute inset-0 size-full object-cover lg:left-1/2 lg:w-1/2" />
+
+      <div class="relative flex items-center justify-center">
+        <div class="relative aspect-[786/1704] h-143.5 overflow-hidden rounded-[28px] border-4 border-white bg-white transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none lg:h-182.5 lg:rounded-[38px] data-[hidden=true]:scale-95 data-[hidden=true]:opacity-0 max-lg:data-[hidden=true]:hidden" data-video-frame="portrait" data-hidden={features[0].landscape ? 'true' : 'false'}>
+          {portrait.map((c) => (
+            <video data-video-index={c.index} class:list={['absolute inset-0 size-full object-cover object-top transition-opacity duration-300 motion-reduce:transition-none', c.index !== 0 && 'opacity-0']} poster={c.posterUrl} muted playsinline loop preload={c.index === 0 ? 'auto' : 'none'}>
+              <source src={`/videos/${c.video}.mp4`} type="video/mp4" />
+              <source src={`/videos/${c.video}.webm`} type="video/webm" />
+            </video>
+          ))}
+        </div>
+
+        {landscape.map((c) => (
+          <div class="absolute top-1/2 left-1/2 w-[min(515px,calc(100vw-4rem))] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-3xl border-4 border-white bg-white transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none data-[hidden=true]:scale-95 data-[hidden=true]:opacity-0 max-lg:relative max-lg:top-auto max-lg:left-auto max-lg:translate-x-0 max-lg:translate-y-0 max-lg:data-[hidden=true]:hidden" data-video-frame="landscape" data-hidden={c.index === 0 ? 'false' : 'true'}>
+            <video data-video-index={c.index} class="aspect-[1030/732] w-full object-cover" poster={c.posterUrl} muted playsinline loop preload={c.index === 0 ? 'auto' : 'none'}>
+              <source src={`/videos/${c.video}.mp4`} type="video/mp4" />
+              <source src={`/videos/${c.video}.webm`} type="video/webm" />
+            </video>
+          </div>
+        ))}
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  document.querySelectorAll<HTMLElement>('[data-video-features]').forEach((section) => {
+    const videos = [...section.querySelectorAll<HTMLVideoElement>('video[data-video-index]')];
+    const portraitFrame = section.querySelector<HTMLElement>('[data-video-frame="portrait"]');
+    const landscapeFrames = [...section.querySelectorAll<HTMLElement>('[data-video-frame="landscape"]')];
+    let active = 0;
+    let inView = false;
+
+    const videoFor = (index: number) => videos.find((v) => Number(v.dataset.videoIndex) === index);
+
+    function play(video: HTMLVideoElement | undefined) {
+      if (!video) return;
+      video.preload = 'auto';
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
+
+    function show(index: number, userAction: boolean) {
+      // Closing every item keeps the last clip on screen, paused.
+      if (index < 0) {
+        videoFor(active)?.pause();
+        return;
+      }
+      active = index;
+      const current = videoFor(index);
+      const isLandscape = !!current?.closest('[data-video-frame="landscape"]');
+      portraitFrame?.setAttribute('data-hidden', String(isLandscape));
+      landscapeFrames.forEach((frame) => frame.setAttribute('data-hidden', String(!frame.contains(current ?? null))));
+
+      videos.forEach((v) => {
+        if (v === current) return;
+        v.pause();
+        if (!v.closest('[data-video-frame="landscape"]')) v.classList.add('opacity-0');
+      });
+      current?.classList.remove('opacity-0');
+      // Autoplay only follows the visitor's own clicks when they've asked for reduced motion.
+      if (inView && (userAction || !reduceMotion.matches)) play(current);
+    }
+
+    // Phones: move the demo under the open item's answer. While the previous item collapses it keeps a static
+    // copy of the demo, so its height shrinks smoothly instead of jumping.
+    const demo = section.querySelector<HTMLElement>('[data-video-demo]');
+    const home = section.querySelector<HTMLElement>('[data-video-demo-home]');
+    const items = [...section.querySelectorAll<HTMLDetailsElement>('[data-accordion] > details')];
+    const mobile = window.matchMedia('(max-width: 1023.98px)');
+    let openIndex = 0;
+
+    function place(index: number, animate: boolean) {
+      if (!demo || !home) return;
+      if (!mobile.matches) {
+        if (demo.parentElement !== home) home.append(demo);
+        return;
+      }
+      const target = items[index]?.querySelector<HTMLElement>('[data-accordion-panel] > div');
+      if (!target || target.contains(demo)) return;
+      const previous = demo.parentElement;
+      if (animate && previous && previous !== home) {
+        const ghost = demo.cloneNode(true) as HTMLElement;
+        ghost.removeAttribute('data-video-demo');
+        ghost.querySelectorAll('video').forEach((v) => { v.preload = 'none'; v.removeAttribute('data-video-index'); });
+        previous.append(ghost);
+        setTimeout(() => ghost.remove(), 350);
+      }
+      target.append(demo);
+    }
+
+    place(openIndex, false);
+    mobile.addEventListener('change', () => {
+      place(openIndex, false);
+      if (inView && !reduceMotion.matches) play(videoFor(active));
+    });
+
+    section.addEventListener('accordion:change', (e) => {
+      const { index } = (e as CustomEvent<{ index: number }>).detail;
+      if (index >= 0) {
+        openIndex = index;
+        place(index, true);
+      }
+      show(index, true);
+    });
+
+    // Only play while the section is on screen.
+    new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      const current = videoFor(active);
+      if (!inView) current?.pause();
+      else if (!reduceMotion.matches && current?.paused) play(current);
+    }, { threshold: 0.35 }).observe(section);
+  });
+</script>
