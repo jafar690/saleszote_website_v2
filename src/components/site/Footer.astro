@@ -27,10 +27,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
     title: 'Solutions',
     links: [
       { label: 'POS System', href: '/pos-system-kenya' },
-      { label: 'Digital Storefront', href: '#' },
       { label: 'Inventory Management', href: '/inventory-management-kenya' },
-      { label: 'Payment Integrations', href: '#' },
-      { label: 'E-Tims Integration', href: '#' },
     ],
   },
   {
@@ -58,7 +55,7 @@ const [getStarted, legal, solutions, industryCol] = columns;
     <div class="flex flex-col gap-6 lg:flex-row lg:gap-10">
       <div class="flex flex-col gap-4 lg:w-100 lg:shrink-0 lg:gap-6">
         <a href="/" class:list={['flex self-start', linkClass]} aria-label="SalesZote home"><Logo variant="footer" /></a>
-        <p class="text-body opacity-60">Sales Zote is a powerful and easy-to-use retail POS solution designed to simplify your sales, inventory, and customer management.</p>
+        <p class="text-body opacity-60">SalesZote is a powerful and easy-to-use retail POS solution designed to simplify your sales, inventory, and customer management.</p>
         <address class="flex flex-col gap-4 not-italic lg:gap-6">
         <a href="mailto:info@saleszote.com" class:list={['flex items-center gap-2 self-start text-body opacity-60', linkClass]}>
           <img src="/images/new/mail.svg" alt="" width="22" height="22" />info@saleszote.com

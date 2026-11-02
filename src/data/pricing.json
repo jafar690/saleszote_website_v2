@@ -12,7 +12,7 @@
       "monthly_price": 1000,
       "annual_monthly_price": 800,
       "is_custom": false,
-      "currency": "KSh",
+      "currency": "KES",
       "cta_label": "Get Started Free",
       "cta_url": "https://app.saleszote.com/register",
       "is_popular": false,
@@ -45,7 +45,7 @@
       "monthly_price": 2500,
       "annual_monthly_price": 2000,
       "is_custom": false,
-      "currency": "KSh",
+      "currency": "KES",
       "cta_label": "Start Free Trial",
       "cta_url": "https://app.saleszote.com/register",
       "is_popular": true,
@@ -78,7 +78,7 @@
       "monthly_price": 6000,
       "annual_monthly_price": 4800,
       "is_custom": false,
-      "currency": "KSh",
+      "currency": "KES",
       "cta_label": "Start Free Trial",
       "cta_url": "https://app.saleszote.com/register",
       "is_popular": false,
@@ -111,7 +111,7 @@
       "monthly_price": null,
       "annual_monthly_price": null,
       "is_custom": true,
-      "currency": "KSh",
+      "currency": "KES",
       "cta_label": "Talk to Sales",
       "cta_url": "/contact",
       "is_popular": false,
@@ -208,7 +208,7 @@
     },
     {
       "question": "How does the annual discount work?",
-      "answer": "When you choose annual billing, you pay for 10 months and get 2 months free — that's a 20% saving compared to monthly billing."
+      "answer": "Annual plans cost 20% less than paying monthly. For example, Starter is KES 800 a month when billed yearly, instead of KES 1,000 a month."
     },
     {
       "question": "What payment methods do you accept for subscriptions?",

@@ -80,7 +80,7 @@ const cards = plans.map((plan) => ({
 
 <Layout
   title="POS & Inventory System Pricing in Kenya | SalesZote"
-  description="Simple, transparent SalesZote pricing in KSh for shops and wholesalers in Kenya. Start free for 7 days — no credit card required. Plans from KSh 1,000/month."
+  description="Simple, transparent SalesZote pricing in KES for shops and wholesalers in Kenya. Start free for 7 days — no credit card required. Plans from KES 1,000/month."
   jsonLd={jsonLd}
 >
   <section class="wrap flex flex-col items-center gap-6 pt-10 pb-6 lg:gap-10 lg:pt-20 lg:pb-10">
@@ -128,7 +128,7 @@ const cards = plans.map((plan) => ({
             ) : (
               <>
                 <p class="text-heading-1">
-                  Ksh <span data-monthly={formatPrice(plan.monthly_price!)} data-yearly={formatPrice(plan.annual_monthly_price!)}>{formatPrice(plan.monthly_price!)}</span>
+                  KES <span data-monthly={formatPrice(plan.monthly_price!)} data-yearly={formatPrice(plan.annual_monthly_price!)}>{formatPrice(plan.monthly_price!)}</span>
                 </p>
                 <p class="text-body-sm opacity-50" data-billing-note>/month billed monthly.</p>
               </>

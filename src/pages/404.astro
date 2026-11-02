@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/ui/Button.astro';
+import ReceiptIllustration from '../components/site/ReceiptIllustration.astro';
+import { notFoundLinks as destinations } from '../data/notFoundLinks';
+
+---
+
+<Layout title="Page not found | SalesZote" description="This page doesn't exist. Find SalesZote pricing, the POS system, inventory management or contact the team." navbarBg="bg-primary-50" noindex>
+  <section class="overflow-hidden bg-primary-50">
+    <!-- Phones: copy, buttons, receipt, links. From lg the receipt sits to the right of everything. -->
+    <div class="wrap grid content-center gap-10 py-10 lg:min-h-[calc(100svh-var(--header-h,80px))] lg:grid-cols-[1fr_400px] lg:gap-x-20 lg:py-20">
+      <div class="flex flex-col gap-10 lg:col-start-1 lg:self-end">
+        <div class="flex flex-col gap-4 text-gray-900">
+          <h1 class="font-display text-display-3 font-bold tracking-[-0.02em] text-balance lg:text-display-1">This page is out of stock</h1>
+          <p class="max-w-140 text-body-md text-gray-900/60">We couldn't find a page at this address. The link may be mistyped, or the page has moved. Go to the home page, or pick one of the pages below.</p>
+        </div>
+
+        <div class="flex flex-col gap-4 sm:flex-row sm:gap-6">
+          <Button href="/" variant="primary" size="lg" class="w-full sm:w-57.5">Go to the home page</Button>
+          <Button href="/contact" variant="outline" size="lg" class="w-full sm:w-57.5">Contact support</Button>
+        </div>
+      </div>
+
+      <ReceiptIllustration class="mx-auto max-w-64 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:max-w-none lg:self-center" />
+
+      <nav aria-label="Popular pages" class="max-w-160 lg:col-start-1 lg:self-start">
+          <ul class="grid border-t border-gray-900/15 sm:grid-cols-2 sm:gap-x-10">
+            {destinations.map((d) => (
+              <li class="border-b border-gray-900/15">
+                <a href={d.href} class="group flex items-center gap-4 rounded-sm py-4 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">
+                  <span class="flex flex-1 flex-col gap-1">
+                    <span class="text-body font-bold text-gray-900">{d.title}</span>
+                    <span class="text-body-sm text-gray-900/60">{d.body}</span>
+                  </span>
+                  <img src="/images/new/chevron-down.svg" alt="" width="24" height="24" class="shrink-0 -rotate-90 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:translate-x-1 group-active:translate-x-0.5 motion-reduce:transition-none" />
+                </a>
+              </li>
+            ))}
+          </ul>
+      </nav>
+    </div>
+  </section>
+</Layout>

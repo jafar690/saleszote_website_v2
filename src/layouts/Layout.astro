@@ -13,6 +13,8 @@ interface Props {
   jsonLd?: Record<string, unknown>[];
   breadcrumbs?: { label: string; href?: string }[];
   navbarBg?: string;
+  /** Keep this page out of search results (e.g. the 404 page). */
+  noindex?: boolean;
 }
 
 const {
@@ -20,10 +22,11 @@ const {
   description = 'SalesZote is a cloud POS and inventory management system for shops and wholesalers in Kenya. Sell with M-Pesa, track stock in real time, and manage your business from any device.',
   bare = false,
   bodyClass = 'bg-white font-sans text-gray-900 scroll-smooth',
-  image = '/images/hero-image.png',
+  image = '/images/og-image.jpg',
   jsonLd = [],
   breadcrumbs,
   navbarBg,
+  noindex = false,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -36,7 +39,7 @@ const baseJsonLd: Record<string, unknown>[] = [
     '@type': 'Organization',
     name: 'SalesZote',
     url: 'https://saleszote.com',
-    logo: 'https://saleszote.com/images/logo/logo.svg',
+    logo: 'https://saleszote.com/images/saleszote-logo.png',
     description,
     areaServed: { '@type': 'Country', name: 'Kenya' },
     contactPoint: {
@@ -73,7 +76,7 @@ const structuredData = [...baseJsonLd, ...jsonLd];
     <!-- Primary Meta Tags -->
     <title>{title}</title>
     <meta name="description" content={description}/>
-    {import.meta.env.PUBLIC_NOINDEX && <meta name="robots" content="noindex, nofollow"/>}
+    {(import.meta.env.PUBLIC_NOINDEX || noindex) && <meta name="robots" content="noindex, nofollow"/>}
     <link rel="canonical" href={canonicalURL}/>
 
     <!-- Geo targeting -->
