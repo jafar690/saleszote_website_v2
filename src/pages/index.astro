@@ -3,7 +3,12 @@ import Layout from '../layouts/Layout.astro';
 import HomeHero from '../components/sections/HomeHero.astro';
 import TrustedBy from '../components/sections/TrustedBy.astro';
 import MultiPlatform from '../components/sections/MultiPlatform.astro';
-import Features from '../components/sections/Features.astro';
+import VideoFeatures from '../components/sections/VideoFeatures.astro';
+import posterAddToCart from '../assets/pos/posters/add-to-cart.png';
+import posterCheckout from '../assets/pos/posters/checkout.png';
+import posterSalesReport from '../assets/pos/posters/sales-report.png';
+import posterStockCount from '../assets/inventory/posters/stock-count.png';
+import posterApprovePurchase from '../assets/inventory/posters/approve-purchase.png';
 import WhyChoose from '../components/sections/WhyChoose.astro';
 import SimpleToLearn from '../components/sections/SimpleToLearn.astro';
 import WhoIsItFor from '../components/sections/WhoIsItFor.astro';
@@ -17,6 +22,15 @@ import testimonials from '../data/testimonials.json';
 function stripHtml(html: string) {
   return html.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim();
 }
+
+// Clips borrowed from the POS and inventory pages (public/videos/pos, public/videos/inventory).
+const features = [
+  { title: 'Point of Sale', body: 'Ring up sales in seconds on your phone, tablet or register. Accept cash, M-Pesa and card, apply discounts, and print or share receipts.', video: 'pos/add-to-cart', poster: posterAddToCart },
+  { title: 'Smart Inventory Management', body: 'Track stock in real time across branches and warehouses, set re-order levels, run stock counts and record wastage.', video: 'inventory/stock-count', poster: posterStockCount },
+  { title: 'Reports and Insights', body: 'See your sales, best-sellers, stock value and profit at a glance, so you know exactly how your business is doing.', video: 'pos/sales-report', poster: posterSalesReport },
+  { title: 'Payment Integration', body: 'Record M-Pesa, cash, card and custom payment methods against every sale, and reconcile them at the end of the day.', video: 'pos/checkout', poster: posterCheckout },
+  { title: 'Expense and Supplier Tracking', body: 'Log daily expenses, manage suppliers, raise purchase orders and record returns, all in one place.', video: 'inventory/approve-purchase', poster: posterApprovePurchase },
+];
 
 const jsonLd = [
   {
@@ -54,7 +68,13 @@ const jsonLd = [
     <HomeHero />
     <TrustedBy />
     <MultiPlatform />
-    <Features />
+    <VideoFeatures
+      id="features"
+      tall
+      title="Features That Power Your Business"
+      intro="SalesZote is packed with smart, practical tools to help you sell faster, manage inventory easily and stay in control of your business every day."
+      features={features}
+    />
     <WhyChoose />
     <SimpleToLearn />
     <WhoIsItFor />

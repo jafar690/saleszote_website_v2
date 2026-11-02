@@ -25,3 +25,6 @@ pnpm-debug.log*
 /screenshots
 .wrangler
 saleszote.com-audit/*
+
+# HyperFrames video projects (source for public/videos/home; holds the local demo login)
+video/

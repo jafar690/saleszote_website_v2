@@ -1,8 +1,8 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import Button from '../ui/Button.astro';
 import { DEMO_BOOKING_URL } from '../../data/links';
-import posRegister from '../../assets/pos-register.png';
+import filmPoster from '../../assets/home/film-poster.jpg';
 import restaurant from '../../assets/home/restaurant-interior.jpg';
 import retail from '../../assets/industries/retail.png';
 import hardware from '../../assets/industries/hardware.png';
@@ -17,6 +17,9 @@ const words = [
   { word: 'Pharmacy', image: pharmacy },
   { word: 'Supermarket', image: supermarket },
 ];
+
+// Product film (video/home-film): first frame as the poster so playback never flashes black.
+const poster = await getImage({ src: filmPoster, format: 'webp', width: 1920 });
 ---
 
 <section class="wrap flex flex-col items-center gap-6 overflow-x-clip py-10 lg:gap-10 lg:py-20">
@@ -55,19 +58,60 @@ const words = [
     <Button href="https://app.saleszote.com/register" variant="primary" size="lg" class="w-full sm:w-57.5" onclick="trackEvent('registration_started', { source: 'home_hero' })">Get Started for Free →</Button>
   </div>
 
-  <div class="relative flex h-62.5 w-full items-center overflow-hidden rounded-3xl bg-gray-100 px-6 md:h-auto md:justify-center md:gap-10 md:py-10 lg:h-[673.88px] lg:rounded-[48px]">
-    <p class="relative text-[2.25rem]/[1.4] font-bold text-gray-900 md:text-[2.5rem]/[1.4] md:font-extrabold lg:text-[4.5rem]/[1.4]">See it<br />in Action</p>
-    <Image src={posRegister} alt="SalesZote POS running on a register with receipt printer and barcode scanner" widths={[300, 500, 900, 1000]} sizes="(min-width: 768px) 500px, 300px" class="absolute top-1/2 left-55 h-auto w-75 max-w-none -translate-y-1/2 md:static md:w-full md:max-w-125 md:translate-y-0" />
-    <!-- TODO: swap the placeholder for the product video once it's ready -->
-    <button type="button" class="group absolute inset-0 flex items-center justify-center bg-black/50 focus-visible:outline-none" aria-label="Play product video">
-      <span class="flex size-16 items-center justify-center rounded-full bg-white shadow-[0_0_0_3px_rgba(255,255,255,0.5)] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-active:scale-95 group-focus-visible:outline-2 group-focus-visible:outline-offset-4 group-focus-visible:outline-white">
-        <img src="/images/new/play.svg" alt="" width="24" height="24" />
+  <!-- "See it in Action": the film's own opening plays as a silent 4.6 s loop (172 KB) while the block is on screen;
+       a centred play button names the film and its length. Pressing anywhere plays the full film with sound in place (preload="none":
+       it only downloads on play). Reduced motion: the loop never starts, the poster frame shows instead. -->
+  <div class="relative aspect-video w-full overflow-hidden rounded-3xl bg-primary-50 shadow-[0_24px_48px_rgba(92,58,26,0.10)] lg:rounded-[48px]" data-hero-film>
+    <video class="absolute inset-0 size-full object-cover" poster={poster.src} muted loop playsinline preload="metadata" aria-hidden="true" data-hero-teaser>
+      <source src="/videos/home/saleszote-film-teaser.mp4" type="video/mp4" />
+    </video>
+    <video class="pointer-events-none absolute inset-0 size-full bg-black object-cover opacity-0 transition-opacity duration-300 ease-out" poster={poster.src} preload="none" playsinline aria-label="SalesZote product video: one shop's Saturday, from the first sale to the day's report" data-hero-video>
+      <source src="/videos/home/saleszote-film.webm" type="video/webm" />
+      <source src="/videos/home/saleszote-film.mp4" type="video/mp4" />
+    </video>
+    <!-- Centred play control: a large orange button with a white ring (reads on the light app screens), and the
+         film's name and length in a pill under it. The whole block is the button. -->
+    <button type="button" class="group absolute inset-0 flex cursor-pointer flex-col items-center justify-center gap-3 transition-opacity duration-300 ease-out focus-visible:outline-none sm:gap-5" aria-label="Play the SalesZote product video, 36 seconds" data-hero-play>
+      <!-- A light tint pushes the loop back so the button and label read; it lifts on hover. -->
+      <span class="absolute inset-0 bg-gray-900/15 transition-opacity duration-300 ease-out group-hover:opacity-0" aria-hidden="true"></span>
+      <span class="relative flex size-16 items-center justify-center rounded-full bg-primary-600 shadow-[0_0_0_4px_#fff,0_16px_40px_rgba(23,23,23,0.28)] transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:scale-110 group-active:scale-95 group-focus-visible:outline-2 group-focus-visible:outline-offset-8 group-focus-visible:outline-primary-600 sm:size-22 sm:shadow-[0_0_0_6px_#fff,0_20px_48px_rgba(23,23,23,0.28)] lg:size-28">
+        <svg viewBox="0 0 24 24" class="ml-1 size-6 sm:size-9 lg:size-11" aria-hidden="true"><path d="M7 4.5v15a1 1 0 0 0 1.54.84l11.6-7.5a1 1 0 0 0 0-1.68L8.54 3.66A1 1 0 0 0 7 4.5Z" fill="#fff" /></svg>
+      </span>
+      <span class="relative flex items-center gap-2 rounded-full bg-white py-1.5 pr-1.5 pl-4 shadow-[0_8px_24px_rgba(23,23,23,0.16)] sm:gap-3 sm:py-2 sm:pr-2 sm:pl-5">
+        <span class="font-sans text-sm font-bold text-gray-900 sm:text-body">See it in Action</span>
+        <span class="rounded-full bg-gray-100 px-2.5 py-0.5 font-ui text-xs font-semibold text-gray-900/70 sm:text-sm">0:36</span>
       </span>
     </button>
   </div>
 </section>
 
 <script>
+  // Product film: play in place, then hand over to the browser's own controls.
+  const film = document.querySelector<HTMLElement>('[data-hero-film]');
+  const video = document.querySelector<HTMLVideoElement>('[data-hero-video]');
+  const play = document.querySelector<HTMLButtonElement>('[data-hero-play]');
+  const teaser = document.querySelector<HTMLVideoElement>('[data-hero-teaser]');
+  const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (teaser && film && !calm) {
+    new IntersectionObserver(([entry]) => {
+      if (film.dataset.playing === 'true') return;
+      if (entry.isIntersecting) teaser.play().catch(() => {});
+      else teaser.pause();
+    }, { threshold: 0.25 }).observe(film);
+  }
+  play?.addEventListener('click', () => {
+    if (!film || !video) return;
+    teaser?.pause();
+    film.dataset.playing = 'true';
+    video.controls = true;
+    video.classList.remove('opacity-0', 'pointer-events-none');
+    play.classList.add('opacity-0', 'pointer-events-none');
+    play.tabIndex = -1;
+    video.play().catch(() => {});
+    video.focus({ preventScroll: true });
+    (window as unknown as { trackEvent?: (name: string, props: Record<string, string>) => void }).trackEvent?.('product_video_played', { source: 'home_hero' });
+  });
+
   const line = document.querySelector<HTMLElement>('[data-hero-line]');
   const lead = document.querySelector<HTMLElement>('[data-hero-lead]');
   const pairs = [...document.querySelectorAll<HTMLElement>('[data-hero-pair]')];

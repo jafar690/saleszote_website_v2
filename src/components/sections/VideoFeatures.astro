@@ -7,9 +7,10 @@ import restaurant from '../../assets/home/restaurant-interior.jpg';
 // video: base name of the clips in /public/videos (an .mp4 and a .webm of each).
 // landscape: shown in a wide card instead of the phone frame.
 type Feature = { title: string; body: string; video: string; poster: ImageMetadata; landscape?: boolean };
-type Props = { title: string; intro: string; features: Feature[] };
+// tall: the homepage version of the section (944px band, 784px phone) rather than the solution pages' (890px, 730px).
+type Props = { title: string; intro: string; features: Feature[]; tall?: boolean; id?: string };
 
-const { title, intro, features } = Astro.props;
+const { title, intro, features, tall = false, id } = Astro.props;
 
 const clips = await Promise.all(
   features.map(async (f) => ({
@@ -29,8 +30,8 @@ const landscape = clips.map((c, i) => ({ ...c, index: i })).filter((c) => c.land
   the panel hugs the active frame: the phone (40px photo above and below, as on the homepage) or the wide card. The photo's sizes are its
   object-cover drawn width (3:2 photo, ~890px tall on desktop, ~654px on mobile), not the column width.
 -->
-<section class="relative bg-gray-100" data-video-features>
-  <div class="wrap grid lg:min-h-222.5 lg:grid-cols-2">
+<section id={id} class="relative bg-gray-100" data-video-features>
+  <div class:list={['wrap grid lg:grid-cols-2', tall ? 'lg:min-h-236' : 'lg:min-h-222.5']}>
     <div class="flex flex-col justify-center gap-6 py-10 lg:py-20 lg:pr-20">
       <div class="flex flex-col gap-2 text-gray-900">
         <h2 class="font-display text-display-3 lg:text-display-2">{title}</h2>
@@ -46,7 +47,7 @@ const landscape = clips.map((c, i) => ({ ...c, index: i })).filter((c) => c.land
       <Image src={restaurant} alt="" widths={[720, 1440, 2160, 3000]} sizes="(min-width: 1024px) 1335px, 981px" class="absolute inset-0 size-full object-cover lg:left-1/2 lg:w-1/2" />
 
       <div class="relative flex items-center justify-center">
-        <div class="relative aspect-[786/1704] h-143.5 overflow-hidden rounded-[28px] border-4 border-white bg-white transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none lg:h-182.5 lg:rounded-[38px] data-[hidden=true]:scale-95 data-[hidden=true]:opacity-0 max-lg:data-[hidden=true]:hidden" data-video-frame="portrait" data-hidden={features[0].landscape ? 'true' : 'false'}>
+        <div class:list={['relative aspect-[786/1704] h-143.5 overflow-hidden rounded-[28px] border-4 border-white bg-white transition-[opacity,transform] duration-500 ease-out motion-reduce:transition-none lg:rounded-[38px] data-[hidden=true]:scale-95 data-[hidden=true]:opacity-0 max-lg:data-[hidden=true]:hidden', tall ? 'lg:h-196' : 'lg:h-182.5']} data-video-frame="portrait" data-hidden={features[0].landscape ? 'true' : 'false'}>
           {portrait.map((c) => (
             <video data-video-index={c.index} class:list={['absolute inset-0 size-full object-cover object-top transition-opacity duration-300 motion-reduce:transition-none', c.index !== 0 && 'opacity-0']} poster={c.posterUrl} muted playsinline loop preload={c.index === 0 ? 'auto' : 'none'}>
               <source src={`/videos/${c.video}.mp4`} type="video/mp4" />
