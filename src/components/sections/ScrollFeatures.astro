@@ -23,7 +23,10 @@ const { features, label } = Astro.props;
           data-active={i === 0 ? 'true' : 'false'}
           class="group col-start-1 row-start-1 flex flex-col gap-10 transition-opacity duration-500 ease-out motion-reduce:transition-none data-[active=false]:pointer-events-none data-[active=false]:opacity-0 lg:flex-row lg:items-center"
         >
-          <Image src={f.image} alt="" widths={[600, 1000, 1416]} sizes="(min-width: 1024px) 708px, calc(100vw - 3rem)" class:list={['aspect-[3/2] w-full bg-gray-100 object-cover lg:w-auto lg:min-w-0 lg:flex-1', f.position === 'top' && 'object-top']} />
+          <!-- Same frame as the POS page's tablet: translucent bezel, rounded photo inside (inner radius = outer - padding). -->
+          <div class="w-full rounded-2xl bg-black/20 p-1.5 shadow-[0_24px_48px_rgba(0,0,0,0.08)] sm:rounded-3xl sm:p-2 lg:w-auto lg:min-w-0 lg:flex-1 lg:rounded-[32px] lg:p-3">
+            <Image src={f.image} alt="" widths={[600, 1000, 1416]} sizes="(min-width: 1024px) 684px, calc(100vw - 3.75rem)" class:list={['aspect-[3/2] w-full rounded-[10px] bg-gray-100 object-cover sm:rounded-2xl lg:rounded-[20px]', f.position === 'top' && 'object-top']} />
+          </div>
           <div class="flex max-w-112.5 flex-col gap-2 text-gray-900 transition-transform duration-500 ease-out group-data-[active=false]:translate-y-4 motion-reduce:transition-none lg:flex-1">
             <h2 class="font-display text-display-3 lg:text-display-2">{f.title}</h2>
             <p class="text-body-md opacity-50 lg:text-body-lg">{f.desc}</p>

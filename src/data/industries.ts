@@ -18,6 +18,8 @@ export interface Industry {
   metaDescription: string;
   h1: string;
   heroSub: string;
+  /** Heading for the intro band on the industry page. */
+  introTitle: string;
   intro: string;
   painPoints: string[];
   features: IndustryFeature[];
@@ -27,6 +29,7 @@ export interface Industry {
 export const industries: Industry[] = [
   {
     slug: 'retail-shops',
+    introTitle: 'Built for the way you run your shop',
     name: 'Retail Shops',
     cardTitle: 'Retail Shops',
     cardBlurb: 'From clothing stores to general shops',
@@ -57,6 +60,7 @@ export const industries: Industry[] = [
   },
   {
     slug: 'hardware-stores',
+    introTitle: 'Built for the way you run your hardware store',
     name: 'Hardware Stores',
     cardTitle: 'Hardware Stores',
     cardBlurb: 'Track bulky stock and multiple suppliers',
@@ -87,6 +91,7 @@ export const industries: Industry[] = [
   },
   {
     slug: 'pharmacies',
+    introTitle: 'Built for the way you run your pharmacy',
     name: 'Pharmacies & Chemists',
     cardTitle: 'Pharmacies & Chemists',
     cardBlurb: 'Manage sensitive inventory with ease',
@@ -117,6 +122,7 @@ export const industries: Industry[] = [
   },
   {
     slug: 'restaurants-cafes',
+    introTitle: 'Built for the way you run your restaurant',
     name: 'Restaurants & Cafés',
     cardTitle: 'Restaurants & Cafés',
     cardBlurb: 'Handle dine-in, takeout and daily expenses',
@@ -147,6 +153,7 @@ export const industries: Industry[] = [
   },
   {
     slug: 'cosmetics-beauty',
+    introTitle: 'Built for the way you run your beauty store',
     name: 'Cosmetics & Beauty Stores',
     cardTitle: 'Cosmetics & Beauty Stores',
     cardBlurb: 'Manage fast-moving and seasonal stock',
@@ -177,6 +184,7 @@ export const industries: Industry[] = [
   },
   {
     slug: 'electronics-shops',
+    introTitle: 'Built for the way you run your electronics shop',
     name: 'Electronics Shops',
     cardTitle: 'Electronics Shops',
     cardBlurb: 'Monitor sales, repairs and warranties',
@@ -207,6 +215,7 @@ export const industries: Industry[] = [
   },
   {
     slug: 'agrovet',
+    introTitle: 'Built for the way you run your agrovet',
     name: 'Agrovet & Farm Supply Stores',
     cardTitle: 'Agrovet & Farm Supply Stores',
     cardBlurb: 'Manage seeds, feeds and farm inputs',
@@ -237,6 +246,7 @@ export const industries: Industry[] = [
   },
   {
     slug: 'mini-supermarkets',
+    introTitle: 'Built for the way you run your supermarket',
     name: 'Mini Supermarkets',
     cardTitle: 'Mini Supermarkets',
     cardBlurb: 'Streamline checkout and inventory across aisles',

@@ -107,7 +107,7 @@
     {
       "id": "enterprise",
       "name": "Enterprise",
-      "tagline": "Fully tailored for large operations, features, and support all custom.",
+      "tagline": "Custom pricing, features and support for large operations.",
       "monthly_price": null,
       "annual_monthly_price": null,
       "is_custom": true,
@@ -204,7 +204,7 @@
     },
     {
       "question": "Are prices inclusive of VAT?",
-      "answer": "All prices shown are exclusive of VAT. Applicable taxes will be added at checkout based on your location."
+      "answer": "Yes. The price shown is the price you pay. Nothing is added at checkout."
     },
     {
       "question": "How does the annual discount work?",
@@ -212,7 +212,7 @@
     },
     {
       "question": "What payment methods do you accept for subscriptions?",
-      "answer": "We accept M-Pesa and card payments for your SalesZote subscription."
+      "answer": "You can pay for your subscription by M-Pesa, or by card through Paystack."
     },
     {
       "question": "What happens after my free trial ends?",

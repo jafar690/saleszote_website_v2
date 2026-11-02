@@ -17,7 +17,7 @@ const sections: Section[] = [
     items: [
       'Personal details such as your name, phone number, and email.',
       'Business information such as shop/wholesale name, inventory details, and sales records.',
-      'Billing and payment details for your subscription, such as M-Pesa transaction references. We do not store full card numbers.',
+      'Billing details for your subscription, such as M-Pesa transaction references. Card payments are processed by Paystack, so we never see or store your full card number.',
       'Messages and information you share when you contact our support team.',
       'Device and usage data (e.g., IP address, browser type, and how you use our system).',
       'Information from third parties we work with, such as payment and mobile money providers, when you use them with SalesZote.',
@@ -60,7 +60,7 @@ const sections: Section[] = [
     title: 'Sharing of Information',
     lead: 'We do not sell, rent, or trade your personal information. Your data is only shared in these limited cases:',
     items: [
-      'With service providers who help us operate the platform, such as hosting, payment, messaging and support providers (under strict confidentiality).',
+      'With service providers who help us operate the platform, such as hosting, payment (Paystack), messaging and support providers (under strict confidentiality).',
       'If required by law or government authorities.',
       'To protect the rights and security of SalesZote, our users, and partners.',
       'If SalesZote is involved in a merger, acquisition or sale of assets, in which case we will make sure your data stays protected under this Policy.',
@@ -69,10 +69,6 @@ const sections: Section[] = [
   {
     title: 'Data Retention',
     lead: 'We keep your information for as long as your account is active and as needed to provide the Services. After your account is closed, we delete or anonymise your data within a reasonable period, unless we need to keep some records longer to meet legal, tax or accounting obligations, resolve disputes or enforce our agreements.',
-  },
-  {
-    title: 'Data Transfers Outside Kenya',
-    lead: 'Some of our service providers, such as cloud hosting providers, may store or process data on servers outside Kenya. When this happens, we only use providers that offer appropriate safeguards for your data, as required by the Data Protection Act, 2019.',
   },
   {
     title: 'Your Rights',
@@ -97,7 +93,7 @@ const sections: Section[] = [
   },
   {
     title: 'Changes to This Policy',
-    lead: 'We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated effective date, and we will let you know by email or in the app if the changes are significant.',
+    lead: 'We may update this Privacy Policy from time to time. Any changes will be posted on this page, and we will let you know by email or in the app if the changes are significant.',
   },
   {
     title: 'Contact Us',
@@ -111,7 +107,6 @@ const linkClass = 'rounded-sm underline-offset-2 transition-opacity duration-200
 <Layout title="Privacy Policy | SalesZote" description="Read the SalesZote Privacy Policy to learn how we collect, use, and protect your data.">
   <article class="mx-auto flex w-full max-w-[calc(956px+3rem)] flex-col gap-4 px-6 py-10 font-ui text-body text-black">
     <h1 class="font-sans text-heading-1">Privacy Policy</h1>
-    <p><strong class="font-bold">Effective Date:</strong> 2nd November 2026</p>
     <p>At SalesZote, we value your trust and are committed to protecting your personal and business information. This Privacy Policy explains how we collect, use, and safeguard your data when you use our platform.</p>
 
     <!-- Only the heading carries the number (hanging "1."); the body lines up with the page title, as in the design. -->

@@ -36,9 +36,10 @@ const sections: Section[] = [
     title: 'Free Trial, Plans and Payment',
     lead: 'New accounts can try SalesZote free for 7 days. No payment details are needed to start a trial, and you will not be charged unless you choose a paid plan. After that:',
     items: [
-      'Paid plans are billed in Kenyan Shillings (KES), monthly or annually, in advance, at the prices shown on our Pricing page or agreed with you in writing.',
+      'Paid plans are billed in Kenyan Shillings (KES), monthly or annually, in advance, at the prices shown on our Pricing page or agreed with you in writing. The price shown is the price you pay; no tax is added on top.',
+      'Subscriptions are paid by M-Pesa, or by card through our payment provider, Paystack. Card details are handled by Paystack and are never stored by SalesZote.',
       'Each plan has its own limits, such as users, branches, terminals and products. If you need more, you can upgrade at any time.',
-      'Fees already paid are non-refundable, except where the law requires otherwise or we agree to a refund in writing.',
+      'All payments are non-refundable.',
       'We may change our prices. Any change will apply from your next billing period, and we will give you at least 30 days\' notice before it takes effect.',
       'If a payment is late or fails, we may limit or suspend access to the Services until the balance is settled. Your data will not be deleted during a suspension.',
     ],
@@ -66,7 +67,7 @@ const sections: Section[] = [
   },
   {
     title: 'Third-Party Services',
-    lead: 'The Services may work with third-party products such as M-Pesa, banks, card processors, app stores and hardware. Your use of those products is governed by their own terms, and the providers are responsible for them. We are not liable for the availability, fees or performance of third-party services.',
+    lead: 'The Services may work with third-party products such as M-Pesa, Paystack, banks, card processors, app stores and hardware. Your use of those products is governed by their own terms, and the providers are responsible for them. We are not liable for the availability, fees or performance of third-party services.',
   },
   {
     title: 'Service Availability',
@@ -87,7 +88,7 @@ const sections: Section[] = [
   },
   {
     title: 'Changes to These Terms',
-    lead: 'We may update these Terms from time to time. Any changes will be posted on this page with an updated effective date, and we will notify you of significant changes by email or in the app. By continuing to use the Services after the changes take effect, you accept the updated Terms.',
+    lead: 'We may update these Terms from time to time. Any changes will be posted on this page, and we will notify you of significant changes by email or in the app. By continuing to use the Services after the changes take effect, you accept the updated Terms.',
   },
   {
     title: 'Governing Law and Disputes',
@@ -105,7 +106,6 @@ const linkClass = 'rounded-sm underline-offset-2 transition-opacity duration-200
 <Layout title="Terms of Use | SalesZote" description="Read the SalesZote Terms of Use covering accounts, free trials, plans and payment, acceptable use, your data and more.">
   <article class="mx-auto flex w-full max-w-[calc(956px+3rem)] flex-col gap-4 px-6 py-10 font-ui text-body text-black">
     <h1 class="font-sans text-heading-1">Terms of Use</h1>
-    <p><strong class="font-bold">Effective Date:</strong> 2nd November 2026</p>
     <p>Welcome to SalesZote. Please read these Terms of Use carefully. They explain your rights and responsibilities when you use our platform, and ours to you.</p>
 
     {sections.map((s, i) => (

@@ -5,7 +5,29 @@ import TrustedBy from '../components/sections/TrustedBy.astro';
 import FaqSection from '../components/sections/FaqSection.astro';
 import QuickSetupCta from '../components/sections/QuickSetupCta.astro';
 
-import faqs from '../data/faqs.json';
+import { DEMO_BOOKING_URL } from '../data/links';
+
+// Support questions for this page (the home page has the general product FAQ).
+const faqs = [
+  { question: 'How do I reach SalesZote support?', answer: '<p>Email <a href="mailto:info@saleszote.com">info@saleszote.com</a>, call or WhatsApp <a href="tel:+254701853648">+254 701 853 648</a>, or send us a message with the form on this page.</p>' },
+  { question: 'Can I see SalesZote before I sign up?', answer: `<p>Yes. <a href="${DEMO_BOOKING_URL}" target="_blank" rel="noopener noreferrer">Book a free online demo</a> at a time that suits you and we will walk you through it.</p>` },
+  { question: 'Is there a free trial?', answer: '<p>Yes. Every plan can be tried free for 7 days, and no credit card is needed to start.</p>' },
+  { question: 'Can I change my plan later?', answer: '<p>Yes. You can upgrade or downgrade at any time as your business grows. See the <a href="/pricing">pricing page</a> for what each plan includes.</p>' },
+  { question: 'What happens to my data if I stop using SalesZote?', answer: '<p>Your data stays yours. Before your account is closed, you can ask us for a copy of your business data.</p>' },
+  { question: 'Can I request a new feature?', answer: '<p>Yes. Tell us what your business needs using the form on this page. We prioritise requests based on what our users ask for most.</p>' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer.replace(/<[^>]+>/g, '').trim() },
+    })),
+  },
+];
 
 const contacts = [
   { label: 'Email us:', value: 'info@saleszote.com', href: 'mailto:info@saleszote.com', icon: '/images/new/mail-dark.svg' },
@@ -14,12 +36,12 @@ const contacts = [
 ];
 ---
 
-<Layout title="Contact SalesZote | POS & Inventory Support in Kenya" description="Get in touch with the SalesZote team in Kenya. We're here to help with questions, POS setup, support, and feature requests.">
+<Layout title="Contact SalesZote | POS & Inventory Support in Kenya" description="Get in touch with the SalesZote team in Kenya. We're here to help with questions, POS setup, support, and feature requests." jsonLd={jsonLd}>
   <section class="mx-auto flex w-full max-w-[calc(956px+3rem)] flex-col gap-6 px-6 py-10 md:flex-row md:gap-10 lg:py-20">
     <div class="flex flex-1 flex-col gap-4">
       <div class="flex flex-col gap-2 text-gray-900">
         <h1 class="font-display text-display-3 font-bold lg:text-display-2">We’re Here<br />to Help</h1>
-        <p class="text-body text-gray-900/50 lg:text-body-md">Want to learn more about our product or how to get involved? We're here to help! Feel free to reach out to us using the contact information provided below.</p>
+        <p class="text-body text-gray-900/50 lg:text-body-md">Questions about SalesZote, a demo, or help with your account? Send us a message, or reach us by email or phone below.</p>
       </div>
       <address class="not-italic">
         <ul class="flex flex-col gap-4">
