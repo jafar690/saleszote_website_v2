@@ -100,6 +100,11 @@ const poster = await getImage({ src: filmPoster, format: 'webp', width: 1920 });
       else teaser.pause();
     }, { threshold: 0.25 }).observe(film);
   }
+  const phone = window.matchMedia('(max-width: 767px)');
+  // Leaving full screen on a phone: release the landscape lock; the film carries on in the hero.
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) screen.orientation?.unlock?.();
+  });
   play?.addEventListener('click', () => {
     if (!film || !video) return;
     teaser?.pause();
@@ -108,6 +113,22 @@ const poster = await getImage({ src: filmPoster, format: 'webp', width: 1920 });
     video.classList.remove('opacity-0', 'pointer-events-none');
     play.classList.add('opacity-0', 'pointer-events-none');
     play.tabIndex = -1;
+    // Phones: open the film full screen (it plays inline in the hero on larger screens). Must run inside the tap.
+    if (phone.matches) {
+      if (video.requestFullscreen) {
+        // Android and other browsers: full screen, turned to landscape where the browser allows it.
+        video.requestFullscreen({ navigationUI: 'hide' })
+          .then(() => (screen.orientation as ScreenOrientation & { lock?: (o: string) => Promise<void> }).lock?.('landscape'))
+          .catch(() => (video as HTMLVideoElement & { webkitEnterFullscreen?: () => void }).webkitEnterFullscreen?.());
+      } else {
+        // iPhone: without playsinline, Safari plays the video in its own full-screen player.
+        video.playsInline = false;
+        video.removeAttribute('playsinline');
+      }
+      video.play().catch(() => {});
+      (window as unknown as { trackEvent?: (name: string, props: Record<string, string>) => void }).trackEvent?.('product_video_played', { source: 'home_hero' });
+      return;
+    }
     video.play().catch(() => {});
     video.focus({ preventScroll: true });
     // Bring the whole player into view, centred in the space below the sticky navbar
