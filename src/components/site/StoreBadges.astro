@@ -1,0 +1,15 @@
+---
+type Props = { source: string; class?: string };
+
+const { source, class: className } = Astro.props;
+const badgeClass = 'block rounded-lg transition-[opacity,transform] duration-200 hover:opacity-80 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600';
+---
+
+<div class:list={['flex items-center gap-6', className]}>
+  <a href="https://play.google.com/store/apps/details?id=com.saleszote.app" target="_blank" rel="noopener noreferrer" class={badgeClass} onclick={`trackEvent('app_download_clicked', { platform: 'android', source: '${source}' })`}>
+    <img src="/images/google-play-badge.svg" alt="Get it on Google Play" class="h-12 w-auto" />
+  </a>
+  <a href="https://apps.apple.com/us/app/sales-zote/id6761330158" target="_blank" rel="noopener noreferrer" class={badgeClass} onclick={`trackEvent('app_download_clicked', { platform: 'ios', source: '${source}' })`}>
+    <img src="/images/app-store-badge.svg" alt="Download on the App Store" class="h-12 w-auto" />
+  </a>
+</div>

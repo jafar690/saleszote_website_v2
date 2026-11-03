@@ -12,7 +12,7 @@
       "monthly_price": 1000,
       "annual_monthly_price": 800,
       "is_custom": false,
-      "currency": "KSh",
+      "currency": "KES",
       "cta_label": "Get Started Free",
       "cta_url": "https://app.saleszote.com/register",
       "is_popular": false,
@@ -45,7 +45,7 @@
       "monthly_price": 2500,
       "annual_monthly_price": 2000,
       "is_custom": false,
-      "currency": "KSh",
+      "currency": "KES",
       "cta_label": "Start Free Trial",
       "cta_url": "https://app.saleszote.com/register",
       "is_popular": true,
@@ -78,7 +78,7 @@
       "monthly_price": 6000,
       "annual_monthly_price": 4800,
       "is_custom": false,
-      "currency": "KSh",
+      "currency": "KES",
       "cta_label": "Start Free Trial",
       "cta_url": "https://app.saleszote.com/register",
       "is_popular": false,
@@ -107,11 +107,11 @@
     {
       "id": "enterprise",
       "name": "Enterprise",
-      "tagline": "Fully tailored for large operations — pricing, features, and support all custom.",
+      "tagline": "Custom pricing, features and support for large operations.",
       "monthly_price": null,
       "annual_monthly_price": null,
       "is_custom": true,
-      "currency": "KSh",
+      "currency": "KES",
       "cta_label": "Talk to Sales",
       "cta_url": "/contact",
       "is_popular": false,
@@ -204,15 +204,19 @@
     },
     {
       "question": "Are prices inclusive of VAT?",
-      "answer": "All prices shown are exclusive of VAT. Applicable taxes will be added at checkout based on your location."
+      "answer": "Yes. The price shown is the price you pay. Nothing is added at checkout."
     },
     {
       "question": "How does the annual discount work?",
-      "answer": "When you choose annual billing, you pay for 10 months and get 2 months free — that's a 20% saving compared to monthly billing."
+      "answer": "Annual plans cost 20% less than paying monthly. For example, Starter is KES 800 a month when billed yearly, instead of KES 1,000 a month."
     },
     {
       "question": "What payment methods do you accept for subscriptions?",
-      "answer": "We accept M-Pesa and card payments for your SalesZote subscription."
+      "answer": "You can pay for your subscription by M-Pesa, or by card through Paystack."
+    },
+    {
+      "question": "Can I subscribe from outside Kenya?",
+      "answer": "Yes. Businesses in any country can subscribe. All plans are priced and billed in Kenyan Shillings (KES), and you can pay by M-Pesa, or by card through Paystack."
     },
     {
       "question": "What happens after my free trial ends?",

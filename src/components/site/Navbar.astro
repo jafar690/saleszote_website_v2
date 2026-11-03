@@ -1,0 +1,268 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Logo from './Logo.astro';
+import Button from '../ui/Button.astro';
+import { industries } from '../../data/industries';
+import { industryPhotos } from '../../data/industryPhotos';
+import posRegister from '../../assets/pos-register.png';
+import inventoryPhoto from '../../assets/industries/features/retail-shops/2.jpg';
+
+type Crumb = { label: string; href?: string };
+// The navbar takes the background colour of the section currently underneath it (see the script below).
+// initialBg is the first section's background class, so the right colour shows before the script runs.
+type Props = { breadcrumbs?: Crumb[]; initialBg?: string };
+
+const { breadcrumbs, initialBg = 'bg-white' } = Astro.props;
+const pathname = Astro.url.pathname;
+
+type MenuItem = { title: string; body: string; href: string; image: ImageMetadata };
+const menus: Record<'industries' | 'solutions', MenuItem[]> = {
+  industries: industries.map((i) => ({ title: i.cardTitle, body: `${i.cardBlurb}.`, href: `/industries/${i.slug}`, image: industryPhotos[i.slug] })),
+  solutions: [
+    { title: 'POS System', body: 'Sell with M-Pesa, cash and card, and keep stock accurate.', href: '/pos-system-kenya', image: posRegister },
+    { title: 'Inventory Management', body: 'Track stock in real time across every branch.', href: '/inventory-management-kenya', image: inventoryPhoto },
+  ],
+};
+
+const links: ({ label: string; href: string } | { label: string; menu: keyof typeof menus })[] = [
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Industries', menu: 'industries' },
+  { label: 'Solutions', menu: 'solutions' },
+  { label: 'Contact', href: '/contact' },
+];
+
+const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
+const menuActive = (menu: keyof typeof menus) => menus[menu].some((m) => isActive(m.href));
+const linkClass = 'rounded-sm transition-opacity duration-200 hover:opacity-60 active:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-600';
+---
+
+<header id="site-header" class:list={['sticky top-0 z-40', initialBg]}>
+  <nav class="wrap flex items-center justify-between py-4" aria-label="Main">
+    <a href="/" class:list={['flex', linkClass]} aria-label="SalesZote home"><Logo /></a>
+
+    <ul class="hidden items-center gap-6 text-cta-lg text-gray-900 lg:flex">
+      {links.map((l) => (
+        <li>
+          {'href' in l ? (
+            <a href={l.href} class:list={[linkClass, isActive(l.href) && 'text-primary-600']} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a>
+          ) : (
+            <button type="button" data-menu-trigger={l.menu} aria-expanded="false" aria-controls={`menu-${l.menu}`} class:list={['group flex cursor-pointer items-center gap-1', linkClass, menuActive(l.menu) && 'text-primary-600']}>
+              {l.label}
+              <img src="/images/new/chevron-down.svg" alt="" width="22" height="22" class="size-5.5 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-aria-expanded:rotate-180 motion-reduce:transition-none" />
+            </button>
+          )}
+        </li>
+      ))}
+    </ul>
+
+    <div class="hidden items-center gap-3 lg:flex">
+      <Button href="https://app.saleszote.com/login" variant="outline" pill>Sign In</Button>
+      <Button href="https://app.saleszote.com/register" variant="primary" pill onclick="trackEvent('registration_started', { source: 'header' })">Get Started</Button>
+    </div>
+
+    <button id="menu-btn" type="button" class="-m-2 rounded-md p-2 transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-primary-600 lg:hidden" aria-controls="mobile-menu" aria-expanded="false" aria-label="Open menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12H21M3 6H21M9 18H21" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </nav>
+
+  {breadcrumbs && (
+    <nav class="border-y border-gray-300" aria-label="Breadcrumb">
+      <ol class="wrap flex flex-wrap items-center gap-2 py-3 text-body-sm text-gray-900 lg:py-4 lg:text-body">
+        {breadcrumbs.map((c, i) => (
+          <li class="flex items-center gap-2">
+            {i > 0 && <span aria-hidden="true">/</span>}
+            {c.href && i < breadcrumbs.length - 1
+              ? <a href={c.href} class={linkClass}>{c.label}</a>
+              : <span class:list={[i === breadcrumbs.length - 1 && 'font-bold']} aria-current={i === breadcrumbs.length - 1 ? 'page' : undefined}>{c.label}</span>}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )}
+
+  <!-- Desktop dropdown panels: full width under the 80px bar, taking the navbar's current colour (bg-inherit). -->
+  {Object.entries(menus).map(([key, items]) => (
+    <div
+      id={`menu-${key}`}
+      data-menu-panel={key}
+      data-open="false"
+      class="invisible absolute inset-x-0 top-20 hidden -translate-y-2 border-t border-gray-300 bg-inherit py-10 opacity-0 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)] transition-[opacity,transform] duration-200 ease-out data-[open=true]:visible data-[open=true]:translate-y-0 data-[open=true]:opacity-100 motion-reduce:transition-none lg:block"
+    >
+      <ul class="mx-auto grid max-w-[calc(956px+3rem)] grid-cols-2 gap-10 px-6">
+        {items.map((m) => (
+          <li>
+            <a href={m.href} class="group/item flex items-start gap-3 rounded-xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-600" aria-current={isActive(m.href) ? 'page' : undefined}>
+              <span class="relative h-25 w-37.5 shrink-0 overflow-hidden rounded-xl border-4 border-black/20">
+                <Image src={m.image} alt="" widths={[150, 300, 450]} sizes="150px" class="absolute inset-0 size-full object-cover transition-transform duration-500 ease-out group-hover/item:scale-105" />
+              </span>
+              <span class="flex flex-col gap-1">
+                <span class="text-body-md font-bold text-gray-900">{m.title}</span>
+                <span class="text-body text-gray-900/50">{m.body}</span>
+                <span class="text-cta-lg text-primary-600">Learn more <span class="inline-block transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/item:translate-x-1" aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+
+  <!-- Mobile menu: full screen with its own close button; Industries/Solutions expand inline. -->
+  <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu" class="fixed inset-0 z-10 hidden flex-col overflow-y-auto bg-white lg:hidden">
+    <div class="flex h-16 shrink-0 items-center justify-end px-6">
+      <button id="menu-close" type="button" class="-m-2 rounded-md p-2 transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-primary-600" aria-label="Close menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 6L6 18M6 6L18 18" stroke="#171717" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <ul class="flex flex-col text-body-md font-bold text-gray-900">
+      {links.map((l) => (
+        <li>
+          {'href' in l ? (
+            <a href={l.href} data-close-menu class:list={['block px-6 py-4', linkClass, isActive(l.href) && 'text-primary-600']}>{l.label}</a>
+          ) : (
+            <>
+              <button type="button" data-mobile-trigger={l.menu} aria-expanded="false" aria-controls={`mobile-menu-${l.menu}`} class:list={['group flex w-full cursor-pointer items-center gap-1 px-6 py-4', linkClass]}>
+                {l.label}
+                <img src="/images/new/chevron-down.svg" alt="" width="22" height="22" class="size-5.5 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-aria-expanded:rotate-180 motion-reduce:transition-none" />
+              </button>
+              <div id={`mobile-menu-${l.menu}`} data-mobile-panel={l.menu} data-open="false" inert class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] data-[open=true]:grid-rows-[1fr] motion-reduce:transition-none">
+                <div class="overflow-hidden">
+                  <ul class="flex flex-col gap-4 bg-gray-50 p-6 font-normal">
+                    {menus[l.menu].map((m) => (
+                      <li>
+                        <a href={m.href} data-close-menu class="flex items-start gap-3 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">
+                          <span class="relative h-13.5 w-20 shrink-0 overflow-hidden rounded-lg border-2 border-black/20">
+                            <Image src={m.image} alt="" widths={[80, 160, 240]} sizes="80px" class="absolute inset-0 size-full object-cover" />
+                          </span>
+                          <span class="flex flex-col gap-1">
+                            <span class="text-body-sm font-bold">{m.title}</span>
+                            <span class="text-xs/[1.4] text-gray-900/50">{m.body}</span>
+                            <span class="text-cta-sm text-primary-600">Learn more →</span>
+                          </span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </>
+          )}
+        </li>
+      ))}
+    </ul>
+    <div class="mt-auto flex flex-col gap-4 px-6 py-4">
+      <Button href="https://app.saleszote.com/login" variant="outline" class="w-full" data-close-menu>Sign In</Button>
+      <Button href="https://app.saleszote.com/register" variant="primary" class="w-full" data-close-menu onclick="trackEvent('registration_started', { source: 'header_mobile' })">Get Started</Button>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Expose the header height so pinned sections can sit just below a sticky header.
+  const header = document.getElementById('site-header');
+  if (header) {
+    const setHeight = () => document.documentElement.style.setProperty('--header-h', `${header.offsetHeight}px`);
+    new ResizeObserver(setHeight).observe(header);
+    setHeight();
+  }
+
+  // Match the background of whatever section sits just below the header. Dark or transparent
+  // backgrounds (black/green bands, photos) fall back to white so the dark nav text stays readable.
+  if (header) {
+    const parse = (c: string) => c.match(/[\d.]+/g)?.map(Number) ?? [];
+    const isLight = ([r, g, b]: number[]) => (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 > 0.85;
+
+    function backgroundUnderHeader() {
+      let el = document.elementFromPoint(8, header!.offsetHeight + 1);
+      while (el && el !== document.documentElement) {
+        if (!header!.contains(el)) {
+          const [r, g, b, a = 1] = parse(getComputedStyle(el).backgroundColor);
+          if (a > 0.5) return isLight([r, g, b]) ? `rgb(${r}, ${g}, ${b})` : '#fff';
+        }
+        el = el.parentElement;
+      }
+      return '#fff';
+    }
+
+    let frame = 0;
+    const sync = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => (header.style.backgroundColor = backgroundUnderHeader()));
+    };
+    window.addEventListener('scroll', sync, { passive: true });
+    window.addEventListener('resize', sync);
+    sync();
+  }
+
+  // Desktop dropdowns: open on click or hover, one at a time; close on Escape, outside click or leaving.
+  const triggers = [...document.querySelectorAll<HTMLButtonElement>('[data-menu-trigger]')];
+  const panelFor = (t: HTMLElement) => document.getElementById(`menu-${t.dataset.menuTrigger}`);
+  let closeTimer = 0;
+
+  function setDropdown(trigger: HTMLButtonElement, open: boolean) {
+    trigger.setAttribute('aria-expanded', String(open));
+    panelFor(trigger)?.setAttribute('data-open', String(open));
+  }
+  const closeAll = (except?: HTMLButtonElement) => triggers.forEach((t) => t !== except && setDropdown(t, false));
+  const openOne = (t: HTMLButtonElement) => { clearTimeout(closeTimer); closeAll(t); setDropdown(t, true); };
+  const closeSoon = () => { clearTimeout(closeTimer); closeTimer = window.setTimeout(() => closeAll(), 200); };
+
+  triggers.forEach((t) => {
+    const panel = panelFor(t);
+    // Hovering opens the panel just before the click lands; don't let that click immediately close it again.
+    let hoverOpenedAt = 0;
+    t.addEventListener('click', () => {
+      const open = t.getAttribute('aria-expanded') === 'true';
+      if (open && performance.now() - hoverOpenedAt > 500) setDropdown(t, false);
+      else openOne(t);
+    });
+    for (const el of [t, panel]) {
+      el?.addEventListener('pointerenter', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        if (t.getAttribute('aria-expanded') !== 'true') hoverOpenedAt = performance.now();
+        openOne(t);
+      });
+      el?.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') closeSoon(); });
+    }
+  });
+  document.addEventListener('click', (e) => {
+    const target = e.target as Node;
+    if (!triggers.some((t) => t.contains(target) || panelFor(t)?.contains(target))) closeAll();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const open = triggers.find((t) => t.getAttribute('aria-expanded') === 'true');
+    if (open) { closeAll(); open.focus(); }
+    if (mobileMenu && !mobileMenu.classList.contains('hidden')) setMenu(false);
+  });
+
+  // Mobile menu
+  const menuBtn = document.getElementById('menu-btn');
+  const menuClose = document.getElementById('menu-close');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  function setMenu(open: boolean) {
+    mobileMenu?.classList.toggle('hidden', !open);
+    mobileMenu?.classList.toggle('flex', open);
+    menuBtn?.setAttribute('aria-expanded', String(open));
+    // The WhatsApp button (z-50) sits outside the header; lift the header above it while the menu is open.
+    header?.classList.toggle('z-[60]', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) menuClose?.focus();
+    else menuBtn?.focus();
+  }
+
+  menuBtn?.addEventListener('click', () => setMenu(true));
+  menuClose?.addEventListener('click', () => setMenu(false));
+  document.querySelectorAll('[data-close-menu]').forEach((el) => el.addEventListener('click', () => setMenu(false)));
+  document.querySelectorAll<HTMLButtonElement>('[data-mobile-trigger]').forEach((t) => {
+    t.addEventListener('click', () => {
+      const open = t.getAttribute('aria-expanded') !== 'true';
+      t.setAttribute('aria-expanded', String(open));
+      const panel = document.getElementById(`mobile-menu-${t.dataset.mobileTrigger}`);
+      panel?.setAttribute('data-open', String(open));
+      if (panel) panel.inert = !open; // collapsed links stay out of the tab order
+    });
+  });
+</script>

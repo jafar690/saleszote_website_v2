@@ -12,7 +12,7 @@
 
 ## Local Server
 - **Always serve on localhost** — never screenshot a `file:///` URL.
-- Start the dev server: `yarn dev` (serves the project root at `http://localhost:4321`)
+- Start the dev server: `pnpm dev` (serves the project root at `http://localhost:4321`)
 - If the server is already running, do not start a second instance.
 
 ## Screenshot Workflow

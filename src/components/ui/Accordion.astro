@@ -1,0 +1,99 @@
+---
+type Item = { title: string; body: string };
+
+type Props = {
+  items: Item[];
+  name: string;
+  openFirst?: boolean;
+  class?: string;
+};
+
+const { items, name, openFirst = true, class: className } = Astro.props;
+
+// Optional "media" slot: shown under the open item's answer on phones only (e.g. a product shot that sits
+// beside the accordion on desktop). Rendered once and reused in each panel.
+const media = Astro.slots.has('media') ? await Astro.slots.render('media') : '';
+
+// Bodies may be rich HTML (FAQ data) or plain text; plain text gets wrapped in a paragraph.
+const escape = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const toHtml = (body: string) => (body.trim().startsWith('<') ? body : `<p>${escape(body)}</p>`);
+---
+
+<!--
+  Native <details> so it works without JS. The script takes over opening/closing so the panel
+  height can ease (grid rows 0fr → 1fr) and only one item in the group is open at a time.
+-->
+<div class:list={['flex flex-col', className]} data-accordion={name}>
+  {items.map((item, i) => {
+    const open = openFirst && i === 0;
+    return (
+      <details open={open} data-state={open ? 'open' : 'closed'} class="group">
+        <summary class="flex cursor-pointer list-none items-center gap-4 border-b border-gray-900 py-3 text-body font-bold text-gray-900 outline-none transition-opacity duration-200 hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 [&::-webkit-details-marker]:hidden">
+          <span class="flex-1">{item.title}</span>
+          <img src="/images/new/chevron-down.svg" alt="" width="24" height="24" class="shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-data-[state=open]:rotate-180 motion-reduce:transition-none" />
+        </summary>
+        <div class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[state=open]:grid-rows-[1fr] motion-reduce:transition-none" data-accordion-panel>
+          <div class="overflow-hidden">
+            <div class="-translate-y-2 py-3 text-body text-gray-900/50 opacity-0 transition-[opacity,transform] duration-300 ease-out group-data-[state=open]:translate-y-0 group-data-[state=open]:opacity-100 motion-reduce:transition-none [&_a]:underline [&_p+p]:mt-2" set:html={toHtml(item.body)} />
+            {media && <div class="pb-3 lg:hidden" set:html={media} />}
+          </div>
+        </div>
+      </details>
+    );
+  })}
+</div>
+
+<script>
+  const DURATION = 300;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function openItem(el: HTMLDetailsElement) {
+    el.open = true;
+    // Let the browser render the collapsed panel first so the height transition has a start point.
+    requestAnimationFrame(() => requestAnimationFrame(() => (el.dataset.state = 'open')));
+  }
+
+  function closeItem(el: HTMLDetailsElement) {
+    el.dataset.state = 'closed';
+    const finish = () => {
+      if (el.dataset.state === 'closed') el.open = false;
+    };
+    if (reduceMotion.matches) return finish();
+    setTimeout(finish, DURATION);
+  }
+
+  // When an item above the tapped one collapses, everything below it moves up, so the tapped item would slide
+  // out from under the visitor's finger (badly on phones, where open items can hold a tall image). Scroll along
+  // with the collapse so the tapped heading stays where it was on screen.
+  function pinWhileCollapsing(anchor: HTMLElement) {
+    const startTop = anchor.getBoundingClientRect().top;
+    const until = performance.now() + DURATION + 100;
+    const step = () => {
+      const drift = anchor.getBoundingClientRect().top - startTop;
+      if (Math.abs(drift) > 0.5) window.scrollBy({ top: drift, behavior: 'instant' });
+      if (performance.now() < until) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-accordion]').forEach((group) => {
+    const items = [...group.querySelectorAll<HTMLDetailsElement>(':scope > details')];
+    items.forEach((item) => {
+      const summary = item.querySelector('summary');
+      summary?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const opening = item.dataset.state !== 'open';
+        if (opening) {
+          const closingAbove = items.filter((other) => other !== item && other.dataset.state === 'open');
+          if (summary && closingAbove.some((other) => other.compareDocumentPosition(item) & Node.DOCUMENT_POSITION_FOLLOWING)) pinWhileCollapsing(summary);
+          closingAbove.forEach(closeItem);
+          openItem(item);
+        } else {
+          closeItem(item);
+        }
+        // Lets surrounding sections react to the open item (e.g. swap a demo video); -1 means all closed.
+        group.dispatchEvent(new CustomEvent('accordion:change', { detail: { index: opening ? items.indexOf(item) : -1 }, bubbles: true }));
+      });
+    });
+  });
+</script>

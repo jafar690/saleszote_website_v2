@@ -1,0 +1,40 @@
+---
+import { Image } from 'astro:assets';
+import grabadrink from '../../assets/logos/grabadrink.png';
+import edensKenya from '../../assets/logos/edens-kenya.png';
+import juwami from '../../assets/logos/juwami.png';
+import organic from '../../assets/logos/organic.png';
+import malizote from '../../assets/logos/malizote.png';
+import street from '../../assets/logos/street.png';
+import megamart from '../../assets/logos/megamart.png';
+import mummy from '../../assets/logos/mummy.png';
+import treasureIsland from '../../assets/logos/treasure-island.png';
+
+type Props = { class?: string };
+const { class: className = 'bg-gray-50' } = Astro.props;
+
+const logos = [
+  { src: grabadrink, alt: 'Grab A Drink', w: 163.2 },
+  { src: edensKenya, alt: "Eden's Kenya", w: 64 },
+  { src: juwami, alt: 'Juwami', w: 194.9 },
+  { src: organic, alt: 'Organic Fresh & Natural', w: 128 },
+  { src: malizote, alt: 'MaliZote', w: 160 },
+  { src: street, alt: 'Street Modern Clothing', w: 152 },
+  { src: megamart, alt: 'Megamart', w: 129.6 },
+  { src: mummy, alt: 'Mummy', w: 64 },
+  { src: treasureIsland, alt: 'Treasure Island', w: 86.4 },
+];
+---
+
+<section class:list={['overflow-hidden py-6 lg:py-10', className]}>
+  <div class="wrap flex flex-col items-center gap-6">
+    <h2 class="text-center text-body text-gray-900/50">TRUSTED BY BUSINESSES IN KENYA AND BEYOND</h2>
+    <ul class="flex w-full flex-nowrap items-center justify-center gap-6 lg:gap-10">
+      {logos.map((l) => (
+        <li class="shrink-0">
+          <Image src={l.src} alt={l.alt} height={64} width={Math.round(l.w)} densities={[1, 2]} class="h-12 w-auto object-contain opacity-50 mix-blend-luminosity lg:h-16" />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

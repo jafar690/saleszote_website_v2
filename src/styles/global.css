@@ -1,16 +1,56 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Manrope:wght@400;500;700;800&family=Inter:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-    --font-main: "Plus Jakarta Sans", sans-serif;
+    /* New website design system (Figma: Sales Zote POS / Design System) */
+    --font-display: "Lora", serif;
+    --font-sans: "Manrope", sans-serif;
+    --font-ui: "Inter", sans-serif;
 
-    --color-primary-50: #FFFAE9;
+    --text-display-1: 4.5rem;
+    --text-display-1--line-height: 1.2;
+    --text-display-2: 3.75rem;
+    --text-display-2--line-height: 1.2;
+    --text-display-3: 3rem;
+    --text-display-3--line-height: 1.2;
+    --text-heading-1: 2.25rem;
+    --text-heading-1--line-height: 1.4;
+    --text-heading-1--font-weight: 700;
+    --text-heading-2: 1.875rem;
+    --text-heading-2--line-height: 1.4;
+    --text-heading-2--font-weight: 700;
+    --text-body-lg: 1.5rem;
+    --text-body-lg--line-height: 1.4;
+    --text-body-md: 1.25rem;
+    --text-body-md--line-height: 1.4;
+    --text-body: 1rem;
+    --text-body--line-height: 1.4;
+    --text-body-sm: 0.875rem;
+    --text-body-sm--line-height: 1.4;
+    --text-cta-lg: 1rem;
+    --text-cta-lg--line-height: 1.4;
+    --text-cta-lg--font-weight: 700;
+    --text-cta: 0.875rem;
+    --text-cta--line-height: 1.4;
+    --text-cta--font-weight: 700;
+    --text-cta-sm: 0.75rem;
+    --text-cta-sm--line-height: 1.4;
+    --text-cta-sm--font-weight: 700;
+
+    --color-secondary-800: #1B5A31;
+    --color-secondary-900: #194E2C;
+
+    --color-logo-orange: #FA9000;
+    --color-logo-green: #1B5A31;
+    --color-logo-gray: #171717;
+
+    --color-primary-50: #FEFAF1;
     --color-primary-100: #FEF1C3;
     --color-primary-200: #FDE285;
     --color-primary-300: #FECC45;
     --color-primary-400: #FDB202;
     --color-primary-500: #FA9000;
-    --color-primary-600: #DA6800;
+    --color-primary-600: #D8722D;
     --color-primary-700: #B04600;
     --color-primary-800: #8A360E;
     --color-primary-900: #6E2E12;
@@ -34,13 +74,26 @@
     --leading-10: 120%;
 }
 
+/* Site content column: 1198px wide at the 1440px design width, 24px gutters below that */
+@utility wrap {
+    width: 100%;
+    max-width: calc(1198px + 3rem);
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+}
+
 html {
     scroll-behavior: smooth;
+    /* Keep in-page anchor targets clear of the sticky header (--header-h is set by the navbar) */
+    scroll-padding-top: var(--header-h, 0px);
 }
 
 body {
-    font-family: "Plus Jakarta Sans", sans-serif;
+    font-family: var(--font-sans);
     font-optical-sizing: auto;
+    /* Grayscale antialiasing to match Figma's rendering; macOS's default makes light-on-dark text look bolder */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 button, a {
@@ -56,11 +109,6 @@ button, a {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-}
-
-input, textarea {
-    @apply bg-white rounded-lg outline outline-1 outline-offset-[-1px] outline-neutral-300 w-full;
-    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.10), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
 }
 
 /* FAQ accordion */
@@ -83,20 +131,13 @@ input, textarea {
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-/* Scroll animation for mobile logo carousel */
-@keyframes scroll {
-    0% {
+/* Endless sliders: each copy of the list slides its own full width, so the loop resets on an identical frame. */
+@keyframes marquee {
+    from {
         transform: translateX(0);
     }
-    100% {
-        transform: translateX(-50%);
+    to {
+        transform: translateX(-100%);
     }
 }
 
-.animate-scroll {
-    animation: scroll 20s linear infinite;
-}
-
-.animate-scroll:hover {
-    animation-play-state: paused;
-}

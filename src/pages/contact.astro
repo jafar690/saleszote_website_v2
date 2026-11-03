@@ -1,56 +1,73 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ContactForm from '../components/ContactForm.astro';
-import Faqs from '../components/home/Faqs.astro';
+import TrustedBy from '../components/sections/TrustedBy.astro';
+import FaqSection from '../components/sections/FaqSection.astro';
+import QuickSetupCta from '../components/sections/QuickSetupCta.astro';
 
-import faqs from '../data/faqs.json';
+import { DEMO_BOOKING_URL } from '../data/links';
+
+// Support questions for this page (the home page has the general product FAQ).
+const faqs = [
+  { question: 'How do I reach SalesZote support?', answer: '<p>Email <a href="mailto:info@saleszote.com">info@saleszote.com</a>, call or WhatsApp <a href="tel:+254701853648">+254 701 853 648</a>, or send us a message with the form on this page.</p>' },
+  { question: 'Can I see SalesZote before I sign up?', answer: `<p>Yes. <a href="${DEMO_BOOKING_URL}" target="_blank" rel="noopener noreferrer">Book a free online demo</a> at a time that suits you and we will walk you through it.</p>` },
+  { question: 'Is there a free trial?', answer: '<p>Yes. Every plan can be tried free for 7 days, and no credit card is needed to start.</p>' },
+  { question: 'Can I change my plan later?', answer: '<p>Yes. You can upgrade or downgrade at any time as your business grows. See the <a href="/pricing">pricing page</a> for what each plan includes.</p>' },
+  { question: 'What happens to my data if I stop using SalesZote?', answer: '<p>Your data stays yours. Before your account is closed, you can ask us for a copy of your business data.</p>' },
+  { question: 'Can I request a new feature?', answer: '<p>Yes. Tell us what your business needs using the form on this page. We prioritise requests based on what our users ask for most.</p>' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: { '@type': 'Answer', text: faq.answer.replace(/<[^>]+>/g, '').trim() },
+    })),
+  },
+];
+
+const contacts = [
+  { label: 'Email us:', value: 'info@saleszote.com', href: 'mailto:info@saleszote.com', icon: '/images/new/mail-dark.svg' },
+  { label: 'Call us:', value: '+254 701 853 648', href: 'tel:+254701853648', icon: '/images/new/phone-dark.svg' },
+  { label: 'Location:', value: 'Eden Plaza, ICIPE Junction, Kasarani, Nairobi, Kenya', icon: '/images/new/marker-pin.svg' },
+];
 ---
 
-<Layout title="Contact SalesZote | POS & Inventory Support in Kenya" description="Get in touch with the SalesZote team in Kenya. We're here to help with questions, POS setup, support, and feature requests.">
-    <section class="max-w-8xl mx-auto px-8 xl:px-30 py-20 bg-neutral-50">
-        <div class="grid grid-cols-2 gap-5">
-            <div class="col-span-2 lg:col-span-1">
-                <div class="flex flex-col items-center lg:items-start">
-                    <h1 class="max-w-147.5 justify-start text-center lg:text-start text-black text-4xl sm:text-5xl font-bold leading-10 sm:leading-[57.60px]">
-                        We're Here to
-                        <span class="text-primary-500 font-bold">Answer</span>
-                        Your Questions
-                    </h1>
+<Layout title="Contact SalesZote | POS & Inventory Support in Kenya" description="Get in touch with the SalesZote team in Kenya. We're here to help with questions, POS setup, support, and feature requests." jsonLd={jsonLd}>
+  <section class="mx-auto flex w-full max-w-[calc(956px+3rem)] flex-col gap-6 px-6 py-10 md:flex-row md:gap-10 lg:py-20">
+    <div class="flex flex-1 flex-col gap-4">
+      <div class="flex flex-col gap-2 text-gray-900">
+        <h1 class="font-display text-display-3 font-bold lg:text-display-2">We’re Here<br />to Help</h1>
+        <p class="text-body text-gray-900/50 lg:text-body-md">Questions about SalesZote, a demo, or help with your account? Send us a message, or reach us by email or phone below.</p>
+      </div>
+      <address class="not-italic">
+        <ul class="flex flex-col gap-4">
+          {contacts.map((c) => (
+            <li class="flex items-stretch gap-2">
+              <span class="flex w-10.5 shrink-0 items-center justify-center rounded-lg bg-gray-100">
+                <img src={c.icon} alt="" width="22" height="22" />
+              </span>
+              <span class="flex flex-col text-gray-900">
+                <span class="text-body-sm opacity-50">{c.label}</span>
+                {c.href
+                  ? <a href={c.href} class="self-start rounded-sm text-body transition-opacity duration-200 hover:opacity-70 active:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600">{c.value}</a>
+                  : <span class="text-body">{c.value}</span>}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </address>
+    </div>
 
-                    <div class="max-w-147.5 justify-start text-center lg:text-start text-black text-base font-medium leading-snug mt-6 mb-7">
-                        Want to learn more about our product or how to get involved? We're here to help!
-                        Feel free to reach out to us using the contact information provided below.
-                    </div>
-                </div>
+    <div class="flex-1">
+      <ContactForm />
+    </div>
+  </section>
 
-                <div class="flex gap-x-5 mb-5">
-                    <div class="w-12 h-12 p-2.5 bg-primary-500 rounded-md inline-flex justify-center items-center gap-2.5">
-                        <img src="/images/icons/phone.svg" alt="Phone">
-                    </div>
-
-                    <div class="flex flex-col justify-between">
-                        <p class="justify-start text-neutral-500 text-sm font-medium leading-tight">Call Us</p>
-                        <p class="justify-start text-black text-base font-medium leading-snug">+254 701 853 648</p>
-                    </div>
-                </div>
-
-                <div class="flex gap-x-5">
-                    <div class="w-12 h-12 p-2.5 bg-primary-500 rounded-md inline-flex justify-center items-center gap-2.5">
-                        <img src="/images/icons/email.svg" alt="Email">
-                    </div>
-
-                    <div class="flex flex-col justify-between">
-                        <p class="justify-start text-neutral-500 text-sm font-medium leading-tight">Email Us</p>
-                        <p class="justify-start text-black text-base font-medium leading-snug">info@saleszote.com</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-span-2 lg:col-span-1">
-                <ContactForm />
-            </div>
-        </div>
-    </section>
-
-    <Faqs faqs={faqs} showContactLink={false} />
+  <TrustedBy class="bg-white" />
+  <FaqSection faqs={faqs} />
+  <QuickSetupCta source="contact_cta" />
 </Layout>

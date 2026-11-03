@@ -1,0 +1,34 @@
+---
+import { Image } from 'astro:assets';
+import bg from '../../assets/home/why-bg.png';
+import tablet from '../../assets/pos-tablet.png';
+
+const reasons = [
+  { title: 'Built for Businesses Like Yours', body: 'From Nairobi to Kampala, Juba and Malé, SalesZote is made for the way small businesses really sell, including M-Pesa and the other payment methods your customers use.' },
+  { title: 'Works With Your Hardware', body: 'Start on the phone or computer you already have, and add a barcode scanner or receipt printer whenever you are ready.' },
+  { title: 'Access Anywhere, Anytime', body: "Your data is stored securely in the cloud so you can manage your business from your phone, tablet, or computer, even when you're on the move." },
+  { title: 'Secure and Reliable', body: 'We take your data seriously. SalesZote uses modern encryption and regular backups to keep your business information safe.' },
+  { title: 'Local Support That Cares', body: 'Talk to a real person when you need help. Our friendly support team is here to assist you every step of the way.' },
+  { title: 'You Help Shape the Product', body: "Need a feature that's not there yet? We're always improving. Request new features and help shape a tool that grows with your business." },
+];
+---
+
+<section class="bg-black py-10 text-white lg:py-20">
+  <div class="wrap flex flex-col gap-6 lg:gap-10">
+    <h2 class="font-display text-display-3 lg:text-display-2">Why Choose SalesZote</h2>
+    <div class="flex flex-col gap-6 lg:flex-row lg:gap-10">
+      <div class="relative flex h-62.5 flex-1 items-end justify-center overflow-hidden rounded-3xl lg:h-auto lg:pt-8">
+        <Image src={bg} alt="" widths={[600, 1130]} sizes="(min-width: 1024px) 579px, 100vw" class="absolute inset-0 size-full object-cover" />
+        <Image src={tablet} alt="Hand holding a tablet running the SalesZote POS" widths={[600, 1160]} sizes="(min-width: 1024px) 579px, 100vw" class="relative h-auto w-full" />
+      </div>
+      <div class="grid flex-1 gap-6 sm:grid-cols-2">
+        {reasons.map((r) => (
+          <div class="flex flex-col gap-2">
+            <h3 class="text-body-md font-bold">{r.title}</h3>
+            <p class="text-body opacity-60">{r.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,96 @@
+---
+// 404 illustration: a receipt printer printing a receipt for the page that wasn't found.
+// On load the receipt feeds out of the slot once (transform only); reduced motion shows the printed receipt.
+type Props = { class?: string };
+const { class: className } = Astro.props;
+
+// Torn (zigzag) bottom edge of the paper, from the right edge back to the left.
+const left = 60;
+const right = 300;
+const bottom = 470;
+const tooth = 12;
+let edge = '';
+for (let x = right; x > left; x -= tooth) edge += ` L${x - tooth / 2},${bottom + 8} L${x - tooth},${bottom}`;
+const paper = `M${left},84 H${right} V${bottom}${edge} Z`;
+
+// Barcode: fixed pattern of bar widths/gaps so the drawing is identical on every build.
+const pattern = [3, 1, 1, 2, 4, 1, 2, 1, 1, 3, 2, 2, 1, 1, 3, 1, 4, 2, 1, 1, 2, 3, 1, 2, 1, 1, 4, 1, 2, 2, 1, 3, 1, 1, 2, 1, 3, 2, 1, 4, 1, 1, 2];
+const bars: { x: number; w: number }[] = [];
+let bx = 86;
+pattern.forEach((w, i) => {
+  if (i % 2 === 0) bars.push({ x: bx, w: w * 1.6 });
+  bx += w * 1.6 + 1.2;
+});
+const barScale = (276 - 86) / (bx - 86);
+---
+
+<svg viewBox="0 0 360 540" class:list={['receipt-art h-auto w-full', className]} aria-hidden="true" focusable="false">
+  <defs>
+    <clipPath id="receipt-slot"><rect x="0" y="84" width="360" height="456" /></clipPath>
+    <filter id="receipt-shadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#5c3a1a" flood-opacity="0.12" />
+    </filter>
+  </defs>
+
+  <!-- Receipt (drawn first so it sits behind the printer's front lip) -->
+  <g clip-path="url(#receipt-slot)">
+    <g class="receipt-paper" filter="url(#receipt-shadow)">
+      <path d={paper} fill="#fff" />
+      <g font-family="Inter, sans-serif" fill="#171717">
+        <image href="/images/new/logo-mark.svg" x="84" y="110" width="22" height="22" />
+        <text x="112" y="126" font-size="15" font-weight="700">SalesZote</text>
+        <text x="84" y="152" font-size="12" fill="#737373">Receipt #404</text>
+        <line x1="84" y1="170" x2="276" y2="170" stroke="#d4d4d4" stroke-width="1.5" stroke-dasharray="4 4" />
+
+        <text x="84" y="198" font-size="13">Page you asked for</text>
+        <text x="276" y="198" font-size="13" text-anchor="end">×1</text>
+        <text x="84" y="222" font-size="13">In stock</text>
+        <text x="276" y="222" font-size="13" text-anchor="end" fill="#D8722D" font-weight="700">0</text>
+        <text x="84" y="244" font-size="11" fill="#737373">Moved, renamed or mistyped link</text>
+        <line x1="84" y1="264" x2="276" y2="264" stroke="#d4d4d4" stroke-width="1.5" stroke-dasharray="4 4" />
+
+        <text x="84" y="304" font-size="14" font-weight="700">Total</text>
+        <text x="276" y="308" font-family="Lora, serif" font-size="38" font-weight="700" text-anchor="end">404</text>
+
+        <g transform={`translate(86 0) scale(${barScale} 1) translate(-86 0)`}>
+          {bars.map((b) => <rect x={b.x} y="336" width={b.w} height="46" fill="#171717" />)}
+        </g>
+        <text x="180" y="402" font-size="11" fill="#737373" text-anchor="middle" letter-spacing="3">0000 404 0000</text>
+        <text x="180" y="436" font-size="12" fill="#737373" text-anchor="middle">Thanks for stopping by</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Printer: lid on top, front panel with the paper slot and tear bar -->
+  <rect x="14" y="4" width="332" height="102" rx="26" fill="#262626" />
+  <path d="M14,46 V30 A26,26 0 0 1 40,4 H320 A26,26 0 0 1 346,30 V46 Z" fill="#363636" />
+  <rect x="14" y="46" width="332" height="2" fill="#1c1c1c" />
+  <rect x="40" y="10" width="280" height="2" rx="1" fill="#fff" opacity="0.06" />
+  <image href="/images/new/logo-mark.svg" x="32" y="13" width="24" height="24" />
+  <rect x="272" y="19" width="26" height="12" rx="6" fill="#4a4a4a" />
+  <circle class="receipt-led" cx="318" cy="25" r="4.5" fill="#3ecf6e" />
+  <rect x="44" y="74" width="272" height="12" rx="6" fill="#141414" />
+  <path d="M48,90 H312" stroke="#5a5a5a" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 3" />
+</svg>
+
+<style>
+  /* One orchestrated moment: the receipt feeds out of the slot while the status light blinks. */
+  .receipt-paper {
+    animation: receipt-print 1.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both;
+  }
+  .receipt-led {
+    animation: receipt-blink 0.3s steps(2, jump-none) 0.35s 6 alternate both;
+  }
+  @keyframes receipt-print {
+    from { transform: translateY(-400px); }
+    to { transform: translateY(0); }
+  }
+  @keyframes receipt-blink {
+    from { opacity: 1; }
+    to { opacity: 0.25; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .receipt-paper,
+    .receipt-led { animation: none; }
+  }
+</style>

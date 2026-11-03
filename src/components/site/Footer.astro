@@ -1,0 +1,104 @@
+---
+import Logo from './Logo.astro';
+import StoreBadges from './StoreBadges.astro';
+import { industries } from '../../data/industries';
+import { DEMO_BOOKING_URL } from '../../data/links';
+
+type FooterLink = { label: string; href: string; external?: boolean; track?: string };
+
+const columns: { title: string; links: FooterLink[] }[] = [
+  {
+    title: 'Get Started',
+    links: [
+      { label: 'Sign In', href: 'https://app.saleszote.com/login' },
+      { label: 'Create Account', href: 'https://app.saleszote.com/register' },
+      { label: 'Request a Demo', href: DEMO_BOOKING_URL, external: true, track: 'demo_booking_clicked' },
+      { label: 'Contact Support', href: '/contact' },
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
+      { label: 'Terms of Use', href: '/terms-of-use' },
+      { label: 'Privacy Policy', href: '/privacy-policy' },
+    ],
+  },
+  {
+    title: 'Solutions',
+    links: [
+      { label: 'POS System', href: '/pos-system-kenya' },
+      { label: 'Inventory Management', href: '/inventory-management-kenya' },
+    ],
+  },
+  {
+    title: 'Industries',
+    links: industries.map((i) => ({ label: i.name, href: `/industries/${i.slug}` })),
+  },
+];
+
+const socials = [
+  { name: 'Facebook', icon: 'facebook', href: 'https://web.facebook.com/saleszote' },
+  { name: 'Instagram', icon: 'instagram', href: 'https://www.instagram.com/saleszote' },
+  { name: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/company/saleszote' },
+  { name: 'X', icon: 'x', href: 'https://x.com/saleszote' },
+  { name: 'YouTube', icon: 'youtube', href: 'https://www.youtube.com/@SalesZote' },
+];
+
+const linkClass = 'rounded-sm transition-opacity duration-200 hover:opacity-100 active:opacity-80 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600';
+const [getStarted, legal, solutions, industryCol] = columns;
+---
+
+<!-- Phones: one column — about, Get Started, Solutions, Industries, Legal, store badges, copyright.
+     Desktop: about | Get Started + Legal | Solutions | Industries, copyright left and badges right. -->
+<footer class="bg-black py-10 text-white lg:py-20">
+  <div class="wrap flex flex-col gap-6 lg:gap-10">
+    <div class="flex flex-col gap-6 lg:flex-row lg:gap-10">
+      <div class="flex flex-col gap-4 lg:w-100 lg:shrink-0 lg:gap-6">
+        <a href="/" class:list={['flex self-start', linkClass]} aria-label="SalesZote home"><Logo variant="footer" /></a>
+        <p class="text-body opacity-60">SalesZote is a powerful and easy-to-use retail POS solution designed to simplify your sales, inventory, and customer management.</p>
+        <address class="flex flex-col gap-4 not-italic lg:gap-6">
+        <a href="mailto:info@saleszote.com" class:list={['flex items-center gap-2 self-start text-body opacity-60', linkClass]}>
+          <img src="/images/new/mail.svg" alt="" width="22" height="22" />info@saleszote.com
+        </a>
+        <a href="tel:+254701853648" class:list={['flex items-center gap-2 self-start text-body opacity-60', linkClass]}>
+          <img src="/images/new/phone.svg" alt="" width="22" height="22" />+254 701 853 648
+        </a>
+        </address>
+        <ul class="flex items-center gap-4" aria-label="SalesZote on social media">
+          {socials.map((s) => (
+            <li>
+              <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name} class:list={['block opacity-60', linkClass]} onclick={`trackEvent('social_link_clicked', { platform: '${s.icon}' })`}>
+                <img src={`/images/new/social/${s.icon}.svg`} alt="" width="24" height="24" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="contents lg:flex lg:flex-1 lg:flex-col lg:gap-10">
+        {[getStarted, legal].map((col) => (
+          <nav aria-labelledby={`footer-${col.title}`} class:list={['flex flex-col gap-3 text-body', col === legal && 'max-lg:order-1']}>
+            <h2 id={`footer-${col.title}`} class="font-bold">{col.title}</h2>
+            <ul class="flex flex-col gap-3">
+              {col.links.map((l) => <li><a href={l.href} target={l.external ? '_blank' : undefined} rel={l.external ? 'noopener noreferrer' : undefined} onclick={l.track ? `trackEvent('${l.track}', { source: 'footer' })` : undefined} class:list={['opacity-60', linkClass]}>{l.label}</a></li>)}
+            </ul>
+          </nav>
+        ))}
+      </div>
+
+      {[solutions, industryCol].map((col) => (
+        <nav aria-labelledby={`footer-${col.title}`} class="flex flex-col gap-3 text-body lg:flex-1">
+          <h2 id={`footer-${col.title}`} class="font-bold">{col.title}</h2>
+          <ul class="flex flex-col gap-3">
+            {col.links.map((l) => <li><a href={l.href} target={l.external ? '_blank' : undefined} rel={l.external ? 'noopener noreferrer' : undefined} onclick={l.track ? `trackEvent('${l.track}', { source: 'footer' })` : undefined} class:list={['opacity-60', linkClass]}>{l.label}</a></li>)}
+          </ul>
+        </nav>
+      ))}
+    </div>
+
+    <div class="flex flex-col gap-6 sm:flex-row-reverse sm:items-center sm:justify-between">
+      <StoreBadges source="footer" />
+      <p class="text-center text-body-sm opacity-60 sm:text-left">©2024 - {new Date().getFullYear()} SalesZote LTD.</p>
+    </div>
+  </div>
+</footer>

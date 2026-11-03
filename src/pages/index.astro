@@ -1,12 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import HeroSection from '../components/home/HeroSection.astro';
-import Features from '../components/home/Features.astro';
-import WhyChooseUs from '../components/home/WhyChooseUs.astro';
-import Industries from '../components/home/Industries.astro';
-import Testimonials from '../components/home/Testimonials.astro';
-import Faqs from '../components/home/Faqs.astro';
-import MobileApps from '../components/home/MobileApps.astro';
+import HomeHero from '../components/sections/HomeHero.astro';
+import TrustedBy from '../components/sections/TrustedBy.astro';
+import MultiPlatform from '../components/sections/MultiPlatform.astro';
+import VideoFeatures from '../components/sections/VideoFeatures.astro';
+import posterAddToCart from '../assets/pos/posters/add-to-cart.png';
+import posterCheckout from '../assets/pos/posters/checkout.png';
+import posterSalesReport from '../assets/pos/posters/sales-report.png';
+import posterStockCount from '../assets/inventory/posters/stock-count.png';
+import posterApprovePurchase from '../assets/inventory/posters/approve-purchase.png';
+import WhyChoose from '../components/sections/WhyChoose.astro';
+import SimpleToLearn from '../components/sections/SimpleToLearn.astro';
+import WhoIsItFor from '../components/sections/WhoIsItFor.astro';
+import TestimonialsMarquee from '../components/sections/TestimonialsMarquee.astro';
+import FaqSection from '../components/sections/FaqSection.astro';
+import QuickSetupCta from '../components/sections/QuickSetupCta.astro';
 
 import faqs from '../data/faqs.json';
 import testimonials from '../data/testimonials.json';
@@ -14,6 +22,15 @@ import testimonials from '../data/testimonials.json';
 function stripHtml(html: string) {
   return html.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').trim();
 }
+
+// Clips borrowed from the POS and inventory pages (public/videos/pos, public/videos/inventory).
+const features = [
+  { title: 'Point of Sale', body: 'Ring up sales in seconds on your phone, tablet or register. Accept cash, M-Pesa and card, apply discounts, and print or share receipts.', video: 'pos/add-to-cart', poster: posterAddToCart },
+  { title: 'Smart Inventory Management', body: 'Track stock in real time across branches and warehouses, set re-order levels, run stock counts and record wastage.', video: 'inventory/stock-count', poster: posterStockCount },
+  { title: 'Reports and Insights', body: 'See your sales, best-sellers, stock value and profit at a glance, so you know exactly how your business is doing.', video: 'pos/sales-report', poster: posterSalesReport },
+  { title: 'Payment Integration', body: 'Record M-Pesa, cash, card and custom payment methods against every sale, and reconcile them at the end of the day.', video: 'pos/checkout', poster: posterCheckout },
+  { title: 'Expense and Supplier Tracking', body: 'Log daily expenses, manage suppliers, raise purchase orders and record returns, all in one place.', video: 'inventory/approve-purchase', poster: posterApprovePurchase },
+];
 
 const jsonLd = [
   {
@@ -48,36 +65,20 @@ const jsonLd = [
 ---
 
 <Layout jsonLd={jsonLd}>
-    <HeroSection />
-    <MobileApps />
-    <Features />
-    <WhyChooseUs />
-    <Industries />
-    <Testimonials testimonials={testimonials} />
-    <Faqs faqs={faqs} showContactLink={true} />
-
-    <section class="max-w-8xl mx-auto px-8 xl:px-30 bg-[#52154E] bg-[url('/images/backgrounds/bg3.svg')] bg-cover bg-no-repeat">
-        <div class="grid grid-cols-2">
-            <div class="col-span-2 lg:col-span-1 flex flex-col items-center lg:items-start py-20">
-                <h3 class="text-center lg:text-start text-white text-2xl sm:text-4xl font-bold leading-loose sm:leading-10">
-                    Quick Setup. No Training Needed
-                </h3>
-
-                <p class="text-center lg:text-start text-white text-base font-medium leading-snug mt-4">
-                    Start selling in minutes with a system that feels instantly familiar. If you can use a phone, you can use SalesZote.
-                </p>
-
-                <div class="mt-9">
-                    <a href="https://app.saleszote.com/register" onclick="trackEvent('registration_started', { source: 'home_cta' })" class="px-8 py-3 rounded-lg inline-flex bg-primary-500 border-1 border-primary-500 text-white text-base font-medium font-main leading-snug">
-                        Get Started For Free
-                    </a>
-                </div>
-            </div>
-            <div class="hidden lg:flex flex-col items-end justify-end">
-                <div>
-                    <img src="/images/mobiles1.png" alt="SalesZote on mobile">
-                </div>
-            </div>
-        </div>
-    </section>
+    <HomeHero />
+    <TrustedBy />
+    <MultiPlatform />
+    <VideoFeatures
+      id="features"
+      tall
+      title="Features That Power Your Business"
+      intro="SalesZote is packed with smart, practical tools to help you sell faster, manage inventory easily and stay in control of your business every day."
+      features={features}
+    />
+    <WhyChoose />
+    <SimpleToLearn />
+    <WhoIsItFor />
+    <TestimonialsMarquee testimonials={testimonials} />
+    <FaqSection faqs={faqs} />
+    <QuickSetupCta source="home_cta" />
 </Layout>

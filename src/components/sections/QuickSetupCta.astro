@@ -1,0 +1,32 @@
+---
+import Button from '../ui/Button.astro';
+import PhoneMockup from '../ui/PhoneMockup.astro';
+import screen1 from '../../assets/home/cta-dashboard.png';
+import screen2 from '../../assets/home/cta-pos.png';
+
+type Props = { source: string; title?: string; body?: string };
+const {
+  source,
+  title = 'Quick Setup.<br />No Training Needed.',
+  body = 'Start selling in minutes with a system that feels instantly familiar. If you can use a phone, you can use SalesZote.',
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-secondary-900">
+  <div class="wrap flex flex-col gap-6 pt-10 lg:justify-center lg:gap-10 lg:py-20">
+    <div class="flex flex-col items-start gap-6 text-white lg:w-150 lg:gap-10">
+      <div class="flex flex-col gap-4">
+        <h2 class="font-display text-display-3 lg:text-display-2" set:html={title} />
+        <p class="text-body-lg opacity-70">{body}</p>
+      </div>
+      <Button href="https://app.saleszote.com/register" variant="primary" size="lg" class="w-57.5" onclick={`trackEvent('registration_started', { source: '${source}' })`}>Get Started for Free →</Button>
+    </div>
+
+    <div class="relative h-75 w-full max-w-[342px] overflow-hidden sm:mx-auto sm:h-100 sm:max-w-125 lg:absolute lg:top-20 lg:right-[calc(max(1.5rem,(100vw-1198px)/2)+0.59px)] lg:mx-0 lg:h-[781.213px] lg:w-125 lg:max-w-none lg:overflow-visible" aria-hidden="true">
+      <div class="absolute top-0 left-0 h-[781.213px] w-125 origin-top-left scale-[0.684] sm:scale-100">
+        <PhoneMockup screen={screen1} alt="" class="absolute top-0 left-0" />
+        <PhoneMockup screen={screen2} alt="" class="absolute top-[81.35px] left-[166.57px]" />
+      </div>
+    </div>
+  </div>
+</section>

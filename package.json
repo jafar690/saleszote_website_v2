@@ -12,6 +12,7 @@
     "astro": "astro",
     "generate-types": "wrangler types",
     "deploy": "astro build && wrangler deploy",
+    "deploy:dev": "CLOUDFLARE_ENV=dev astro build && wrangler deploy",
     "thumbnails": "node generate-thumbnails.mjs"
   },
   "dependencies": {

@@ -1,84 +1,133 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Faqs from '../components/home/Faqs.astro';
 
-import faqs from '../data/faqs.json';
+// Layout and typography from the Figma Privacy Policy frames. Each section: optional lead paragraph,
+// optional bullet list, optional closing paragraph. Same structure as the Terms of Use page.
+type Section = { title: string; lead?: string; items?: string[]; after?: string };
+
+const sections: Section[] = [
+  {
+    title: 'Who We Are',
+    lead: 'SalesZote is operated by Sales Zote LTD ("SalesZote", "we", "us" or "our"), a company based in Kenya. This Privacy Policy applies to our website, web app, mobile apps and related services (the "Services"), and to everyone who uses them, including website visitors and registered users. It should be read together with our Terms of Use.',
+    after: 'We handle personal data in line with the Data Protection Act, 2019 of Kenya and its regulations.',
+  },
+  {
+    title: 'Information We Collect',
+    lead: 'When you sign up and use SalesZote, we may collect:',
+    items: [
+      'Personal details such as your name, phone number, and email.',
+      'Business information such as shop/wholesale name, inventory details, and sales records.',
+      'Billing details for your subscription, such as M-Pesa transaction references. Card payments are processed by Paystack, so we never see or store your full card number.',
+      'Messages and information you share when you contact our support team.',
+      'Device and usage data (e.g., IP address, browser type, and how you use our system).',
+      'Information from third parties we work with, such as payment and mobile money providers, when you use them with SalesZote.',
+    ],
+  },
+  {
+    title: 'How We Use Your Information',
+    lead: 'We use the information collected to:',
+    items: [
+      'Provide you with access to your SalesZote dashboard.',
+      'Help you track sales, manage inventory, and generate reports.',
+      'Process subscription payments and prevent fraud or misuse.',
+      'Provide customer support and respond to your requests.',
+      'Improve our services and add new features.',
+      'Communicate important updates, offers, or security alerts.',
+      'Meet our legal, tax and regulatory obligations.',
+    ],
+    after: 'We only send marketing messages where you have agreed to receive them, and you can opt out at any time.',
+  },
+  {
+    title: 'Legal Basis for Processing',
+    lead: 'We process your personal data only where the law allows us to, namely:',
+    items: [
+      'To perform our contract with you and provide the Services you signed up for.',
+      'To comply with legal obligations, such as tax and accounting rules.',
+      'For our legitimate interests in running, securing and improving SalesZote, where these do not override your rights.',
+      'With your consent, for example for marketing messages. You can withdraw your consent at any time.',
+    ],
+  },
+  {
+    title: 'Your Customers\' Data',
+    lead: 'When you use SalesZote to record information about your own customers, staff or suppliers, such as names, phone numbers or purchase history, you decide what is collected and why. For that data you are the data controller and we act as your data processor: we store and process it only to provide the Services to you, and we never use it for our own marketing.',
+    after: 'You are responsible for having a lawful basis to collect this information and for telling those people how you use it.',
+  },
+  {
+    title: 'Data Security',
+    lead: 'We take the security of your information seriously. SalesZote uses encryption, secure servers, access controls and other safeguards to protect your data from unauthorized access, loss, or misuse. No system is completely secure, but if a data breach puts your personal data at risk, we will notify you and the Office of the Data Protection Commissioner as required by law.',
+  },
+  {
+    title: 'Sharing of Information',
+    lead: 'We do not sell, rent, or trade your personal information. Your data is only shared in these limited cases:',
+    items: [
+      'With service providers who help us operate the platform, such as hosting, payment (Paystack), messaging and support providers (under strict confidentiality).',
+      'If required by law or government authorities.',
+      'To protect the rights and security of SalesZote, our users, and partners.',
+      'If SalesZote is involved in a merger, acquisition or sale of assets, in which case we will make sure your data stays protected under this Policy.',
+    ],
+  },
+  {
+    title: 'Data Retention',
+    lead: 'We keep your information for as long as your account is active and as needed to provide the Services. After your account is closed, we delete or anonymise your data within a reasonable period, unless we need to keep some records longer to meet legal, tax or accounting obligations, resolve disputes or enforce our agreements.',
+  },
+  {
+    title: 'Your Rights',
+    lead: 'As a user, you have the right to:',
+    items: [
+      'Access and update your personal information.',
+      'Request deletion of your data (subject to legal and business requirements).',
+      'Object to or restrict certain processing of your data.',
+      'Receive a copy of your data in a commonly used format.',
+      'Withdraw your consent where we rely on it.',
+      'Opt out of marketing communications.',
+    ],
+    after: 'To make a request, contact us using the details below. If you are not satisfied with how we handle your data, you can also lodge a complaint with the Office of the Data Protection Commissioner (ODPC) in Kenya.',
+  },
+  {
+    title: 'Cookies & Tracking',
+    lead: 'SalesZote may use cookies and similar technologies to improve user experience and track performance. You can manage cookies in your browser settings, although turning some off may affect how parts of our website work.',
+  },
+  {
+    title: 'Children\'s Privacy',
+    lead: 'SalesZote is a business tool intended for people aged 18 and over. We do not knowingly collect personal data from children. If you believe a child has given us their information, please contact us and we will delete it.',
+  },
+  {
+    title: 'Changes to This Policy',
+    lead: 'We may update this Privacy Policy from time to time. Any changes will be posted on this page, and we will let you know by email or in the app if the changes are significant.',
+  },
+  {
+    title: 'Contact Us',
+    lead: 'If you have any questions or concerns about this Privacy Policy, or want to exercise any of your rights, please contact us at:',
+  },
+];
+
+const linkClass = 'rounded-sm underline-offset-2 transition-opacity duration-200 hover:underline active:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600';
 ---
 
 <Layout title="Privacy Policy | SalesZote" description="Read the SalesZote Privacy Policy to learn how we collect, use, and protect your data.">
-    <section class="max-w-8xl mx-auto px-8 xl:px-30 py-20 bg-neutral-50">
-        <div class="prose max-w-none">
-            <h1 class="text-4xl font-bold text-gray-900 mb-6">Privacy Policy – SalesZote</h1>
-            <p class="text-gray-600 mb-8"><strong>Effective Date:</strong> 18th August 2025</p>
+  <article class="mx-auto flex w-full max-w-[calc(956px+3rem)] flex-col gap-4 px-6 py-10 font-ui text-body text-black">
+    <h1 class="font-sans text-heading-1">Privacy Policy</h1>
+    <p>At SalesZote, we value your trust and are committed to protecting your personal and business information. This Privacy Policy explains how we collect, use, and safeguard your data when you use our platform.</p>
 
-            <p class="text-lg text-gray-700 mb-8">
-                At SalesZote, we value your trust and are committed to protecting your personal and business information.
-                This Privacy Policy explains how we collect, use, and safeguard your data when you use our platform.
-            </p>
-
-            <h2 class="text-2xl font-semibold text-gray-900 mt-10 mb-4">1. Information We Collect</h2>
-            <p class="text-gray-700 mb-4">When you sign up and use SalesZote, we may collect:</p>
-            <ul class="list-disc pl-6 text-gray-700 space-y-2 mb-6">
-                <li>Personal details such as your name, phone number, and email.</li>
-                <li>Business information such as shop/wholesale name, inventory details, and sales records.</li>
-                <li>Device and usage data (e.g., IP address, browser type, and how you use our system).</li>
+    <!-- Only the heading carries the number (hanging "1."); the body lines up with the page title, as in the design. -->
+    {sections.map((s, i) => (
+      <section class="flex flex-col gap-1">
+        <h2 class="flex font-sans text-body-md font-bold"><span class="w-7.5 shrink-0">{i + 1}.</span>{s.title}</h2>
+        <div class="flex flex-col gap-2">
+          {s.lead && <p>{s.lead}</p>}
+          {s.items && (
+            <ul class="list-disc">
+              {s.items.map((item) => <li class="ms-6">{item}</li>)}
             </ul>
-
-            <h2 class="text-2xl font-semibold text-gray-900 mt-10 mb-4">2. How We Use Your Information</h2>
-            <p class="text-gray-700 mb-4">We use the information collected to:</p>
-            <ul class="list-disc pl-6 text-gray-700 space-y-2 mb-6">
-                <li>Provide you with access to your SalesZote dashboard.</li>
-                <li>Help you track sales, manage inventory, and generate reports.</li>
-                <li>Improve our services and add new features.</li>
-                <li>Communicate important updates, offers, or security alerts.</li>
-            </ul>
-
-            <h2 class="text-2xl font-semibold text-gray-900 mt-10 mb-4">3. Data Security</h2>
-            <p class="text-gray-700 mb-6">
-                We take the security of your information seriously. SalesZote uses encryption, secure servers,
-                and other safeguards to protect your data from unauthorized access, loss, or misuse.
-            </p>
-
-            <h2 class="text-2xl font-semibold text-gray-900 mt-10 mb-4">4. Sharing of Information</h2>
-            <p class="text-gray-700 mb-4">
-                We do not sell, rent, or trade your personal information. Your data is only shared in these limited cases:
-            </p>
-            <ul class="list-disc pl-6 text-gray-700 space-y-2 mb-6">
-                <li>With service providers who help us operate the platform (under strict confidentiality).</li>
-                <li>If required by law or government authorities.</li>
-                <li>To protect the rights and security of SalesZote, our users, and partners.</li>
-            </ul>
-
-            <h2 class="text-2xl font-semibold text-gray-900 mt-10 mb-4">5. Your Rights</h2>
-            <p class="text-gray-700 mb-4">As a user, you have the right to:</p>
-            <ul class="list-disc pl-6 text-gray-700 space-y-2 mb-6">
-                <li>Access and update your personal information.</li>
-                <li>Request deletion of your data (subject to legal and business requirements).</li>
-                <li>Opt out of marketing communications.</li>
-            </ul>
-
-            <h2 class="text-2xl font-semibold text-gray-900 mt-10 mb-4">6. Cookies & Tracking</h2>
-            <p class="text-gray-700 mb-6">
-                SalesZote may use cookies and similar technologies to improve user experience and track performance.
-                You can manage cookies in your browser settings.
-            </p>
-
-            <h2 class="text-2xl font-semibold text-gray-900 mt-10 mb-4">7. Changes to This Policy</h2>
-            <p class="text-gray-700 mb-6">
-                We may update this Privacy Policy from time to time. Any changes will be posted on this page
-                with an updated effective date.
-            </p>
-
-            <h2 class="text-2xl font-semibold text-gray-900 mt-10 mb-4">8. Contact Us</h2>
-            <p class="text-gray-700 mb-4">
-                If you have any questions or concerns about this Privacy Policy, please contact us at:
-            </p>
-            <div class="bg-white p-6 rounded-lg border border-gray-200">
-                <p class="text-gray-700 mb-2">📧 info@saleszote.com</p>
-                <p class="text-gray-700">📞 + 254 701 853 648</p>
-            </div>
+          )}
+          {s.after && <p>{s.after}</p>}
         </div>
-    </section>
+      </section>
+    ))}
 
-    <Faqs faqs={faqs} showContactLink={true} />
+    <address class="flex flex-col gap-4 not-italic">
+      <a href="mailto:info@saleszote.com" class:list={['self-start', linkClass]}>info@saleszote.com</a>
+      <a href="tel:+254701853648" class:list={['self-start', linkClass]}>+254 701 853 648</a>
+    </address>
+  </article>
 </Layout>

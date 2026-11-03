@@ -1,0 +1,105 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+type Feature = { title: string; desc: string; image: ImageMetadata; position?: 'top' };
+type Props = { features: Feature[]; label: string };
+
+const { features, label } = Astro.props;
+
+// Same frame as the POS page's tablet: translucent bezel, rounded photo inside (inner radius = outer - padding).
+const frame = 'rounded-2xl bg-black/20 p-1.5 shadow-[0_24px_48px_rgba(0,0,0,0.08)] sm:rounded-3xl sm:p-2 lg:rounded-[32px] lg:p-3';
+const photo = 'aspect-[3/2] w-full rounded-[10px] bg-gray-100 object-cover sm:rounded-2xl lg:rounded-[20px]';
+---
+
+<!--
+  Sticky photo, scrolling text (from lg): the photo frame is pinned in the middle of the screen below the sticky
+  header (--header-h is set by the navbar) while the feature texts scroll past on the right. The text nearest the
+  middle of the screen is lit; the others sit at 20%. The photo cross-fades to match, and a marker on the frame's
+  edge shows which feature you're on. Phones and tablets stack each photo over its text, all fully visible.
+  svh keeps the layout steady while mobile browser bars show and hide.
+-->
+<section aria-label={label} class="wrap py-16 lg:py-0" data-scroll-features style={`--i: 0`}>
+  <div class="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,450px)] lg:gap-20">
+    <div class="sticky top-(--header-h,0px) hidden h-[calc(100svh-var(--header-h,0px))] items-center lg:flex" aria-hidden="true">
+      <div class="relative w-full">
+        <div class={frame}>
+          <div class="grid">
+            {features.map((f, i) => (
+              <Image
+                src={f.image}
+                alt=""
+                widths={[1000, 1416]}
+                sizes="684px"
+                data-feature-photo
+                data-active={i === 0 ? 'true' : 'false'}
+                class:list={[photo, 'col-start-1 row-start-1 transition-opacity duration-700 ease-out data-[active=false]:opacity-0 motion-reduce:transition-none', f.position === 'top' && 'object-top']}
+              />
+            ))}
+          </div>
+        </div>
+        <!-- Progress marker: one dot per feature, the orange one slides to the current feature. -->
+        <div class="absolute top-1/2 -right-10 flex -translate-y-1/2 flex-col gap-2">
+          {features.map(() => <span class="size-1.5 rounded-full bg-gray-300"></span>)}
+          <span class="absolute top-0 left-0 size-1.5 translate-y-[calc(var(--i)*0.875rem)] rounded-full bg-primary-600 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none"></span>
+        </div>
+      </div>
+    </div>
+
+    <ol class="flex flex-col gap-16 lg:gap-0 lg:py-[22.5svh]">
+      {features.map((f, i) => (
+        <li
+          data-feature
+          data-active={i === 0 ? 'true' : 'false'}
+          class="flex flex-col gap-6 transition-opacity duration-700 ease-out motion-reduce:transition-none lg:min-h-[55svh] lg:justify-center lg:data-[active=false]:opacity-20"
+        >
+          <div class:list={[frame, 'lg:hidden']}>
+            <Image src={f.image} alt="" widths={[600, 1000]} sizes="calc(100vw - 3.75rem)" class:list={[photo, f.position === 'top' && 'object-top']} />
+          </div>
+          <div class="flex max-w-112.5 flex-col gap-2 text-gray-900">
+            <h2 class="font-display text-display-3 lg:text-display-2">{f.title}</h2>
+            <p class="text-body-md opacity-50 lg:text-body-lg">{f.desc}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<script>
+  const desktop = window.matchMedia('(min-width: 1024px)');
+
+  document.querySelectorAll<HTMLElement>('[data-scroll-features]').forEach((section) => {
+    const items = [...section.querySelectorAll<HTMLElement>('[data-feature]')];
+    const photos = [...section.querySelectorAll<HTMLElement>('[data-feature-photo]')];
+    let current = -1;
+
+    function update() {
+      if (!desktop.matches) return;
+      const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0;
+      const middle = headerH + (window.innerHeight - headerH) / 2;
+      // The lit feature is the one whose centre is nearest the middle of the visible area.
+      let index = 0;
+      let best = Infinity;
+      items.forEach((el, i) => {
+        const r = el.getBoundingClientRect();
+        const d = Math.abs(r.top + r.height / 2 - middle);
+        if (d < best) [best, index] = [d, i];
+      });
+      if (index === current) return;
+      current = index;
+      items.forEach((el, i) => (el.dataset.active = String(i === index)));
+      photos.forEach((el, i) => (el.dataset.active = String(i === index)));
+      section.style.setProperty('--i', String(index));
+    }
+
+    let frame = 0;
+    const schedule = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(update);
+    };
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    update();
+  });
+</script>

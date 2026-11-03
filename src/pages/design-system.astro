@@ -1,0 +1,92 @@
+---
+// Internal preview of the new website design tokens. Not linked, noindexed, excluded from the sitemap.
+import '../styles/global.css';
+import Button from '../components/ui/Button.astro';
+
+const colors = [
+  { group: 'Black', name: 'Black', hex: '#000000', class: 'bg-black' },
+  { group: 'White', name: 'White', hex: '#FFFFFF', class: 'bg-white border-2 border-gray-900' },
+  { group: 'Primary', name: '600', hex: '#D8722D', class: 'bg-primary-600' },
+  { group: 'Secondary', name: '800', hex: '#1B5A31', class: 'bg-secondary-800' },
+  { group: 'Secondary', name: '900', hex: '#194E2C', class: 'bg-secondary-900' },
+];
+
+const type = [
+  { label: 'Display 1', class: 'font-display text-display-1 font-bold', font: 'Lora', weight: 'Bold', size: 72, lh: 1.2 },
+  { label: 'Display 2', class: 'font-display text-display-2 font-bold', font: 'Lora', weight: 'Bold', size: 60, lh: 1.2 },
+  { label: 'Heading 1', class: 'font-sans text-heading-1', font: 'Manrope', weight: 'Bold', size: 36, lh: 1.4 },
+  { label: 'Heading 2', class: 'font-sans text-heading-2', font: 'Manrope', weight: 'Bold', size: 30, lh: 1.4 },
+  { label: 'Text Large', class: 'font-sans text-body-lg', font: 'Manrope', weight: 'Regular', size: 24, lh: 1.4 },
+  { label: 'Text Medium', class: 'font-sans text-body-md', font: 'Manrope', weight: 'Regular', size: 20, lh: 1.4 },
+  { label: 'Text Base', class: 'font-sans text-body', font: 'Manrope', weight: 'Regular', size: 16, lh: 1.4 },
+  { label: 'Text Small', class: 'font-sans text-body-sm', font: 'Manrope', weight: 'Regular', size: 14, lh: 1.4 },
+  { label: 'CTA Large', class: 'font-sans text-cta-lg', font: 'Manrope', weight: 'Bold', size: 16, lh: 1.4 },
+  { label: 'CTA Base', class: 'font-sans text-cta', font: 'Manrope', weight: 'Bold', size: 14, lh: 1.4 },
+  { label: 'CTA Small', class: 'font-sans text-cta-sm', font: 'Manrope', weight: 'Bold', size: 12, lh: 1.4 },
+];
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Design System | SalesZote</title>
+</head>
+<body class="bg-white font-sans text-gray-900">
+  <main class="flex flex-col gap-10 p-10 lg:flex-row">
+    <section class="flex flex-col gap-4">
+      <h2 class="font-ui text-3xl/[1.4] font-bold">Colors</h2>
+      {[['Black', 'White'], ['Primary'], ['Secondary']].map((row) => (
+        <div class="flex gap-4">
+          {row.map((g) => (
+            <div class="flex flex-col gap-2">
+              <p class="text-base/[1.4] font-bold">{g}</p>
+              <div class="flex gap-4">
+                {colors.filter((c) => c.group === g).map((c) => (
+                  <div>
+                    <div class:list={['size-25 rounded-2xl', c.class]} />
+                    <p class="text-sm/[1.4]">{c.name}</p>
+                    <p class="text-sm/[1.4] opacity-50">{c.hex}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </section>
+
+    <section class="flex flex-col gap-2">
+      <h2 class="font-ui text-3xl/[1.4] font-bold">Typography</h2>
+      {type.map((t, i) => (
+        <>
+          {i === 8 && <hr class="border-gray-200" />}
+          <div>
+            <p class={t.class}>{t.label}</p>
+            <dl class="flex gap-4 text-xs/[1.4]">
+              <div><dt class="text-gray-500">Font</dt><dd>{t.font}</dd></div>
+              <div><dt class="text-gray-500">Weight</dt><dd>{t.weight}</dd></div>
+              <div><dt class="text-gray-500">Size</dt><dd>{t.size}</dd></div>
+              <div><dt class="text-gray-500">Line height</dt><dd>Size*{t.lh}</dd></div>
+            </dl>
+          </div>
+        </>
+      ))}
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="font-ui text-3xl/[1.4] font-bold">Components</h2>
+      <div class="flex items-center gap-5">
+        <Button size="sm">Button</Button>
+        <Button size="md">Button</Button>
+        <Button size="lg">Button</Button>
+      </div>
+      <div class="flex items-center gap-3">
+        <Button variant="outline" pill>Sign In</Button>
+        <Button variant="primary" pill>Get Started</Button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

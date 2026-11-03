@@ -1,10 +1,31 @@
 [
   {
+    "name": "Sharon Mugambi",
+    "title": "Owner",
+    "company": "Water Refill, Kenya",
+    "catchphrase": "The reports show me how my business is performing.",
+    "content": "I needed a POS that shows me how much water has been sold and profit per day, both bottled and refills, water stock levels per tank, unpaid credit sales and remaining balance for customers who pay in advance. SalesZote has detailed and well structured reports that provide all this information."
+  },
+  {
     "name": "James Mwangi",
     "title": "Owner",
     "company": "Mwangi General Store",
     "catchphrase": "SalesZote transformed how I run my shop!",
     "content": "Before SalesZote, I was manually tracking stock in a notebook and losing money on stockouts. Now I can see everything in real time from my phone. The M-Pesa integration alone has saved me so much time at the counter."
+  },
+  {
+    "name": "Amor Andrew",
+    "title": "Owner",
+    "company": "Supplements, South Sudan",
+    "catchphrase": "Items would run out of stock without me knowing.",
+    "content": "The reorder levels feature solved this problem for me. SalesZote POS shows which items are low in stock, out of stock and the critical ones that need to be reordered as well as the exact cost of restocking the items. I enjoy using the app to manage my online business."
+  },
+  {
+    "name": "Mercy K",
+    "title": "Owner",
+    "company": "Skincare and Haircare Manufacturer, Uganda",
+    "catchphrase": "End of day calculations weren't balancing and I couldn't account for missing stock.",
+    "content": "With SalesZote, stock is deducted after recording each sale, the app shows me which exact items were sold in a day, I can do daily stock counts for what is remaining and I am now able to catch missing stock before the losses pile up. Each employee can sign in, and I know who recorded which sales and payments. The POS gives me peace of mind."
   },
   {
     "name": "Aisha Omondi",
@@ -14,10 +35,24 @@
     "content": "I tried several POS systems but they were too complicated or didn't support local payments. SalesZote is simple, works perfectly with M-Pesa, and the support team is always available when I need help."
   },
   {
+    "name": "Dennis K",
+    "title": "Owner",
+    "company": "Spices, Kenya",
+    "catchphrase": "I am glad I can use it on my smartphone.",
+    "content": "I didn't have to invest heavily in hardware to use SalesZote POS, this saved me a lot of money. I can easily update stock, track sales and know what's sold out on my smartphone. My employee can also use it and there's an option to control which features they access."
+  },
+  {
     "name": "Peter Kariuki",
     "title": "Director",
     "company": "Kariuki Hardware",
     "catchphrase": "Managing inventory has never been easier.",
     "content": "With multiple suppliers and hundreds of products, inventory was a nightmare. SalesZote lets me track everything, get low-stock alerts, and manage supplier orders all in one place. It's been a game changer for us."
+  },
+  {
+    "name": "Teresa C.",
+    "title": "Owner",
+    "company": "Bar, Restaurant and Accommodation, Kenya",
+    "catchphrase": "I needed visibility on how the business is doing while I am away.",
+    "content": "SalesZote shows me margins and what customers spend on the most, I can easily analyze revenue growth month to month. We no longer write on paper, the POS generates billing receipts, my waiters and waitresses can also use it on a tablet."
   }
 ]

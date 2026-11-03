@@ -15,11 +15,12 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
-  const { first_name, last_name, email, phone, message } = body;
+  const { email, phone, message } = body;
+  // The form sends a single full name; first/last are still accepted for older clients.
+  const name = (body.name ?? [body.first_name, body.last_name].filter(Boolean).join(' ')).trim();
 
   const errors: string[] = [];
-  if (!first_name?.trim()) errors.push('First name is required.');
-  if (!last_name?.trim()) errors.push('Last name is required.');
+  if (!name) errors.push('Full name is required.');
   if (!email?.trim()) errors.push('Email is required.');
   else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push('Please enter a valid email address.');
   if (!phone?.trim()) errors.push('Phone number is required.');
@@ -45,7 +46,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const slackPayload = {
-    text: `*New Contact Form Submission*\n*Name:* ${first_name} ${last_name}\n*Email:* ${email}\n*Phone:* ${phone}\n*Message:* ${message}`,
+    text: `*New Contact Form Submission*\n*Name:* ${name}\n*Email:* ${email}\n*Phone:* ${phone}\n*Message:* ${message}`,
   };
 
   try {

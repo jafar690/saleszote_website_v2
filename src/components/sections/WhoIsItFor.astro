@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { industries } from '../../data/industries';
+import { industryPhotos as images } from '../../data/industryPhotos';
+
+type Props = { title?: string; subtitle?: string };
+const { title = 'Who is SalesZote for?', subtitle } = Astro.props;
+
+// Cards are 350×500 and photos fill them with object-cover, so a wide photo is drawn wider than the card
+// (a 3:2 photo is ~750px wide). `sizes` is that drawn width, so the browser loads a file sharp enough for it.
+// (Cropping server-side with fit="cover" isn't used: the Cloudflare image service pads instead of cropping.)
+const drawnWidth = (img: ImageMetadata) => Math.round(Math.max(350, (500 * img.width) / img.height));
+const cards = industries.map((i) => ({ title: i.cardTitle, body: `${i.cardBlurb}.`, slug: i.slug, image: images[i.slug], drawn: drawnWidth(images[i.slug]) }));
+
+// Endless slider: one copy of the list must be wider than the widest screen (4K, 3840px) or a gap opens at
+// the right edge, so the cards repeat inside each copy as needed. A card is 390px wide including its gap on desktop.
+// Duration scales with the copy's length so the speed stays ~26px/s on every screen: cards are 274px wide
+// with their gap on phones and 390px from lg.
+const repeats = Math.ceil(3840 / (cards.length * 390));
+const loopSeconds = (cardWidth: number) => Math.round((cards.length * repeats * cardWidth) / 26);
+---
+
+<section id="industries" class="overflow-hidden bg-black py-10 lg:py-20">
+  <div class="wrap flex flex-col gap-2 text-center text-white">
+    <h2 class="font-display text-display-3 lg:text-display-2">{title}</h2>
+    {subtitle && <p class="text-body-md opacity-60">{subtitle}</p>}
+  </div>
+  <!-- Two identical copies, each sliding its full width. Only the first set of cards is focusable and read out; the repeats and the second copy are inert. -->
+  <div class="group mt-6 flex motion-reduce:overflow-x-auto lg:mt-10">
+    {[0, 1].map((copy) => (
+      <ul
+        class:list={[
+          'flex shrink-0 animate-[marquee_var(--loop)_linear_infinite] [--loop:var(--loop-base)] lg:[--loop:var(--loop-lg)] gap-6 pr-6 group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused] motion-reduce:animate-none lg:gap-10 lg:pr-10',
+          copy === 1 && 'motion-reduce:hidden',
+        ]}
+        style={`--loop-base: ${loopSeconds(274)}s; --loop-lg: ${loopSeconds(390)}s`}
+        inert={copy === 1}
+        aria-hidden={copy === 1 ? 'true' : undefined}
+      >
+        {Array.from({ length: repeats }, (_, rep) => cards.map((c) => (
+          <li class:list={['shrink-0', rep > 0 && 'motion-reduce:hidden']} inert={rep > 0} aria-hidden={rep > 0 ? 'true' : undefined}>
+            <a href={`/industries/${c.slug}`} class="group/card relative flex h-87.5 w-62.5 flex-col justify-end overflow-hidden rounded-3xl p-3 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-600 lg:h-125 lg:w-87.5">
+              <Image src={c.image} alt="" widths={[400, 800, 1200, 1600, 2000]} sizes={`${c.drawn}px`} class="absolute inset-0 size-full object-cover transition-transform duration-500 ease-out group-hover/card:scale-105" />
+              <div class="relative flex h-35 flex-col justify-between rounded-2xl bg-black/50 p-4 text-white backdrop-blur-[6px]">
+                <div class="flex flex-col gap-1">
+                  <h3 class="text-body font-bold lg:text-body-md">{c.title}</h3>
+                  <p class="text-body-sm opacity-80 lg:text-body">{c.body}</p>
+                </div>
+                <p class="text-cta">Learn more <span class="inline-block transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover/card:translate-x-1" aria-hidden="true">→</span></p>
+              </div>
+            </a>
+          </li>
+        )))}
+      </ul>
+    ))}
+  </div>
+</section>
