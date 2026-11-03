@@ -13,26 +13,26 @@ const columns: { title: string; links: FooterLink[] }[] = [
       { label: 'Sign In', href: 'https://app.saleszote.com/login' },
       { label: 'Create Account', href: 'https://app.saleszote.com/register' },
       { label: 'Request a Demo', href: DEMO_BOOKING_URL, external: true, track: 'demo_booking_clicked' },
-      { label: 'Contact Support', href: '/contact' },
+      { label: 'Contact Support', href: '/contact/' },
     ],
   },
   {
     title: 'Legal',
     links: [
-      { label: 'Terms of Use', href: '/terms-of-use' },
-      { label: 'Privacy Policy', href: '/privacy-policy' },
+      { label: 'Terms of Use', href: '/terms-of-use/' },
+      { label: 'Privacy Policy', href: '/privacy-policy/' },
     ],
   },
   {
     title: 'Solutions',
     links: [
-      { label: 'POS System', href: '/pos-system-kenya' },
-      { label: 'Inventory Management', href: '/inventory-management-kenya' },
+      { label: 'POS System', href: '/pos-system-kenya/' },
+      { label: 'Inventory Management', href: '/inventory-management-kenya/' },
     ],
   },
   {
     title: 'Industries',
-    links: industries.map((i) => ({ label: i.name, href: `/industries/${i.slug}` })),
+    links: industries.map((i) => ({ label: i.name, href: `/industries/${i.slug}/` })),
   },
 ];
 

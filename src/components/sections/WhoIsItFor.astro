@@ -40,7 +40,7 @@ const loopSeconds = (cardWidth: number) => Math.round((cards.length * repeats * 
       >
         {Array.from({ length: repeats }, (_, rep) => cards.map((c) => (
           <li class:list={['shrink-0', rep > 0 && 'motion-reduce:hidden']} inert={rep > 0} aria-hidden={rep > 0 ? 'true' : undefined}>
-            <a href={`/industries/${c.slug}`} class="group/card relative flex h-87.5 w-62.5 flex-col justify-end overflow-hidden rounded-3xl p-3 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-600 lg:h-125 lg:w-87.5">
+            <a href={`/industries/${c.slug}/`} class="group/card relative flex h-87.5 w-62.5 flex-col justify-end overflow-hidden rounded-3xl p-3 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-primary-600 lg:h-125 lg:w-87.5">
               <Image src={c.image} alt="" widths={[400, 800, 1200, 1600, 2000]} sizes={`${c.drawn}px`} class="absolute inset-0 size-full object-cover transition-transform duration-500 ease-out group-hover/card:scale-105" />
               <div class="relative flex h-35 flex-col justify-between rounded-2xl bg-black/50 p-4 text-white backdrop-blur-[6px]">
                 <div class="flex flex-col gap-1">

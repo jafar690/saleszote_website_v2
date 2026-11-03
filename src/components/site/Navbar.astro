@@ -18,21 +18,22 @@ const pathname = Astro.url.pathname;
 
 type MenuItem = { title: string; body: string; href: string; image: ImageMetadata };
 const menus: Record<'industries' | 'solutions', MenuItem[]> = {
-  industries: industries.map((i) => ({ title: i.cardTitle, body: `${i.cardBlurb}.`, href: `/industries/${i.slug}`, image: industryPhotos[i.slug] })),
+  industries: industries.map((i) => ({ title: i.cardTitle, body: `${i.cardBlurb}.`, href: `/industries/${i.slug}/`, image: industryPhotos[i.slug] })),
   solutions: [
-    { title: 'POS System', body: 'Sell with M-Pesa, cash and card, and keep stock accurate.', href: '/pos-system-kenya', image: posRegister },
-    { title: 'Inventory Management', body: 'Track stock in real time across every branch.', href: '/inventory-management-kenya', image: inventoryPhoto },
+    { title: 'POS System', body: 'Sell with M-Pesa, cash and card, and keep stock accurate.', href: '/pos-system-kenya/', image: posRegister },
+    { title: 'Inventory Management', body: 'Track stock in real time across every branch.', href: '/inventory-management-kenya/', image: inventoryPhoto },
   ],
 };
 
 const links: ({ label: string; href: string } | { label: string; menu: keyof typeof menus })[] = [
-  { label: 'Pricing', href: '/pricing' },
+  { label: 'Pricing', href: '/pricing/' },
   { label: 'Industries', menu: 'industries' },
   { label: 'Solutions', menu: 'solutions' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Contact', href: '/contact/' },
 ];
 
-const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
+const trim = (p: string) => p.replace(/\/+$/, "") || "/";
+const isActive = (href: string) => trim(pathname) === trim(href) || trim(pathname).startsWith(trim(href) + "/");
 const menuActive = (menu: keyof typeof menus) => menus[menu].some((m) => isActive(m.href));
 const linkClass = 'rounded-sm transition-opacity duration-200 hover:opacity-60 active:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-600';
 ---

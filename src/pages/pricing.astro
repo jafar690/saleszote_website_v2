@@ -151,7 +151,7 @@ const cards = plans.map((plan) => ({
             ))}
           </ul>
           <Button
-            href={plan.is_custom ? '/contact' : plan.cta_url}
+            href={plan.is_custom ? '/contact/' : plan.cta_url}
             variant={plan.is_custom ? 'dark' : plan.is_popular ? 'primary' : 'outline'}
             class="w-full"
             onclick={plan.is_custom ? undefined : `trackEvent('registration_started', { source: 'pricing_${plan.id}' })`}
