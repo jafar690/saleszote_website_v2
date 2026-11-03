@@ -110,6 +110,13 @@ const poster = await getImage({ src: filmPoster, format: 'webp', width: 1920 });
     play.tabIndex = -1;
     video.play().catch(() => {});
     video.focus({ preventScroll: true });
+    // Bring the whole player into view, centred in the space below the sticky navbar
+    // (or just under the navbar when the player is taller than that space).
+    const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) || 0;
+    const box = film.getBoundingClientRect();
+    const room = window.innerHeight - headerH;
+    const offset = box.height < room ? (room - box.height) / 2 : 0;
+    window.scrollTo({ top: Math.max(0, window.scrollY + box.top - headerH - offset), behavior: calm ? 'auto' : 'smooth' });
     (window as unknown as { trackEvent?: (name: string, props: Record<string, string>) => void }).trackEvent?.('product_video_played', { source: 'home_hero' });
   });
 
